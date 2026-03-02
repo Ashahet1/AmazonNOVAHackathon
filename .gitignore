@@ -1,0 +1,54 @@
+# ----------------------------
+# Secrets / local config
+# ----------------------------
+.env
+.env.*
+secrets.json
+appsettings.json
+appsettings.Development.json
+appsettings.Local.json
+local.settings.json
+**/usersecrets/
+**/*.user
+**/*.suo
+
+# ----------------------------
+# Azure keys / endpoints files (if you create them)
+# ----------------------------
+*keys*.txt
+*secret*.txt
+*endpoint*.txt
+safe.txt
+safe1.txt
+Dashboard_Export_*.txt
+KnowledgeGraph_Export_*.txt
+
+# ----------------------------
+# Datasets (do not commit)
+# ----------------------------
+datasets/
+Datasets/
+dataset/
+data/
+Data/
+mvtec*/
+MVTec*/
+flowvqa*/
+FlowVQA*/
+
+# If you keep small sample assets, keep them under /sample_data instead
+
+# ----------------------------
+# Build artifacts
+# ----------------------------
+bin/
+obj/
+*.dll
+*.exe
+
+# ----------------------------
+# OS / editor noise
+# ----------------------------
+.DS_Store
+.vscode/
+.idea/

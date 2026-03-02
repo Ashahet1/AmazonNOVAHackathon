@@ -1,0 +1,223 @@
+{
+  "caseId": "78d8b6e916a8",
+  "createdAt": "2026-03-02T21:14:34.4840623Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group12300\\12300\\12300112_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "The image shows a section of a printed circuit board (PCB) with visible copper traces and pads. There is a clear break in one of the horizontal traces near the center of the image, indicating an open circuit. The surrounding traces appear intact, but the open trace could cause functional failure.",
+    "tags": [
+      "pcb",
+      "trace",
+      "copper",
+      "circuit_board",
+      "open_circuit"
+    ],
+    "objects": [
+      {
+        "name": "copper_trace",
+        "confidence": 0.95
+      },
+      {
+        "name": "pad",
+        "confidence": 0.93
+      }
+    ],
+    "confidence": 0.92,
+    "defectType": "open",
+    "defectSeverity": "high",
+    "defectDescription": "A broken trace is visible near the center of the PCB, resulting in an open circuit. The trace is interrupted and does not connect to the adjacent pad, which could lead to electrical failure."
+  },
+  "normalizedDefect": {
+    "defectType": "open",
+    "severity": "high",
+    "product": "pcb",
+    "description": "A broken trace is visible near the center of the PCB, resulting in an open circuit. The trace is interrupted and does not connect to the adjacent pad, which could lead to electrical failure.",
+    "taxonomyId": "DEF-OPEN-PCB",
+    "inspectionMethods": [
+      "automated optical inspection (AOI)",
+      "flying probe test",
+      "X-ray inspection"
+    ],
+    "reasoning": "Open circuits are often caused by over-etching, misalignment during lamination, or drilling errors, and can be detected by AOI for visible breaks, flying probe for electrical continuity, and X-ray for hidden defects."
+  },
+  "graphContext": {
+    "relatedDefectIds": [],
+    "equipmentIds": [
+      "etching machine",
+      "drilling machine",
+      "lamination press"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "historicalIncidents": [],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.2 \u2014 Conductor / Land Integrity",
+      "IPC-A-600J \u00A7 2.3 \u2014 Annular Ring \u0026 Land Conditions",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements",
+      "IPC-6012E \u00A7 3.3 \u2014 Conductor Width, Spacing \u0026 Integrity",
+      "IPC-6012E \u00A7 3.6 \u2014 Electrical Requirements"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Localized etching process anomaly",
+    "contributingFactors": [
+      "Localized over-etching",
+      "Potential etching machine calibration drift",
+      "Possible contamination or resist failure in the affected area"
+    ],
+    "actions": [
+      {
+        "action": "Inspect etching machine calibration and process logs for anomalies during the affected batch",
+        "priority": "immediate",
+        "owner": "Process Engineering",
+        "contextRef": "etaching machine node ID"
+      },
+      {
+        "action": "Review AOI and X-ray inspection data for similar trace defects in adjacent areas",
+        "priority": "short-term",
+        "owner": "Quality Assurance",
+        "contextRef": "DEF-OPEN-PCB"
+      },
+      {
+        "action": "Verify compliance with IPC-A-600J \u00A7 2.2 and IPC-6012E \u00A7 3.3 for conductor integrity in future batches",
+        "priority": "long-term",
+        "owner": "Quality Systems",
+        "contextRef": "IPC-A-600-2.2"
+      }
+    ],
+    "referencedContextIds": [
+      "etaching machine node ID",
+      "DEF-OPEN-PCB",
+      "IPC-A-600-2.2",
+      "IPC-6012-3.3"
+    ],
+    "reasoning": "The defect is an open circuit caused by a broken trace near the center of the PCB. The defect density is low (0.00 defects per 100\u00D7100px block), indicating this is not a systemic issue but a localized anomaly. The AI-inferred equipment links the etching machine as relevant, and open defects in traces are commonly associated with over-etching or localized etching process errors. The bounding box position (center of PCB) suggests the issue is not related to edge effects or panel handling. IPC-A-600J \u00A7 2.2 and IPC-6012E \u00A7 3.3 specifically address conductor integrity, supporting the focus on etching.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-6012E",
+    "section": "IPC-6012-3.3",
+    "checklist": [
+      {
+        "requirement": "No opens allowed in conductor circuits; minimum conductor width after processing must be \u2265 80% of design.",
+        "addressed": false,
+        "evidence": "A broken trace is visible, resulting in an open circuit. The trace does not connect to the adjacent pad, causing electrical failure.",
+        "sectionRef": "IPC-6012-3.3"
+      },
+      {
+        "requirement": "100% continuity and isolation test required; resistance thresholds per Table 3-6.",
+        "addressed": false,
+        "evidence": "Open circuit prevents continuity; defect fails electrical requirements.",
+        "sectionRef": "IPC-6012-3.6"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "fullyCovered": true,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "classification": "Class 2",
+    "disposition": "reject"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-02T21:14:34.4840704Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 12300112_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:38.7999733Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[gpt-4.1] Caption: \u0022The image shows a section of a printed circuit board (PCB) with visible copper traces and pads. There is a clear break in one of the horizontal traces near the center of the image, indicating an open circuit. The surrounding traces appear intact, but the open trace could cause functional failure.\u0022 (conf: 92.0%), Defect: open (high), Tags: 5, Objects: 2"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:38.799976Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 92.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:39.6088683Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "etching machine|drilling machine|lamination press"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:39.6088729Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: open, Severity: high, Taxonomy: DEF-OPEN-PCB, InspectionMethods: [automated optical inspection (AOI), flying probe test, X-ray inspection]"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:39.6103793Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 0, AI-equipment: 3, IPC sections: 6, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:42.1088619Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:42.1088658Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 4 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:42.1091018Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 6 IPC sections for defect type \u0027open\u0027"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:44.0022935Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:44.0023181Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 2 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:44.0031416Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-02T21:14:44.0035568Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

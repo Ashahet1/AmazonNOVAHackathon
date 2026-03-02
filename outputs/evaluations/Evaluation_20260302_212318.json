@@ -1,0 +1,48 @@
+{
+  "runTimestamp": "2026-03-02T21:23:18.8337881Z",
+  "totalCases": 2,
+  "skippedCases": 0,
+  "triageAccuracy_DefectType": 0,
+  "triageAccuracy_Severity": 0,
+  "jsonValidityRate": 1,
+  "traceabilityScore": 1,
+  "policyViolationRate": 0,
+  "complianceCompleteness": 0.5,
+  "humanReviewRate": 0,
+  "caseResults": [
+    {
+      "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group00041\\00041\\00041000_test.jpg",
+      "skipped": false,
+      "skipReason": null,
+      "expectedDefectType": "spur",
+      "expectedSeverity": "medium",
+      "actualDefectType": "open",
+      "actualSeverity": "high",
+      "defectTypeMatch": false,
+      "severityMatch": false,
+      "jsonValid": true,
+      "hasTraceability": true,
+      "hasPolicyViolations": false,
+      "policyViolationCount": 0,
+      "complianceCoverage": 0,
+      "humanReviewTriggered": false
+    },
+    {
+      "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group00041\\00041\\00041001_test.jpg",
+      "skipped": false,
+      "skipReason": null,
+      "expectedDefectType": "short",
+      "expectedSeverity": "high",
+      "actualDefectType": "mousebite",
+      "actualSeverity": "medium",
+      "defectTypeMatch": false,
+      "severityMatch": false,
+      "jsonValid": true,
+      "hasTraceability": true,
+      "hasPolicyViolations": false,
+      "policyViolationCount": 0,
+      "complianceCoverage": 1,
+      "humanReviewTriggered": false
+    }
+  ]
+}

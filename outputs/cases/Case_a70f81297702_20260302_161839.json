@@ -1,0 +1,60 @@
+{
+  "caseId": "a70f81297702",
+  "createdAt": "2026-03-02T21:18:38.793274Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group77000\\77000\\77000070_test.jpg",
+  "productType": "pcb",
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-02T21:18:38.7932803Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 77000070_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1920199Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "error",
+      "detail": "OpenAI Vision API error InternalServerError: {\u0022code\u0022:\u0022InternalServerError\u0022,\u0022message\u0022:\u0022upstream connect error or disconnect/reset before headers. reset reason: connection termination\u0022,\u0022param\u0022:null,\u0022type\u0022:null}"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1924235Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "skipped",
+      "detail": "No vision analysis available"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1927495Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "skipped",
+      "detail": "No normalized defect available"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1931045Z",
+      "tool": "root_cause_enriched",
+      "outcome": "skipped",
+      "detail": "No normalized defect available"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1934437Z",
+      "tool": "compliance_with_rag",
+      "outcome": "skipped",
+      "detail": "No normalized defect available"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1937602Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:39.1938671Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

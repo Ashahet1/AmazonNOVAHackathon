@@ -1,0 +1,674 @@
+{
+  "caseId": "1df28ee2592e",
+  "createdAt": "2026-03-02T21:15:24.1350252Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group92000\\92000\\92000109_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "The image shows a section of a PCB with multiple traces. There is a visible unintended copper bridge connecting two adjacent traces near the center-left of the image, indicating a short circuit defect. Additionally, there are small irregularities along the edges of some traces, but the most critical issue is the short.",
+    "tags": [
+      "pcb",
+      "trace",
+      "copper",
+      "circuit_board",
+      "short"
+    ],
+    "objects": [
+      {
+        "name": "pcb_trace",
+        "confidence": 0.98
+      },
+      {
+        "name": "short_circuit",
+        "confidence": 0.92
+      }
+    ],
+    "confidence": 0.92,
+    "defectType": "short",
+    "defectSeverity": "high",
+    "defectDescription": "Unintended copper bridge between two traces near the center-left, causing a potential short circuit and functional failure risk."
+  },
+  "normalizedDefect": {
+    "defectType": "short",
+    "severity": "high",
+    "product": "pcb",
+    "description": "Unintended copper bridge between two traces near the center-left, causing a potential short circuit and functional failure risk.",
+    "taxonomyId": "DEF-SHORT-PCB",
+    "inspectionMethods": [
+      "Automated Optical Inspection (AOI)",
+      "Electrical Test (Flying Probe or Bed of Nails)"
+    ],
+    "reasoning": "Shorts are often caused by incomplete etching or photoresist defects, and AOI or electrical testing can reliably detect unintended copper bridges."
+  },
+  "graphContext": {
+    "relatedDefectIds": [
+      "defect_pcb_00041000_short_5",
+      "defect_pcb_00041001_short_7",
+      "defect_pcb_00041003_short_16",
+      "defect_pcb_00041004_short_20",
+      "defect_pcb_00041005_short_27",
+      "defect_pcb_00041005_short_32",
+      "defect_pcb_00041006_short_34",
+      "defect_pcb_00041007_short_42",
+      "defect_pcb_00041007_short_49",
+      "defect_pcb_00041008_short_50",
+      "defect_pcb_00041009_short_54",
+      "defect_pcb_00041010_short_60",
+      "defect_pcb_00041011_short_68",
+      "defect_pcb_00041012_short_74",
+      "defect_pcb_00041013_short_79",
+      "defect_pcb_00041014_short_87",
+      "defect_pcb_00041015_short_96",
+      "defect_pcb_00041016_short_100",
+      "defect_pcb_00041016_short_105",
+      "defect_pcb_00041016_short_106",
+      "defect_pcb_00041017_short_107",
+      "defect_pcb_00041018_short_113",
+      "defect_pcb_00041019_short_119",
+      "defect_pcb_00041020_short_124",
+      "defect_pcb_00041021_short_130",
+      "defect_pcb_00041022_short_134",
+      "defect_pcb_00041023_short_138",
+      "defect_pcb_00041024_short_145",
+      "defect_pcb_00041025_short_152",
+      "defect_pcb_00041025_short_158",
+      "defect_pcb_00041026_short_159",
+      "defect_pcb_00041027_short_167",
+      "defect_pcb_00041028_short_175",
+      "defect_pcb_00041030_short_185",
+      "defect_pcb_00041031_short_193",
+      "defect_pcb_00041031_short_200",
+      "defect_pcb_00041032_short_201",
+      "defect_pcb_00041033_short_207",
+      "defect_pcb_00041034_short_212",
+      "defect_pcb_00041034_short_217",
+      "defect_pcb_00041035_short_220",
+      "defect_pcb_00041035_short_221",
+      "defect_pcb_00041035_short_222",
+      "defect_pcb_00041036_short_228",
+      "defect_pcb_00041037_short_235",
+      "defect_pcb_00041037_short_241",
+      "defect_pcb_00041038_short_242",
+      "defect_pcb_00041039_short_248",
+      "defect_pcb_00041040_short_253",
+      "defect_pcb_00041041_short_261",
+      "defect_pcb_00041041_short_262",
+      "defect_pcb_00041042_short_269",
+      "defect_pcb_00041042_short_270",
+      "defect_pcb_00041043_short_276",
+      "defect_pcb_00041043_short_284",
+      "defect_pcb_00041044_short_285",
+      "defect_pcb_00041045_short_292",
+      "defect_pcb_00041046_short_299",
+      "defect_pcb_00041047_short_304",
+      "defect_pcb_00041047_short_312",
+      "defect_pcb_00041048_short_313",
+      "defect_pcb_00041049_short_320",
+      "defect_pcb_00041049_short_324"
+    ],
+    "equipmentIds": [
+      "etching machine",
+      "photoresist exposure unit"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.4",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "historicalIncidents": [
+      {
+        "defectNodeId": "defect_pcb_00041000_short_5",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041001_short_7",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041003_short_16",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041004_short_20",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_short_27",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_short_32",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_short_34",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041007_short_42",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041007_short_49",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041008_short_50",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041009_short_54",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_short_60",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041011_short_68",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041012_short_74",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041013_short_79",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041014_short_87",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041015_short_96",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041016_short_100",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041016_short_105",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041016_short_106",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041017_short_107",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041018_short_113",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041019_short_119",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041020_short_124",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041021_short_130",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041022_short_134",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041023_short_138",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041024_short_145",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041025_short_152",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041025_short_158",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041026_short_159",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041027_short_167",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041028_short_175",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041030_short_185",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041031_short_193",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041031_short_200",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041032_short_201",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041033_short_207",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041034_short_212",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041034_short_217",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041035_short_220",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041035_short_221",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041035_short_222",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041036_short_228",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041037_short_235",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041037_short_241",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041038_short_242",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041039_short_248",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041040_short_253",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041041_short_261",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041041_short_262",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041042_short_269",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041042_short_270",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_short_276",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_short_284",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041044_short_285",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041045_short_292",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041046_short_299",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_short_304",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_short_312",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041048_short_313",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_short_320",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_short_324",
+        "product": "short",
+        "defectType": "short",
+        "severity": "high"
+      }
+    ],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.4 \u2014 Conductor Spacing \u0026 Foreign Material",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements",
+      "IPC-6012E \u00A7 3.3 \u2014 Conductor Width, Spacing \u0026 Integrity",
+      "IPC-6012E \u00A7 3.6 \u2014 Electrical Requirements"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Etching process malfunction resulting in incomplete removal of copper, causing unintended bridging between traces.",
+    "contributingFactors": [
+      "Potential misalignment or underexposure in photoresist application",
+      "Etching machine calibration or maintenance issues",
+      "Inadequate process control for etching duration or chemistry"
+    ],
+    "actions": [
+      {
+        "action": "Perform immediate inspection and calibration of etching machine for process control and maintenance.",
+        "priority": "immediate",
+        "owner": "Process Engineering",
+        "contextRef": "defect_pcb_00041000_short_5"
+      },
+      {
+        "action": "Review and optimize photoresist exposure parameters to ensure proper definition of trace boundaries.",
+        "priority": "short-term",
+        "owner": "Quality Engineering",
+        "contextRef": "IPC-6012-3.3"
+      },
+      {
+        "action": "Audit historical etching process data for recurring anomalies and implement corrective actions.",
+        "priority": "short-term",
+        "owner": "Manufacturing Engineering",
+        "contextRef": "defect_pcb_00041001_short_7"
+      },
+      {
+        "action": "Update operator training and SOPs to reinforce IPC-A-600 \u00A72.4 requirements for conductor spacing and foreign material.",
+        "priority": "long-term",
+        "owner": "Training Department",
+        "contextRef": "IPC-A-600-2.4"
+      }
+    ],
+    "referencedContextIds": [
+      "defect_pcb_00041000_short_5",
+      "defect_pcb_00041001_short_7",
+      "IPC-6012-3.3",
+      "IPC-A-600-2.4"
+    ],
+    "reasoning": "The defect is a high-severity short located near the center-left of the PCB, with multiple similar shorts historically occurring (as evidenced by related defect node IDs). The AI-inferred equipment links point to the etching machine and photoresist exposure unit, both critical in defining and removing copper between traces. The defect density is low, suggesting localized rather than systemic issues, but the co-occurrence of multiple shorts in similar locations indicates a recurring process problem, likely at the etching stage. IPC references (IPC-A-600 \u00A72.4, IPC-6012 \u00A73.3) highlight conductor spacing and integrity, which are directly impacted by etching quality.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-6012E",
+    "section": "IPC-6012-3.3",
+    "checklist": [
+      {
+        "requirement": "No shorts or opens allowed between conductors after processing.",
+        "addressed": false,
+        "evidence": "Unintended copper bridge between two traces constitutes a short.",
+        "sectionRef": "IPC-6012-3.3"
+      },
+      {
+        "requirement": "100% continuity and isolation test required; resistance thresholds per Table 3-6.",
+        "addressed": false,
+        "evidence": "Short circuit present, fails isolation requirement.",
+        "sectionRef": "IPC-6012-3.6"
+      },
+      {
+        "requirement": "No metallic foreign material reducing spacing below minimum; shorts are reject.",
+        "addressed": false,
+        "evidence": "Copper bridge reduces spacing to zero, creating a short.",
+        "sectionRef": "IPC-A-600-2.4"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-6012-3.3",
+      "IPC-6012-3.6",
+      "IPC-A-600-2.4"
+    ],
+    "fullyCovered": true,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.4",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "classification": "Class 2",
+    "disposition": "reject"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-02T21:15:24.1350354Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 92000109_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:28.6239815Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[gpt-4.1] Caption: \u0022The image shows a section of a PCB with multiple traces. There is a visible unintended copper bridge connecting two adjacent traces near the center-left of the image, indicating a short circuit defect. Additionally, there are small irregularities along the edges of some traces, but the most critical issue is the short.\u0022 (conf: 92.0%), Defect: short (high), Tags: 5, Objects: 2"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:28.6239839Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 92.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:29.5218584Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "etching machine|photoresist exposure unit"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:29.5218621Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: short, Severity: high, Taxonomy: DEF-SHORT-PCB, InspectionMethods: [Automated Optical Inspection (AOI), Electrical Test (Flying Probe or Bed of Nails)]"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:29.5232125Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 63, AI-equipment: 2, IPC sections: 5, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:32.4703857Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:32.4703892Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 4 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:32.4705917Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 5 IPC sections for defect type \u0027short\u0027"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:34.6471975Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:34.6472092Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 3 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:34.6482848Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-02T21:15:34.6485441Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

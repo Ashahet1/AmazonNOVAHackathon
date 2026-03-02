@@ -1,0 +1,390 @@
+{
+  "ImageName": "Flowchart003.png",
+  "ImagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\flowchart\\Flowchart003.png",
+  "Caption": "a flowchart of a workflow",
+  "Tags": [
+    "text",
+    "diagram",
+    "sketch",
+    "drawing"
+  ],
+  "Objects": [],
+  "OcrLines": [
+    {
+      "Text": "Check equipment runtime",
+      "BoundingBoxLeft": 1299,
+      "BoundingBoxTop": 36,
+      "BoundingBoxWidth": 385,
+      "BoundingBoxHeight": 42
+    },
+    {
+      "Text": "hours",
+      "BoundingBoxLeft": 1447,
+      "BoundingBoxTop": 81,
+      "BoundingBoxWidth": 88,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1224,
+      "BoundingBoxTop": 280,
+      "BoundingBoxWidth": 48,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "Has maintenance",
+      "BoundingBoxLeft": 1356,
+      "BoundingBoxTop": 268,
+      "BoundingBoxWidth": 265,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "threshold been",
+      "BoundingBoxLeft": 1378,
+      "BoundingBoxTop": 307,
+      "BoundingBoxWidth": 222,
+      "BoundingBoxHeight": 35
+    },
+    {
+      "Text": "reached?",
+      "BoundingBoxLeft": 1419,
+      "BoundingBoxTop": 347,
+      "BoundingBoxWidth": 141,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "Log check and",
+      "BoundingBoxLeft": 878,
+      "BoundingBoxTop": 424,
+      "BoundingBoxWidth": 217,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "return to production",
+      "BoundingBoxLeft": 841,
+      "BoundingBoxTop": 464,
+      "BoundingBoxWidth": 288,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 1505,
+      "BoundingBoxTop": 450,
+      "BoundingBoxWidth": 54,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Schedule maintenance",
+      "BoundingBoxLeft": 1319,
+      "BoundingBoxTop": 533,
+      "BoundingBoxWidth": 340,
+      "BoundingBoxHeight": 41
+    },
+    {
+      "Text": "window",
+      "BoundingBoxLeft": 1431,
+      "BoundingBoxTop": 576,
+      "BoundingBoxWidth": 118,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 950,
+      "BoundingBoxTop": 618,
+      "BoundingBoxWidth": 73,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Raise purchase",
+      "BoundingBoxLeft": 1002,
+      "BoundingBoxTop": 794,
+      "BoundingBoxWidth": 233,
+      "BoundingBoxHeight": 37
+    },
+    {
+      "Text": "Is required",
+      "BoundingBoxLeft": 1409,
+      "BoundingBoxTop": 795,
+      "BoundingBoxWidth": 161,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "order for spare",
+      "BoundingBoxLeft": 1003,
+      "BoundingBoxTop": 833,
+      "BoundingBoxWidth": 228,
+      "BoundingBoxHeight": 39
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1270,
+      "BoundingBoxTop": 809,
+      "BoundingBoxWidth": 46,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "spare part in",
+      "BoundingBoxLeft": 1396,
+      "BoundingBoxTop": 838,
+      "BoundingBoxWidth": 187,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 1669,
+      "BoundingBoxTop": 812,
+      "BoundingBoxWidth": 55,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "part",
+      "BoundingBoxLeft": 1087,
+      "BoundingBoxTop": 880,
+      "BoundingBoxWidth": 65,
+      "BoundingBoxHeight": 29
+    },
+    {
+      "Text": "stock?",
+      "BoundingBoxLeft": 1440,
+      "BoundingBoxTop": 876,
+      "BoundingBoxWidth": 99,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "Wait for part",
+      "BoundingBoxLeft": 1025,
+      "BoundingBoxTop": 977,
+      "BoundingBoxWidth": 186,
+      "BoundingBoxHeight": 42
+    },
+    {
+      "Text": "Assign maintenance",
+      "BoundingBoxLeft": 1618,
+      "BoundingBoxTop": 964,
+      "BoundingBoxWidth": 299,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "delivery",
+      "BoundingBoxLeft": 1062,
+      "BoundingBoxTop": 1021,
+      "BoundingBoxWidth": 116,
+      "BoundingBoxHeight": 41
+    },
+    {
+      "Text": "technician",
+      "BoundingBoxLeft": 1693,
+      "BoundingBoxTop": 1004,
+      "BoundingBoxWidth": 149,
+      "BoundingBoxHeight": 35
+    },
+    {
+      "Text": "Perform scheduled",
+      "BoundingBoxLeft": 1628,
+      "BoundingBoxTop": 1111,
+      "BoundingBoxWidth": 281,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "maintenance",
+      "BoundingBoxLeft": 1676,
+      "BoundingBoxTop": 1154,
+      "BoundingBoxWidth": 189,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "Update maintenance",
+      "BoundingBoxLeft": 1616,
+      "BoundingBoxTop": 1266,
+      "BoundingBoxWidth": 307,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "log and reset counter",
+      "BoundingBoxLeft": 1615,
+      "BoundingBoxTop": 1303,
+      "BoundingBoxWidth": 314,
+      "BoundingBoxHeight": 42
+    },
+    {
+      "Text": "En",
+      "BoundingBoxLeft": 1735,
+      "BoundingBoxTop": 1454,
+      "BoundingBoxWidth": 55,
+      "BoundingBoxHeight": 32
+    }
+  ],
+  "MergedBlocks": [
+    {
+      "Text": "Check equipment runtime hours",
+      "BoundingBoxLeft": 1299,
+      "BoundingBoxTop": 36,
+      "BoundingBoxWidth": 385,
+      "BoundingBoxHeight": 78
+    },
+    {
+      "Text": "Has maintenance threshold been reached?",
+      "BoundingBoxLeft": 1356,
+      "BoundingBoxTop": 268,
+      "BoundingBoxWidth": 265,
+      "BoundingBoxHeight": 112
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1224,
+      "BoundingBoxTop": 280,
+      "BoundingBoxWidth": 48,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "Log check and return to production",
+      "BoundingBoxLeft": 841,
+      "BoundingBoxTop": 424,
+      "BoundingBoxWidth": 288,
+      "BoundingBoxHeight": 76
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 1505,
+      "BoundingBoxTop": 450,
+      "BoundingBoxWidth": 54,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Schedule maintenance window",
+      "BoundingBoxLeft": 1319,
+      "BoundingBoxTop": 533,
+      "BoundingBoxWidth": 340,
+      "BoundingBoxHeight": 79
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 950,
+      "BoundingBoxTop": 618,
+      "BoundingBoxWidth": 73,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Raise purchase order for spare part",
+      "BoundingBoxLeft": 1002,
+      "BoundingBoxTop": 794,
+      "BoundingBoxWidth": 233,
+      "BoundingBoxHeight": 115
+    },
+    {
+      "Text": "Is required spare part in stock?",
+      "BoundingBoxLeft": 1396,
+      "BoundingBoxTop": 795,
+      "BoundingBoxWidth": 187,
+      "BoundingBoxHeight": 115
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1270,
+      "BoundingBoxTop": 809,
+      "BoundingBoxWidth": 46,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 1669,
+      "BoundingBoxTop": 812,
+      "BoundingBoxWidth": 55,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Assign maintenance technician",
+      "BoundingBoxLeft": 1618,
+      "BoundingBoxTop": 964,
+      "BoundingBoxWidth": 299,
+      "BoundingBoxHeight": 75
+    },
+    {
+      "Text": "Wait for part delivery",
+      "BoundingBoxLeft": 1025,
+      "BoundingBoxTop": 977,
+      "BoundingBoxWidth": 186,
+      "BoundingBoxHeight": 85
+    },
+    {
+      "Text": "Perform scheduled maintenance",
+      "BoundingBoxLeft": 1628,
+      "BoundingBoxTop": 1111,
+      "BoundingBoxWidth": 281,
+      "BoundingBoxHeight": 77
+    },
+    {
+      "Text": "Update maintenance log and reset counter",
+      "BoundingBoxLeft": 1615,
+      "BoundingBoxTop": 1266,
+      "BoundingBoxWidth": 314,
+      "BoundingBoxHeight": 79
+    },
+    {
+      "Text": "En",
+      "BoundingBoxLeft": 1735,
+      "BoundingBoxTop": 1454,
+      "BoundingBoxWidth": 55,
+      "BoundingBoxHeight": 32
+    }
+  ],
+  "Steps": [
+    "Check equipment runtime",
+    "hours",
+    "Has maintenance",
+    "No",
+    "threshold been",
+    "reached?",
+    "Log check and",
+    "Yes",
+    "return to production",
+    "Schedule maintenance",
+    "window",
+    "End",
+    "Raise purchase",
+    "Is required",
+    "No",
+    "Yes",
+    "order for spare",
+    "spare part in",
+    "stock?",
+    "part",
+    "Assign maintenance",
+    "Wait for part",
+    "technician",
+    "delivery",
+    "Perform scheduled",
+    "maintenance",
+    "Update maintenance",
+    "log and reset counter",
+    "En"
+  ],
+  "Decisions": [
+    "Check equipment runtime",
+    "No",
+    "threshold been",
+    "reached?",
+    "Log check and",
+    "Yes",
+    "stock?"
+  ],
+  "DetailedCaption": "This flowchart outlines the workflow for equipment maintenance management based on runtime hours. It begins with checking the equipment's runtime, determines if maintenance is due, and guides the process through scheduling maintenance, verifying spare part availability, raising purchase orders, assigning technicians, performing maintenance, and updating logs. The flow includes decision points for maintenance thresholds and spare part stock, ensuring efficient and timely maintenance operations.",
+  "ProcessSteps": [
+    "Check equipment runtime hours",
+    "Log check and return to production",
+    "Schedule maintenance window",
+    "Raise purchase order for spare part",
+    "Assign maintenance technician",
+    "Wait for part delivery",
+    "Perform scheduled maintenance",
+    "Update maintenance log and reset counter"
+  ],
+  "DecisionPoints": [
+    "Has maintenance threshold been reached?",
+    "Is required spare part in stock?"
+  ],
+  "BranchLabels": [
+    "No",
+    "Yes"
+  ]
+}

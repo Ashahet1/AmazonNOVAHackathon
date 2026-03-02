@@ -1,0 +1,48 @@
+{
+  "runTimestamp": "2026-03-02T20:52:23.1292564Z",
+  "totalCases": 2,
+  "skippedCases": 15,
+  "triageAccuracy_DefectType": 0,
+  "triageAccuracy_Severity": 0,
+  "jsonValidityRate": 0,
+  "traceabilityScore": 0,
+  "policyViolationRate": 0,
+  "complianceCompleteness": 0,
+  "humanReviewRate": 0,
+  "caseResults": [
+    {
+      "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\DeepPCB\\PCBData\\group00000\\00001\\00001_test.jpg",
+      "skipped": true,
+      "skipReason": "File not found",
+      "expectedDefectType": "",
+      "expectedSeverity": "",
+      "actualDefectType": "",
+      "actualSeverity": "",
+      "defectTypeMatch": false,
+      "severityMatch": false,
+      "jsonValid": false,
+      "hasTraceability": false,
+      "hasPolicyViolations": false,
+      "policyViolationCount": 0,
+      "complianceCoverage": 0,
+      "humanReviewTriggered": false
+    },
+    {
+      "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\DeepPCB\\PCBData\\group00000\\00002\\00002_test.jpg",
+      "skipped": true,
+      "skipReason": "File not found",
+      "expectedDefectType": "",
+      "expectedSeverity": "",
+      "actualDefectType": "",
+      "actualSeverity": "",
+      "defectTypeMatch": false,
+      "severityMatch": false,
+      "jsonValid": false,
+      "hasTraceability": false,
+      "hasPolicyViolations": false,
+      "policyViolationCount": 0,
+      "complianceCoverage": 0,
+      "humanReviewTriggered": false
+    }
+  ]
+}

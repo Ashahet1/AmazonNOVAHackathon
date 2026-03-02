@@ -1,0 +1,336 @@
+{
+  "ImageName": "Flowchart001.png",
+  "ImagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\flowchart\\Flowchart001.png",
+  "Caption": "a diagram of a process",
+  "Tags": [
+    "text",
+    "diagram",
+    "font",
+    "line"
+  ],
+  "Objects": [],
+  "OcrLines": [
+    {
+      "Text": "Receive component from",
+      "BoundingBoxLeft": 127,
+      "BoundingBoxTop": 43,
+      "BoundingBoxWidth": 606,
+      "BoundingBoxHeight": 55
+    },
+    {
+      "Text": "production line",
+      "BoundingBoxLeft": 247,
+      "BoundingBoxTop": 106,
+      "BoundingBoxWidth": 365,
+      "BoundingBoxHeight": 59
+    },
+    {
+      "Text": "Measure dimensions",
+      "BoundingBoxLeft": 177,
+      "BoundingBoxTop": 281,
+      "BoundingBoxWidth": 506,
+      "BoundingBoxHeight": 54
+    },
+    {
+      "Text": "against tolerance spec",
+      "BoundingBoxLeft": 153,
+      "BoundingBoxTop": 349,
+      "BoundingBoxWidth": 552,
+      "BoundingBoxHeight": 56
+    },
+    {
+      "Text": "Does component",
+      "BoundingBoxLeft": 234,
+      "BoundingBoxTop": 557,
+      "BoundingBoxWidth": 403,
+      "BoundingBoxHeight": 53
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 851,
+      "BoundingBoxTop": 551,
+      "BoundingBoxWidth": 92,
+      "BoundingBoxHeight": 50
+    },
+    {
+      "Text": "Record pass result",
+      "BoundingBoxLeft": 1055,
+      "BoundingBoxTop": 587,
+      "BoundingBoxWidth": 460,
+      "BoundingBoxHeight": 58
+    },
+    {
+      "Text": "Send to next",
+      "BoundingBoxLeft": 1854,
+      "BoundingBoxTop": 555,
+      "BoundingBoxWidth": 311,
+      "BoundingBoxHeight": 51
+    },
+    {
+      "Text": "meet tolerance spec?",
+      "BoundingBoxLeft": 175,
+      "BoundingBoxTop": 617,
+      "BoundingBoxWidth": 509,
+      "BoundingBoxHeight": 55
+    },
+    {
+      "Text": "production stage",
+      "BoundingBoxLeft": 1804,
+      "BoundingBoxTop": 621,
+      "BoundingBoxWidth": 409,
+      "BoundingBoxHeight": 59
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 2566,
+      "BoundingBoxTop": 589,
+      "BoundingBoxWidth": 103,
+      "BoundingBoxHeight": 45
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 449,
+      "BoundingBoxTop": 749,
+      "BoundingBoxWidth": 80,
+      "BoundingBoxHeight": 49
+    },
+    {
+      "Text": "Log defect type and severity",
+      "BoundingBoxLeft": 87,
+      "BoundingBoxTop": 858,
+      "BoundingBoxWidth": 687,
+      "BoundingBoxHeight": 65
+    },
+    {
+      "Text": "Is defect",
+      "BoundingBoxLeft": 333,
+      "BoundingBoxTop": 1097,
+      "BoundingBoxWidth": 209,
+      "BoundingBoxHeight": 47
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 849,
+      "BoundingBoxTop": 1060,
+      "BoundingBoxWidth": 95,
+      "BoundingBoxHeight": 47
+    },
+    {
+      "Text": "Send to rework station",
+      "BoundingBoxLeft": 1021,
+      "BoundingBoxTop": 1092,
+      "BoundingBoxWidth": 546,
+      "BoundingBoxHeight": 59
+    },
+    {
+      "Text": "reworkable?",
+      "BoundingBoxLeft": 282,
+      "BoundingBoxTop": 1159,
+      "BoundingBoxWidth": 302,
+      "BoundingBoxHeight": 52
+    },
+    {
+      "Text": "Notify quality engineer",
+      "BoundingBoxLeft": 1735,
+      "BoundingBoxTop": 1238,
+      "BoundingBoxWidth": 546,
+      "BoundingBoxHeight": 62
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 2566,
+      "BoundingBoxTop": 1244,
+      "BoundingBoxWidth": 101,
+      "BoundingBoxHeight": 43
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 458,
+      "BoundingBoxTop": 1305,
+      "BoundingBoxWidth": 73,
+      "BoundingBoxHeight": 46
+    },
+    {
+      "Text": "Scrap component and raise",
+      "BoundingBoxLeft": 968,
+      "BoundingBoxTop": 1379,
+      "BoundingBoxWidth": 672,
+      "BoundingBoxHeight": 61
+    },
+    {
+      "Text": "non-conformance report",
+      "BoundingBoxLeft": 1013,
+      "BoundingBoxTop": 1445,
+      "BoundingBoxWidth": 586,
+      "BoundingBoxHeight": 60
+    }
+  ],
+  "MergedBlocks": [
+    {
+      "Text": "Receive component from production line",
+      "BoundingBoxLeft": 127,
+      "BoundingBoxTop": 43,
+      "BoundingBoxWidth": 606,
+      "BoundingBoxHeight": 122
+    },
+    {
+      "Text": "Measure dimensions against tolerance spec",
+      "BoundingBoxLeft": 153,
+      "BoundingBoxTop": 281,
+      "BoundingBoxWidth": 552,
+      "BoundingBoxHeight": 124
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 851,
+      "BoundingBoxTop": 551,
+      "BoundingBoxWidth": 92,
+      "BoundingBoxHeight": 50
+    },
+    {
+      "Text": "Send to next production stage",
+      "BoundingBoxLeft": 1804,
+      "BoundingBoxTop": 555,
+      "BoundingBoxWidth": 409,
+      "BoundingBoxHeight": 125
+    },
+    {
+      "Text": "Does component meet tolerance spec?",
+      "BoundingBoxLeft": 175,
+      "BoundingBoxTop": 557,
+      "BoundingBoxWidth": 509,
+      "BoundingBoxHeight": 115
+    },
+    {
+      "Text": "Record pass result",
+      "BoundingBoxLeft": 1055,
+      "BoundingBoxTop": 587,
+      "BoundingBoxWidth": 460,
+      "BoundingBoxHeight": 58
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 2566,
+      "BoundingBoxTop": 589,
+      "BoundingBoxWidth": 103,
+      "BoundingBoxHeight": 45
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 449,
+      "BoundingBoxTop": 749,
+      "BoundingBoxWidth": 80,
+      "BoundingBoxHeight": 49
+    },
+    {
+      "Text": "Log defect type and severity",
+      "BoundingBoxLeft": 87,
+      "BoundingBoxTop": 858,
+      "BoundingBoxWidth": 687,
+      "BoundingBoxHeight": 65
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 849,
+      "BoundingBoxTop": 1060,
+      "BoundingBoxWidth": 95,
+      "BoundingBoxHeight": 47
+    },
+    {
+      "Text": "Send to rework station",
+      "BoundingBoxLeft": 1021,
+      "BoundingBoxTop": 1092,
+      "BoundingBoxWidth": 546,
+      "BoundingBoxHeight": 59
+    },
+    {
+      "Text": "Is defect reworkable?",
+      "BoundingBoxLeft": 282,
+      "BoundingBoxTop": 1097,
+      "BoundingBoxWidth": 302,
+      "BoundingBoxHeight": 114
+    },
+    {
+      "Text": "Notify quality engineer",
+      "BoundingBoxLeft": 1735,
+      "BoundingBoxTop": 1238,
+      "BoundingBoxWidth": 546,
+      "BoundingBoxHeight": 62
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 2566,
+      "BoundingBoxTop": 1244,
+      "BoundingBoxWidth": 101,
+      "BoundingBoxHeight": 43
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 458,
+      "BoundingBoxTop": 1305,
+      "BoundingBoxWidth": 73,
+      "BoundingBoxHeight": 46
+    },
+    {
+      "Text": "Scrap component and raise non-conformance report",
+      "BoundingBoxLeft": 968,
+      "BoundingBoxTop": 1379,
+      "BoundingBoxWidth": 672,
+      "BoundingBoxHeight": 126
+    }
+  ],
+  "Steps": [
+    "Receive component from",
+    "production line",
+    "Measure dimensions",
+    "against tolerance spec",
+    "Yes",
+    "Send to next",
+    "Does component",
+    "Record pass result",
+    "End",
+    "meet tolerance spec?",
+    "production stage",
+    "No",
+    "Log defect type and severity",
+    "Yes",
+    "Send to rework station",
+    "Is defect",
+    "reworkable?",
+    "Notify quality engineer",
+    "End",
+    "No",
+    "Scrap component and raise",
+    "non-conformance report"
+  ],
+  "Decisions": [
+    "Yes",
+    "Record pass result",
+    "meet tolerance spec?",
+    "No",
+    "Send to rework station",
+    "reworkable?",
+    "Notify quality engineer",
+    "Scrap component and raise",
+    "non-conformance report"
+  ],
+  "DetailedCaption": "This flowchart illustrates the quality inspection and defect management process for manufactured components. It begins with receiving a component from the production line, followed by dimensional measurement against tolerance specifications. If the component passes the tolerance check, it is sent to the next production stage and the result is recorded. If it fails, defects are logged and assessed for reworkability. Reworkable defects are sent to a rework station, while non-reworkable defects lead to scrapping the component and raising a non-conformance report. The process includes notification to the quality engineer and concludes with terminal steps for both pass and fail outcomes.",
+  "ProcessSteps": [
+    "Receive component from production line",
+    "Measure dimensions against tolerance spec",
+    "Send to next production stage",
+    "Record pass result",
+    "Log defect type and severity",
+    "Send to rework station",
+    "Notify quality engineer",
+    "Scrap component and raise non-conformance report"
+  ],
+  "DecisionPoints": [
+    "Does component meet tolerance spec?",
+    "Is defect reworkable?"
+  ],
+  "BranchLabels": [
+    "Yes",
+    "No"
+  ]
+}

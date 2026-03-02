@@ -1,0 +1,554 @@
+{
+  "caseId": "49d8f1d0f305",
+  "createdAt": "2026-03-02T21:18:28.2006035Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group77000\\77000\\77000009_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "The image shows a section of a PCB with distinct copper traces and pads. There is an irregular notch visible on the edge of the trace near the left side of the image, which appears to be a mousebite defect. The rest of the traces and pads seem intact, with no visible open circuits or shorts.",
+    "tags": [
+      "pcb",
+      "trace",
+      "copper",
+      "circuit_board",
+      "pad"
+    ],
+    "objects": [
+      {
+        "name": "trace",
+        "confidence": 0.95
+      },
+      {
+        "name": "pad",
+        "confidence": 0.92
+      }
+    ],
+    "confidence": 0.87,
+    "defectType": "mousebite",
+    "defectSeverity": "medium",
+    "defectDescription": "Irregular nibbling or notch observed on the left edge of the trace, which may affect mechanical integrity but is unlikely to cause functional failure."
+  },
+  "normalizedDefect": {
+    "defectType": "mousebite",
+    "severity": "medium",
+    "product": "pcb",
+    "description": "Irregular nibbling or notch observed on the left edge of the trace, which may affect mechanical integrity but is unlikely to cause functional failure.",
+    "taxonomyId": "DEF-MOUSEBITE-PCB",
+    "inspectionMethods": [
+      "Visual inspection",
+      "Automated Optical Inspection (AOI)"
+    ],
+    "reasoning": "Mousebite defects are typically caused by improper routing or depaneling processes, and can be detected by visual or AOI methods due to their clear physical appearance."
+  },
+  "graphContext": {
+    "relatedDefectIds": [
+      "defect_pcb_00041000_mousebite_1",
+      "defect_pcb_00041002_mousebite_12",
+      "defect_pcb_00041004_mousebite_21",
+      "defect_pcb_00041005_mousebite_28",
+      "defect_pcb_00041006_mousebite_41",
+      "defect_pcb_00041007_mousebite_43",
+      "defect_pcb_00041008_mousebite_51",
+      "defect_pcb_00041009_mousebite_55",
+      "defect_pcb_00041010_mousebite_66",
+      "defect_pcb_00041011_mousebite_69",
+      "defect_pcb_00041011_mousebite_70",
+      "defect_pcb_00041012_mousebite_75",
+      "defect_pcb_00041013_mousebite_84",
+      "defect_pcb_00041014_mousebite_88",
+      "defect_pcb_00041016_mousebite_101",
+      "defect_pcb_00041018_mousebite_114",
+      "defect_pcb_00041022_mousebite_135",
+      "defect_pcb_00041023_mousebite_139",
+      "defect_pcb_00041023_mousebite_144",
+      "defect_pcb_00041024_mousebite_146",
+      "defect_pcb_00041025_mousebite_153",
+      "defect_pcb_00041026_mousebite_160",
+      "defect_pcb_00041027_mousebite_168",
+      "defect_pcb_00041028_mousebite_176",
+      "defect_pcb_00041030_mousebite_186",
+      "defect_pcb_00041031_mousebite_194",
+      "defect_pcb_00041031_mousebite_199",
+      "defect_pcb_00041032_mousebite_202",
+      "defect_pcb_00041033_mousebite_208",
+      "defect_pcb_00041034_mousebite_218",
+      "defect_pcb_00041036_mousebite_229",
+      "defect_pcb_00041037_mousebite_236",
+      "defect_pcb_00041037_mousebite_237",
+      "defect_pcb_00041039_mousebite_249",
+      "defect_pcb_00041040_mousebite_254",
+      "defect_pcb_00041042_mousebite_271",
+      "defect_pcb_00041042_mousebite_272",
+      "defect_pcb_00041043_mousebite_277",
+      "defect_pcb_00041043_mousebite_282",
+      "defect_pcb_00041044_mousebite_286",
+      "defect_pcb_00041045_mousebite_293",
+      "defect_pcb_00041046_mousebite_301",
+      "defect_pcb_00041047_mousebite_305",
+      "defect_pcb_00041047_mousebite_311",
+      "defect_pcb_00041048_mousebite_314",
+      "defect_pcb_00041049_mousebite_321",
+      "defect_pcb_00041049_mousebite_325"
+    ],
+    "equipmentIds": [
+      "PCB routing machine",
+      "Depaneling equipment"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-3.1",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3"
+    ],
+    "historicalIncidents": [
+      {
+        "defectNodeId": "defect_pcb_00041000_mousebite_1",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041002_mousebite_12",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041004_mousebite_21",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_mousebite_28",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_mousebite_41",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041007_mousebite_43",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041008_mousebite_51",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041009_mousebite_55",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_mousebite_66",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041011_mousebite_69",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041011_mousebite_70",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041012_mousebite_75",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041013_mousebite_84",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041014_mousebite_88",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041016_mousebite_101",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041018_mousebite_114",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041022_mousebite_135",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041023_mousebite_139",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041023_mousebite_144",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041024_mousebite_146",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041025_mousebite_153",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041026_mousebite_160",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041027_mousebite_168",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041028_mousebite_176",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041030_mousebite_186",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041031_mousebite_194",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041031_mousebite_199",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041032_mousebite_202",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041033_mousebite_208",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041034_mousebite_218",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041036_mousebite_229",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041037_mousebite_236",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041037_mousebite_237",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041039_mousebite_249",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041040_mousebite_254",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041042_mousebite_271",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041042_mousebite_272",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_mousebite_277",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_mousebite_282",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041044_mousebite_286",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041045_mousebite_293",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041046_mousebite_301",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_mousebite_305",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_mousebite_311",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041048_mousebite_314",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_mousebite_321",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_mousebite_325",
+        "product": "mousebite",
+        "defectType": "mousebite",
+        "severity": "medium"
+      }
+    ],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.2 \u2014 Conductor / Land Integrity",
+      "IPC-A-600J \u00A7 3.1 \u2014 Solder Mask / Resist Conditions",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements",
+      "IPC-6012E \u00A7 3.3 \u2014 Conductor Width, Spacing \u0026 Integrity"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Mechanical stress or improper settings during PCB routing or depaneling process",
+    "contributingFactors": [
+      "Improper routing machine settings",
+      "Dull or misaligned depaneling blades",
+      "Inadequate maintenance of routing/depaneling equipment",
+      "Insufficient process control during mechanical separation"
+    ],
+    "actions": [
+      {
+        "action": "Review and calibrate PCB routing and depaneling equipment settings to minimize mechanical stress on traces.",
+        "priority": "immediate",
+        "owner": "Process Engineering",
+        "contextRef": "defect_pcb_00041000_mousebite_1"
+      },
+      {
+        "action": "Inspect and replace dull or misaligned blades in depaneling equipment.",
+        "priority": "short-term",
+        "owner": "Maintenance",
+        "contextRef": "defect_pcb_00041006_mousebite_41"
+      },
+      {
+        "action": "Update process control procedures for mechanical separation to ensure compliance with IPC-A-600J \u00A7 2.2 and IPC-6012E \u00A7 3.3.",
+        "priority": "long-term",
+        "owner": "Quality Assurance",
+        "contextRef": "IPC-A-600-2.2"
+      }
+    ],
+    "referencedContextIds": [
+      "defect_pcb_00041000_mousebite_1",
+      "defect_pcb_00041006_mousebite_41",
+      "IPC-A-600-2.2"
+    ],
+    "reasoning": "The defect is described as a mousebite on the left edge of the trace, which is typically caused by mechanical nibbling or notching during the routing or depaneling stage. The AI-inferred equipment links this defect to PCB routing machine and depaneling equipment. The presence of multiple related defect node IDs with similar mousebite defects (medium severity) across different boards indicates a recurring issue, suggesting a systemic process problem rather than an isolated incident. The defect density is low, but the recurrence across historical incidents points to process variability or equipment calibration issues. IPC-A-600J \u00A7 2.2 and IPC-6012E \u00A7 3.3 emphasize conductor integrity and dimensional requirements, which are impacted by such defects.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-A-600J",
+    "section": "IPC-A-600-2.2",
+    "checklist": [
+      {
+        "requirement": "Conductor width reduction does not exceed 20% of original width",
+        "addressed": false,
+        "evidence": "Medium severity mousebite described; actual width reduction not quantified. Must verify reduction is \u2264 20%.",
+        "sectionRef": "IPC-A-600-2.2"
+      },
+      {
+        "requirement": "No open circuit present at the mousebite location",
+        "addressed": true,
+        "evidence": "Description states functional failure is unlikely; no open circuit reported.",
+        "sectionRef": "IPC-A-600-2.2"
+      },
+      {
+        "requirement": "Nick does not exceed 20% of conductor width",
+        "addressed": false,
+        "evidence": "Medium severity mousebite; must confirm nick is \u2264 20% of width.",
+        "sectionRef": "IPC-A-600-2.2"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-A-600-2.2"
+    ],
+    "fullyCovered": false,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-3.1",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3"
+    ],
+    "classification": "Class 2",
+    "disposition": "accept"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-02T21:18:28.2006141Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 77000009_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:31.7455448Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[gpt-4.1] Caption: \u0022The image shows a section of a PCB with distinct copper traces and pads. There is an irregular notch visible on the edge of the trace near the left side of the image, which appears to be a mousebite defect. The rest of the traces and pads seem intact, with no visible open circuits or shorts.\u0022 (conf: 87.0%), Defect: mousebite (medium), Tags: 5, Objects: 2"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:31.7455487Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 87.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:32.6762281Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "PCB routing machine|Depaneling equipment"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:32.6762323Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: mousebite, Severity: medium, Taxonomy: DEF-MOUSEBITE-PCB, InspectionMethods: [Visual inspection, Automated Optical Inspection (AOI)]"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:32.6775237Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 47, AI-equipment: 2, IPC sections: 5, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:35.8445135Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:35.8445167Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 3 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:35.8448396Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 5 IPC sections for defect type \u0027mousebite\u0027"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:38.7817842Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:38.7817906Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 1 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:38.7823491Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-02T21:18:38.7826304Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

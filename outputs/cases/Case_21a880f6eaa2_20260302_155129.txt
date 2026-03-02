@@ -1,0 +1,69 @@
+═══════════════════════════════════════════════════════════════
+  MCP INSPECTION REPORT
+═══════════════════════════════════════════════════════════════
+  Case ID:      21a880f6eaa2
+  Created:      2026-03-02 20:50:36 UTC
+  Image:        00041003_test.jpg
+  Product:      pcb
+  Status:       ReviewRequired
+  Human Review: YES
+
+── VISION ANALYSIS ──
+  Caption:    The image shows a manufactured part with a clear crack visible on the upper edge of the central circular feature. The crack appears to extend from the edge towards the center hole, indicating a structural defect. There are no other significant anomalies or defects visible in the image.
+  Confidence: 92.0%
+  Tags:       manufactured_part, crack, structural_defect, hole, metal
+
+── NORMALIZED DEFECT ──
+  Type:       crack
+  Severity:   high
+  Taxonomy:   DEF-CRACK-PCB
+  Inspection: [visual inspection, automated optical inspection (AOI), X-ray inspection]
+  Reasoning:  Cracks often originate from mechanical stress during routing, depaneling, or drilling, and can be detected by visual, AOI, or X-ray inspection due to their impact on structural integrity.
+
+── KNOWLEDGE GRAPH CONTEXT ──
+  Related defects:      0
+  AI-equipment:         PCB router, PCB depaneling machine, PCB drilling machine
+  Co-occurring:         []
+  Defect density:       0.00
+  Historical incidents: 0
+  IPC references:       
+
+── ROOT-CAUSE ANALYSIS ──
+  Probable cause: Mechanical stress during PCB depaneling or routing
+  Confidence:     85%
+  Reasoning:      The crack is located on the upper edge of the central circular feature, extending towards the inner hole. This position is consistent with areas subjected to mechanical stress during depaneling or routing. The AI-inferred equipment links to the PCB router and depaneling machine, both of which are known to induce stress if not properly calibrated. The defect density is low, suggesting this is not a systemic process issue but likely an isolated incident caused by excessive force or improper handling at a specific equipment stage.
+  Contributing factors:
+    - Improper handling during depaneling
+    - Excessive mechanical force from router or depaneling machine
+    - Insufficient support during routing
+  Actions:
+    [immediate] Inspect and calibrate PCB router and depaneling machine for excessive force or misalignment (Owner: Equipment Maintenance Team) ← AI-inferred equipment: PCB router, PCB depaneling machine (node IDs: related defect node IDs)
+    [short-term] Review handling procedures for PCB during depaneling and routing (Owner: Production Supervisor) ← AI-inferred equipment: PCB depaneling machine (node IDs: related defect node IDs)
+    [long-term] Update operator training on proper PCB support during routing and depaneling (Owner: Training Coordinator) ← AI-inferred equipment: PCB router, PCB depaneling machine (node IDs: related defect node IDs)
+  Referenced IDs: related defect node IDs
+
+── IPC COMPLIANCE ──
+  Standard:      § 
+  Class:        Class 2
+  Disposition:  reject
+  Fully covered: No
+  Retrieved:    []
+  Checklist:
+
+── HUMAN REVIEW FLAGS ──
+  ⚠ compliance_with_rag: no context IDs referenced (fabrication risk)
+
+── TRACE ──
+  20:50:36.242 | pipeline                       | started              | Image: 00041003_test.jpg, Product: pcb
+  20:50:40.453 | analyze_image_with_vision      | success              | [gpt-4.1] Caption: "The image shows a manufactured part with a clear crack visible on the upper edge of the central circular feature. The crack appears to extend from the edge towards the center hole, indicating a structural defect. There are no other significant anomalies or defects visible in the image." (conf: 92.0%), Defect: crack (high), Tags: 5, Objects: 2
+  20:50:40.453 | confidence_check               | above_threshold      | Confidence 92.0% >= 40.0%
+  20:50:41.564 | normalize_defect_with_ai       | ai_equipment         | PCB router|PCB depaneling machine|PCB drilling machine
+  20:50:41.564 | normalize_defect_with_ai       | success              | Type: crack, Severity: high, Taxonomy: DEF-CRACK-PCB, InspectionMethods: [visual inspection, automated optical inspection (AOI), X-ray inspection]
+  20:50:41.566 | query_knowledge_graph          | success              | Related defects: 0, AI-equipment: 3, IPC sections: 0, Co-occurring: [], Density: 0.00, BBoxes: 0
+  20:50:46.325 | root_cause_enriched            | schema_valid         | Output passed JSON schema validation
+  20:50:46.325 | root_cause_enriched            | traceability_pass    | Output references 1 context ID(s)
+  20:50:46.325 | compliance_with_rag            | rag_retrieval        | Retrieved 0 IPC sections for defect type 'crack'
+  20:50:50.249 | compliance_with_rag            | schema_valid         | Output passed JSON schema validation
+  20:50:50.249 | compliance_with_rag            | traceability_fail    | Output does not reference any retrieved context IDs — potential fabrication
+  20:50:50.252 | policy_check                   | clean                | No policy violations detected
+  20:50:50.252 | final_gate                     | ReviewRequired       | Case flagged: compliance_with_rag: no context IDs referenced (fabrication risk)

@@ -1,0 +1,705 @@
+{
+  "caseId": "af1c203dbb27",
+  "createdAt": "2026-03-02T21:13:31.7898652Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group90100\\90100\\90100064_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "The image shows a section of a PCB with multiple circular pads and traces. There is a visible unwanted copper residue above the pads, which appears as an irregular spot not connected to any trace. This is indicative of spurious copper, which could cause issues if left unaddressed.",
+    "tags": [
+      "pcb",
+      "trace",
+      "copper",
+      "circuit_board",
+      "pad",
+      "spurious_copper"
+    ],
+    "objects": [
+      {
+        "name": "pad",
+        "confidence": 0.98
+      },
+      {
+        "name": "trace",
+        "confidence": 0.95
+      },
+      {
+        "name": "spurious_copper",
+        "confidence": 0.92
+      }
+    ],
+    "confidence": 0.92,
+    "defectType": "spurious_copper",
+    "defectSeverity": "medium",
+    "defectDescription": "Unwanted copper residue located above the row of pads, not connected to any trace. This could potentially cause short circuits or reliability issues."
+  },
+  "normalizedDefect": {
+    "defectType": "spurious_copper",
+    "severity": "medium",
+    "product": "pcb",
+    "description": "Unwanted copper residue located above the row of pads, not connected to any trace. This could potentially cause short circuits or reliability issues.",
+    "taxonomyId": "DEF-SPURIOUS-COPPER-PCB",
+    "inspectionMethods": [
+      "Automated Optical Inspection (AOI)",
+      "Microscope inspection"
+    ],
+    "reasoning": "Spurious copper is typically caused by incomplete etching or photoresist issues, and AOI or microscope inspection can visually detect unwanted copper residues."
+  },
+  "graphContext": {
+    "relatedDefectIds": [
+      "defect_pcb_00041000_spurious_copper_4",
+      "defect_pcb_00041000_spurious_copper_6",
+      "defect_pcb_00041001_spurious_copper_10",
+      "defect_pcb_00041002_spurious_copper_15",
+      "defect_pcb_00041003_spurious_copper_19",
+      "defect_pcb_00041004_spurious_copper_23",
+      "defect_pcb_00041005_spurious_copper_30",
+      "defect_pcb_00041005_spurious_copper_31",
+      "defect_pcb_00041006_spurious_copper_36",
+      "defect_pcb_00041006_spurious_copper_37",
+      "defect_pcb_00041007_spurious_copper_47",
+      "defect_pcb_00041007_spurious_copper_48",
+      "defect_pcb_00041008_spurious_copper_53",
+      "defect_pcb_00041009_spurious_copper_58",
+      "defect_pcb_00041010_spurious_copper_62",
+      "defect_pcb_00041010_spurious_copper_67",
+      "defect_pcb_00041011_spurious_copper_71",
+      "defect_pcb_00041011_spurious_copper_73",
+      "defect_pcb_00041012_spurious_copper_77",
+      "defect_pcb_00041012_spurious_copper_78",
+      "defect_pcb_00041013_spurious_copper_81",
+      "defect_pcb_00041013_spurious_copper_85",
+      "defect_pcb_00041014_spurious_copper_92",
+      "defect_pcb_00041014_spurious_copper_93",
+      "defect_pcb_00041014_spurious_copper_95",
+      "defect_pcb_00041015_spurious_copper_99",
+      "defect_pcb_00041016_spurious_copper_104",
+      "defect_pcb_00041017_spurious_copper_110",
+      "defect_pcb_00041017_spurious_copper_111",
+      "defect_pcb_00041018_spurious_copper_117",
+      "defect_pcb_00041018_spurious_copper_118",
+      "defect_pcb_00041019_spurious_copper_121",
+      "defect_pcb_00041021_spurious_copper_133",
+      "defect_pcb_00041022_spurious_copper_137",
+      "defect_pcb_00041023_spurious_copper_141",
+      "defect_pcb_00041024_spurious_copper_149",
+      "defect_pcb_00041025_spurious_copper_157",
+      "defect_pcb_00041026_spurious_copper_166",
+      "defect_pcb_00041027_spurious_copper_170",
+      "defect_pcb_00041027_spurious_copper_174",
+      "defect_pcb_00041028_spurious_copper_179",
+      "defect_pcb_00041029_spurious_copper_184",
+      "defect_pcb_00041030_spurious_copper_190",
+      "defect_pcb_00041030_spurious_copper_192",
+      "defect_pcb_00041031_spurious_copper_196",
+      "defect_pcb_00041031_spurious_copper_197",
+      "defect_pcb_00041032_spurious_copper_204",
+      "defect_pcb_00041032_spurious_copper_205",
+      "defect_pcb_00041033_spurious_copper_210",
+      "defect_pcb_00041034_spurious_copper_214",
+      "defect_pcb_00041035_spurious_copper_224",
+      "defect_pcb_00041035_spurious_copper_225",
+      "defect_pcb_00041036_spurious_copper_231",
+      "defect_pcb_00041036_spurious_copper_232",
+      "defect_pcb_00041038_spurious_copper_246",
+      "defect_pcb_00041038_spurious_copper_247",
+      "defect_pcb_00041039_spurious_copper_252",
+      "defect_pcb_00041040_spurious_copper_257",
+      "defect_pcb_00041040_spurious_copper_258",
+      "defect_pcb_00041041_spurious_copper_266",
+      "defect_pcb_00041042_spurious_copper_274",
+      "defect_pcb_00041043_spurious_copper_279",
+      "defect_pcb_00041043_spurious_copper_280",
+      "defect_pcb_00041044_spurious_copper_289",
+      "defect_pcb_00041045_spurious_copper_296",
+      "defect_pcb_00041046_spurious_copper_303",
+      "defect_pcb_00041047_spurious_copper_307",
+      "defect_pcb_00041047_spurious_copper_308",
+      "defect_pcb_00041048_spurious_copper_317"
+    ],
+    "equipmentIds": [
+      "etching machine",
+      "photoresist developer",
+      "exposure unit"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.1",
+      "IPC-A-600-2.4",
+      "IPC-A-600-2.5",
+      "IPC-A-600-3.1",
+      "IPC-6012-3.2"
+    ],
+    "historicalIncidents": [
+      {
+        "defectNodeId": "defect_pcb_00041000_spurious_copper_4",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041000_spurious_copper_6",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041001_spurious_copper_10",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041002_spurious_copper_15",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041003_spurious_copper_19",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041004_spurious_copper_23",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_spurious_copper_30",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_spurious_copper_31",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_spurious_copper_36",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_spurious_copper_37",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041007_spurious_copper_47",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041007_spurious_copper_48",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041008_spurious_copper_53",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041009_spurious_copper_58",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_spurious_copper_62",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_spurious_copper_67",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041011_spurious_copper_71",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041011_spurious_copper_73",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041012_spurious_copper_77",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041012_spurious_copper_78",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041013_spurious_copper_81",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041013_spurious_copper_85",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041014_spurious_copper_92",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041014_spurious_copper_93",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041014_spurious_copper_95",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041015_spurious_copper_99",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041016_spurious_copper_104",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041017_spurious_copper_110",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041017_spurious_copper_111",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041018_spurious_copper_117",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041018_spurious_copper_118",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041019_spurious_copper_121",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041021_spurious_copper_133",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041022_spurious_copper_137",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041023_spurious_copper_141",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041024_spurious_copper_149",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041025_spurious_copper_157",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041026_spurious_copper_166",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041027_spurious_copper_170",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041027_spurious_copper_174",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041028_spurious_copper_179",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041029_spurious_copper_184",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041030_spurious_copper_190",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041030_spurious_copper_192",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041031_spurious_copper_196",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041031_spurious_copper_197",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041032_spurious_copper_204",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041032_spurious_copper_205",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041033_spurious_copper_210",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041034_spurious_copper_214",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041035_spurious_copper_224",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041035_spurious_copper_225",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041036_spurious_copper_231",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041036_spurious_copper_232",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041038_spurious_copper_246",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041038_spurious_copper_247",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041039_spurious_copper_252",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041040_spurious_copper_257",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041040_spurious_copper_258",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041041_spurious_copper_266",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041042_spurious_copper_274",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_spurious_copper_279",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_spurious_copper_280",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041044_spurious_copper_289",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041045_spurious_copper_296",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041046_spurious_copper_303",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_spurious_copper_307",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_spurious_copper_308",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041048_spurious_copper_317",
+        "product": "spurious_copper",
+        "defectType": "spurious_copper",
+        "severity": "medium"
+      }
+    ],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.1 \u2014 Board Substrate Conditions",
+      "IPC-A-600J \u00A7 2.4 \u2014 Conductor Spacing \u0026 Foreign Material",
+      "IPC-A-600J \u00A7 2.5 \u2014 Plating \u0026 Coating Conditions",
+      "IPC-A-600J \u00A7 3.1 \u2014 Solder Mask / Resist Conditions",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Incomplete etching process resulting in residual copper above pad rows",
+    "contributingFactors": [
+      "Etching machine performance or maintenance issues",
+      "Photoresist developer effectiveness",
+      "Exposure unit calibration",
+      "Process control lapses in etching stage"
+    ],
+    "actions": [
+      {
+        "action": "Audit etching machine parameters and maintenance logs for anomalies or deviations from process specification",
+        "priority": "immediate",
+        "owner": "Process Engineering",
+        "contextRef": "defect_pcb_00041000_spurious_copper_4"
+      },
+      {
+        "action": "Review photoresist developer chemistry and exposure unit calibration records for recent changes or inconsistencies",
+        "priority": "short-term",
+        "owner": "Quality Engineering",
+        "contextRef": "defect_pcb_00041001_spurious_copper_10"
+      },
+      {
+        "action": "Update operator training and process control checks for etching and photoresist development stages",
+        "priority": "long-term",
+        "owner": "Production Management",
+        "contextRef": "IPC-A-600J \u00A7 2.4"
+      }
+    ],
+    "referencedContextIds": [
+      "defect_pcb_00041000_spurious_copper_4",
+      "defect_pcb_00041001_spurious_copper_10",
+      "IPC-A-600J \u00A7 2.4"
+    ],
+    "reasoning": "The defect report describes spurious copper residue not connected to any trace, located above the row of pads. The enriched context shows multiple related defect node IDs, indicating recurrence across several boards, which points to a systemic issue. The AI-inferred equipment links include the etching machine, photoresist developer, and exposure unit, all of which are critical in copper removal and pattern definition. The defect density is low per block, but the repeated occurrence in similar locations suggests a process-related problem rather than random contamination. IPC-A-600J \u00A7 2.4 specifically addresses foreign material and conductor spacing, supporting the relevance of etching quality. The evidence collectively indicates that incomplete etching, possibly due to insufficient exposure or developer performance, is leaving unwanted copper residues.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-A-600J",
+    "section": "IPC-A-600-2.4",
+    "checklist": [
+      {
+        "requirement": "No metallic foreign material (including spurious copper) may reduce spacing below minimum; shorts are reject.",
+        "addressed": false,
+        "evidence": "Spurious copper residue is present above pad rows, potentially reducing spacing and risking shorts.",
+        "sectionRef": "IPC-A-600-2.4"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-A-600-2.4"
+    ],
+    "fullyCovered": true,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.1",
+      "IPC-A-600-2.4",
+      "IPC-A-600-2.5",
+      "IPC-A-600-3.1",
+      "IPC-6012-3.2"
+    ],
+    "classification": "Class 2",
+    "disposition": "reject"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-02T21:13:31.7902462Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 90100064_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:37.7785118Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[gpt-4.1] Caption: \u0022The image shows a section of a PCB with multiple circular pads and traces. There is a visible unwanted copper residue above the pads, which appears as an irregular spot not connected to any trace. This is indicative of spurious copper, which could cause issues if left unaddressed.\u0022 (conf: 92.0%), Defect: spurious_copper (medium), Tags: 6, Objects: 3"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:37.7786815Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 92.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:38.7035383Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "etching machine|photoresist developer|exposure unit"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:38.7035439Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: spurious_copper, Severity: medium, Taxonomy: DEF-SPURIOUS-COPPER-PCB, InspectionMethods: [Automated Optical Inspection (AOI), Microscope inspection]"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:38.7087644Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 69, AI-equipment: 3, IPC sections: 6, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:42.4799699Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:42.4801578Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 3 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:42.4827517Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 6 IPC sections for defect type \u0027spurious_copper\u0027"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:45.0905743Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:45.0906485Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 1 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:45.1175126Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-02T21:13:45.1188996Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

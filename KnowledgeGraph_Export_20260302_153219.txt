@@ -1,0 +1,20 @@
+MANUFACTURING KNOWLEDGE GRAPH - EXPORT REPORT
+Generated: 3/2/2026 3:32:19 PM
+======================================================================
+
+STATISTICS:
+  Total Images Analyzed: 50
+  Total Defects Found: 327
+  Equipment Types: 7
+
+PRODUCTS ANALYZED:
+  - pcb: 327 defect types
+
+EQUIPMENT RECOMMENDATIONS:
+  spur → Automated Optical Inspection (AOI) system, High-resolution microscope
+  mousebite → Automated Optical Inspection (AOI) system, High-resolution microscope
+  pin_hole → High-resolution microscope, X-ray inspection system
+  spurious_copper → Automated Optical Inspection (AOI) system, Flying probe tester
+  short → Automated Optical Inspection (AOI) system, In-Circuit Test (ICT) probe
+
+CROSS-PRODUCT PATTERNS (NOVEL INSIGHT):

@@ -1,0 +1,332 @@
+{
+  "ImageName": "Flowchart002.png",
+  "ImagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\flowchart\\Flowchart002.png",
+  "Caption": "a diagram of a process",
+  "Tags": [
+    "text",
+    "font",
+    "diagram",
+    "screenshot",
+    "design"
+  ],
+  "Objects": [],
+  "OcrLines": [
+    {
+      "Text": "Stop current",
+      "BoundingBoxLeft": 1313,
+      "BoundingBoxTop": 53,
+      "BoundingBoxWidth": 186,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "production run",
+      "BoundingBoxLeft": 1293,
+      "BoundingBoxTop": 92,
+      "BoundingBoxWidth": 224,
+      "BoundingBoxHeight": 37
+    },
+    {
+      "Text": "Clear line of previous",
+      "BoundingBoxLeft": 1257,
+      "BoundingBoxTop": 212,
+      "BoundingBoxWidth": 298,
+      "BoundingBoxHeight": 38
+    },
+    {
+      "Text": "product and tooling",
+      "BoundingBoxLeft": 1266,
+      "BoundingBoxTop": 251,
+      "BoundingBoxWidth": 285,
+      "BoundingBoxHeight": 38
+    },
+    {
+      "Text": "Load new product",
+      "BoundingBoxLeft": 1276,
+      "BoundingBoxTop": 370,
+      "BoundingBoxWidth": 263,
+      "BoundingBoxHeight": 39
+    },
+    {
+      "Text": "specification into system",
+      "BoundingBoxLeft": 1232,
+      "BoundingBoxTop": 408,
+      "BoundingBoxWidth": 352,
+      "BoundingBoxHeight": 40
+    },
+    {
+      "Text": "Verify tooling and",
+      "BoundingBoxLeft": 1276,
+      "BoundingBoxTop": 529,
+      "BoundingBoxWidth": 257,
+      "BoundingBoxHeight": 37
+    },
+    {
+      "Text": "fixture setup",
+      "BoundingBoxLeft": 1318,
+      "BoundingBoxTop": 566,
+      "BoundingBoxWidth": 183,
+      "BoundingBoxHeight": 38
+    },
+    {
+      "Text": "Identify setup",
+      "BoundingBoxLeft": 890,
+      "BoundingBoxTop": 724,
+      "BoundingBoxWidth": 200,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1166,
+      "BoundingBoxTop": 719,
+      "BoundingBoxWidth": 50,
+      "BoundingBoxHeight": 30
+    },
+    {
+      "Text": "Does setup pass",
+      "BoundingBoxLeft": 1282,
+      "BoundingBoxTop": 722,
+      "BoundingBoxWidth": 242,
+      "BoundingBoxHeight": 37
+    },
+    {
+      "Text": "error and correct",
+      "BoundingBoxLeft": 870,
+      "BoundingBoxTop": 762,
+      "BoundingBoxWidth": 240,
+      "BoundingBoxHeight": 31
+    },
+    {
+      "Text": "verification check?",
+      "BoundingBoxLeft": 1264,
+      "BoundingBoxTop": 757,
+      "BoundingBoxWidth": 279,
+      "BoundingBoxHeight": 36
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 1423,
+      "BoundingBoxTop": 852,
+      "BoundingBoxWidth": 49,
+      "BoundingBoxHeight": 29
+    },
+    {
+      "Text": "Run test batch of 5 units",
+      "BoundingBoxLeft": 1226,
+      "BoundingBoxTop": 930,
+      "BoundingBoxWidth": 353,
+      "BoundingBoxHeight": 38
+    },
+    {
+      "Text": "Adjust line",
+      "BoundingBoxLeft": 911,
+      "BoundingBoxTop": 1106,
+      "BoundingBoxWidth": 161,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1166,
+      "BoundingBoxTop": 1100,
+      "BoundingBoxWidth": 48,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Does test batch",
+      "BoundingBoxLeft": 1291,
+      "BoundingBoxTop": 1103,
+      "BoundingBoxWidth": 228,
+      "BoundingBoxHeight": 38
+    },
+    {
+      "Text": "parameters",
+      "BoundingBoxLeft": 907,
+      "BoundingBoxTop": 1147,
+      "BoundingBoxWidth": 164,
+      "BoundingBoxHeight": 31
+    },
+    {
+      "Text": "pass QC check?",
+      "BoundingBoxLeft": 1300,
+      "BoundingBoxTop": 1141,
+      "BoundingBoxWidth": 217,
+      "BoundingBoxHeight": 34
+    },
+    {
+      "Text": "Yes",
+      "BoundingBoxLeft": 1416,
+      "BoundingBoxTop": 1233,
+      "BoundingBoxWidth": 57,
+      "BoundingBoxHeight": 33
+    },
+    {
+      "Text": "Approve line for full",
+      "BoundingBoxLeft": 1266,
+      "BoundingBoxTop": 1293,
+      "BoundingBoxWidth": 287,
+      "BoundingBoxHeight": 41
+    },
+    {
+      "Text": "production run",
+      "BoundingBoxLeft": 1299,
+      "BoundingBoxTop": 1333,
+      "BoundingBoxWidth": 218,
+      "BoundingBoxHeight": 37
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 1374,
+      "BoundingBoxTop": 1456,
+      "BoundingBoxWidth": 68,
+      "BoundingBoxHeight": 36
+    }
+  ],
+  "MergedBlocks": [
+    {
+      "Text": "Stop current production run",
+      "BoundingBoxLeft": 1293,
+      "BoundingBoxTop": 53,
+      "BoundingBoxWidth": 224,
+      "BoundingBoxHeight": 76
+    },
+    {
+      "Text": "Clear line of previous product and tooling",
+      "BoundingBoxLeft": 1257,
+      "BoundingBoxTop": 212,
+      "BoundingBoxWidth": 298,
+      "BoundingBoxHeight": 77
+    },
+    {
+      "Text": "Load new product specification into system",
+      "BoundingBoxLeft": 1232,
+      "BoundingBoxTop": 370,
+      "BoundingBoxWidth": 352,
+      "BoundingBoxHeight": 78
+    },
+    {
+      "Text": "Verify tooling and fixture setup",
+      "BoundingBoxLeft": 1276,
+      "BoundingBoxTop": 529,
+      "BoundingBoxWidth": 257,
+      "BoundingBoxHeight": 75
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1166,
+      "BoundingBoxTop": 719,
+      "BoundingBoxWidth": 50,
+      "BoundingBoxHeight": 30
+    },
+    {
+      "Text": "Does setup pass verification check?",
+      "BoundingBoxLeft": 1264,
+      "BoundingBoxTop": 722,
+      "BoundingBoxWidth": 279,
+      "BoundingBoxHeight": 71
+    },
+    {
+      "Text": "Identify setup error and correct",
+      "BoundingBoxLeft": 870,
+      "BoundingBoxTop": 724,
+      "BoundingBoxWidth": 240,
+      "BoundingBoxHeight": 69
+    },
+    {
+      "Text": "Yes Run test batch of 5 units",
+      "BoundingBoxLeft": 1226,
+      "BoundingBoxTop": 852,
+      "BoundingBoxWidth": 353,
+      "BoundingBoxHeight": 116
+    },
+    {
+      "Text": "No",
+      "BoundingBoxLeft": 1166,
+      "BoundingBoxTop": 1100,
+      "BoundingBoxWidth": 48,
+      "BoundingBoxHeight": 32
+    },
+    {
+      "Text": "Does test batch pass QC check?",
+      "BoundingBoxLeft": 1291,
+      "BoundingBoxTop": 1103,
+      "BoundingBoxWidth": 228,
+      "BoundingBoxHeight": 72
+    },
+    {
+      "Text": "Adjust line parameters",
+      "BoundingBoxLeft": 907,
+      "BoundingBoxTop": 1106,
+      "BoundingBoxWidth": 165,
+      "BoundingBoxHeight": 72
+    },
+    {
+      "Text": "Yes Approve line for full production run",
+      "BoundingBoxLeft": 1266,
+      "BoundingBoxTop": 1233,
+      "BoundingBoxWidth": 287,
+      "BoundingBoxHeight": 137
+    },
+    {
+      "Text": "End",
+      "BoundingBoxLeft": 1374,
+      "BoundingBoxTop": 1456,
+      "BoundingBoxWidth": 68,
+      "BoundingBoxHeight": 36
+    }
+  ],
+  "Steps": [
+    "Stop current",
+    "production run",
+    "Clear line of previous",
+    "product and tooling",
+    "Load new product",
+    "specification into system",
+    "Verify tooling and",
+    "fixture setup",
+    "No",
+    "Does setup pass",
+    "Identify setup",
+    "verification check?",
+    "error and correct",
+    "Yes",
+    "Run test batch of 5 units",
+    "No",
+    "Does test batch",
+    "Adjust line",
+    "pass QC check?",
+    "parameters",
+    "Yes",
+    "Approve line for full",
+    "production run",
+    "End"
+  ],
+  "Decisions": [
+    "Verify tooling and",
+    "No",
+    "Does setup pass",
+    "verification check?",
+    "Yes",
+    "pass QC check?",
+    "Approve line for full"
+  ],
+  "DetailedCaption": "This flowchart outlines the procedure for transitioning a manufacturing line from one product to another. It details the steps for stopping the current production, clearing and preparing the line, loading new specifications, verifying setup, running a test batch, and conducting quality checks before approving the line for full production. The process includes verification and quality control decision points, with corrective actions for failed checks and clear pathways for approval or further adjustment.",
+  "ProcessSteps": [
+    "Stop current production run",
+    "Clear line of previous product and tooling",
+    "Load new product specification into system",
+    "Verify tooling and fixture setup",
+    "Identify setup error and correct",
+    "Run test batch of 5 units",
+    "Adjust line parameters",
+    "Approve line for full production run"
+  ],
+  "DecisionPoints": [
+    "Does setup pass verification check?",
+    "Does test batch pass QC check?"
+  ],
+  "BranchLabels": [
+    "No",
+    "Yes",
+    "Yes",
+    "No"
+  ]
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "imagePath": "datasets/PCBData/group00041/00041/00041000_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "spur",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group00041/00041/00041001_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group00041/00041/00041002_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "mousebite",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group12000/12000/12000001_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group12000/12000/12000017_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group12100/12100/12100000_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group12100/12100/12100001_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group12300/12300/12300060_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group13000/13000/13000000_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "spurious_copper",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group13000/13000/13000001_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "short",
+    "expectedSeverity": "high"
+  },
+  {
+    "imagePath": "datasets/PCBData/group13000/13000/13000002_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "mousebite",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group20085/20085/20085000_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "spur",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group20085/20085/20085001_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "spur",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group20085/20085/20085002_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "spurious_copper",
+    "expectedSeverity": "medium"
+  },
+  {
+    "imagePath": "datasets/PCBData/group50600/50600/50600000_test.jpg",
+    "product": "pcb",
+    "expectedDefectType": "mousebite",
+    "expectedSeverity": "medium"
+  }
+]

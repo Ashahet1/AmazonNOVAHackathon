@@ -1,0 +1,68 @@
+═══════════════════════════════════════════════════════════════
+  MCP INSPECTION REPORT
+═══════════════════════════════════════════════════════════════
+  Case ID:      0287e6614031
+  Created:      2026-03-02 20:48:39 UTC
+  Image:        12000017_test.jpg
+  Product:      pcb
+  Status:       Completed
+  Human Review: No
+
+── VISION ANALYSIS ──
+  Caption:    The image shows a PCB with multiple traces and pads. There are several irregularities visible, including small protrusions and notches along the edges of the traces, as well as some extra copper spots. These defects are most prominent near the center and upper right sections of the traces.
+  Confidence: 92.0%
+  Tags:       pcb, trace, copper, circuit_board, mousebite
+
+── NORMALIZED DEFECT ──
+  Type:       mousebite
+  Severity:   medium
+  Taxonomy:   DEF-MOUSEBITE-PCB
+  Inspection: [visual inspection, automated optical inspection (AOI), microscope inspection]
+  Reasoning:  Mousebite defects are typically caused by improper routing or depaneling processes, and can be detected by visual or optical inspection methods that highlight irregularities along trace edges.
+
+── KNOWLEDGE GRAPH CONTEXT ──
+  Related defects:      47
+  AI-equipment:         PCB routing machine, Depaneling equipment
+  Co-occurring:         []
+  Defect density:       0.00
+  Historical incidents: 47
+  IPC references:       IPC-A-600J § 1.0 — Scope & General Information; IPC-A-600J § 2.2 — Conductor / Land Integrity; IPC-A-600J § 3.1 — Solder Mask / Resist Conditions; IPC-6012E § 3.2 — Visual & Dimensional Requirements; IPC-6012E § 3.3 — Conductor Width, Spacing & Integrity
+
+── ROOT-CAUSE ANALYSIS ──
+  Probable cause: Mechanical stress or improper settings during PCB routing or depaneling operations
+  Confidence:     85%
+  Reasoning:      The defect report describes irregular nibbling and notches (mousebite) along trace edges, particularly in central and upper right areas. Multiple related defect node IDs indicate recurrence, suggesting a systemic issue. AI-inferred equipment links point to PCB routing and depaneling equipment, which are known sources of mousebite defects if not properly calibrated. The defect density is low per block, but the historical incidents show repeated medium-severity mousebite defects, reinforcing the likelihood of a process-related cause. IPC references (IPC-A-600-2.2, IPC-6012-3.2, IPC-6012-3.3) highlight requirements for conductor integrity and dimensional accuracy, which are compromised by these defects.
+  Contributing factors:
+    - Improper routing machine settings
+    - Depaneling equipment misalignment
+    - Mechanical stress during board separation
+    - Lack of routine equipment calibration
+  Actions:
+    [immediate] Review and calibrate PCB routing and depaneling equipment settings to minimize mechanical stress and edge damage. (Owner: Process Engineering) ← defect_pcb_00041000_mousebite_1
+    [short-term] Implement routine inspection and maintenance schedule for routing and depaneling equipment. (Owner: Maintenance Team) ← defect_pcb_00041006_mousebite_41
+    [long-term] Update operator training on proper board handling and depaneling techniques to reduce mechanical stress. (Owner: Production Training) ← IPC-A-600-2.2
+  Referenced IDs: defect_pcb_00041000_mousebite_1, defect_pcb_00041006_mousebite_41, IPC-A-600-2.2
+
+── IPC COMPLIANCE ──
+  Standard:     IPC-A-600J § IPC-A-600-2.2
+  Class:        Class 2
+  Disposition:  accept
+  Fully covered: Yes
+  Retrieved:    [IPC-A-600-1.0, IPC-A-600-2.2, IPC-A-600-3.1, IPC-6012-3.2, IPC-6012-3.3]
+  Checklist:
+    [X] Conductor width reduction does not exceed 20% and nicks must not exceed 20% of conductor width.  — Mousebite defects observed as irregular notches along trace edges; if conductor width reduction and nicks are within 20%, acceptable for Class 2. [IPC-A-600-2.2]
+
+── TRACE ──
+  20:48:39.881 | pipeline                       | started              | Image: 12000017_test.jpg, Product: pcb
+  20:48:44.798 | analyze_image_with_vision      | success              | [gpt-4.1] Caption: "The image shows a PCB with multiple traces and pads. There are several irregularities visible, including small protrusions and notches along the edges of the traces, as well as some extra copper spots. These defects are most prominent near the center and upper right sections of the traces." (conf: 92.0%), Defect: mousebite (medium), Tags: 5, Objects: 2
+  20:48:44.798 | confidence_check               | above_threshold      | Confidence 92.0% >= 40.0%
+  20:48:45.672 | normalize_defect_with_ai       | ai_equipment         | PCB routing machine|Depaneling equipment
+  20:48:45.672 | normalize_defect_with_ai       | success              | Type: mousebite, Severity: medium, Taxonomy: DEF-MOUSEBITE-PCB, InspectionMethods: [visual inspection, automated optical inspection (AOI), microscope inspection]
+  20:48:45.674 | query_knowledge_graph          | success              | Related defects: 47, AI-equipment: 2, IPC sections: 5, Co-occurring: [], Density: 0.00, BBoxes: 0
+  20:48:48.372 | root_cause_enriched            | schema_valid         | Output passed JSON schema validation
+  20:48:48.372 | root_cause_enriched            | traceability_pass    | Output references 3 context ID(s)
+  20:48:48.373 | compliance_with_rag            | rag_retrieval        | Retrieved 5 IPC sections for defect type 'mousebite'
+  20:48:51.951 | compliance_with_rag            | schema_valid         | Output passed JSON schema validation
+  20:48:51.951 | compliance_with_rag            | traceability_pass    | Output references 1 context ID(s)
+  20:48:51.951 | policy_check                   | clean                | No policy violations detected
+  20:48:51.952 | final_gate                     | Completed            | Case passed all guardrails
