@@ -403,11 +403,8 @@ namespace ManufacturingKnowledgeGraph
 
             Console.WriteLine($"✅ Found {coOccurrenceCount.Count} co-occurring defect pairs across {images.Count} PCB images:\n");
 
-            // Get AI insight for top pairs
-            var endpoint   = AppConfig.OpenAIEndpoint;
-            var apiKey     = AppConfig.OpenAIKey;
-            var deployment = AppConfig.OpenAIDeployment;
-            var apiVersion = AppConfig.OpenAIApiVersion;
+            // Get AI insight for top pairs using Amazon Nova
+            var novaInsightClient = new BedrockNovaClient();
 
             var rows = new List<string[]>();
             foreach (var kv in topPairs)
@@ -416,29 +413,11 @@ namespace ManufacturingKnowledgeGraph
                 string insight = "";
                 try
                 {
-                    var requestBody = new
-                    {
-                        messages = new[]
-                        {
-                            new { role = "system", content = "You are a PCB manufacturing quality expert. Give a ONE sentence insight about why two defect types co-occur and what single process fix addresses both. Plain text only, no markdown." },
-                            new { role = "user", content = $"PCB defects '{typeA}' and '{typeB}' appear together in {kv.Value} boards. Why do they co-occur and what is the combined fix?" }
-                        },
-                        max_tokens = 80,
-                        temperature = 0.5
-                    };
-                    var reqJson = JsonSerializer.Serialize(requestBody);
-                    var reqUrl  = $"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={apiVersion}";
-                    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(20) };
-                    client.DefaultRequestHeaders.Add("api-key", apiKey);
-                    var resp = await client.PostAsync(reqUrl, new StringContent(reqJson, Encoding.UTF8, "application/json"));
-                    if (resp.IsSuccessStatusCode)
-                    {
-                        var body = await resp.Content.ReadAsStringAsync();
-                        using var doc = JsonDocument.Parse(body);
-                        insight = doc.RootElement.GetProperty("choices")[0].GetProperty("message").GetProperty("content").GetString() ?? "";
-                        insight = insight.Replace("**","").Replace("##","").Trim();
-                    }
-                    else insight = $"API {resp.StatusCode}";
+                    var result = await novaInsightClient.InvokeTextAsync(
+                        "You are a PCB manufacturing quality expert. Give a ONE sentence insight about why two defect types co-occur and what single process fix addresses both. Plain text only, no markdown.",
+                        $"PCB defects '{typeA}' and '{typeB}' appear together in {kv.Value} boards. Why do they co-occur and what is the combined fix?",
+                        false, "cooccurrence_insight");
+                    insight = (result ?? "").Replace("**","").Replace("##","").Trim();
                 }
                 catch (Exception ex) { insight = ex.Message[..Math.Min(40, ex.Message.Length)]; }
 
@@ -831,55 +810,23 @@ namespace ManufacturingKnowledgeGraph
                 })
             };
 
-            Console.WriteLine("🤖 Querying Azure OpenAI for manufacturing insights...\n");
-
-            var endpoint = AppConfig.OpenAIEndpoint;
-            var apiKey = AppConfig.OpenAIKey;
-            var deploymentName = AppConfig.OpenAIDeployment;
-            var apiVersion = AppConfig.OpenAIApiVersion;
-
-            var requestBody = new
-            {
-                messages = new[]
-                {
-                    new { role = "system", content = "You are a manufacturing quality expert. Analyze the knowledge graph data and provide 4 actionable business insights. Format each as: INSIGHT #N: Title, then a brief explanation with an actionable recommendation. Do not use markdown formatting like asterisks, bold, or headers. Use plain text only." },
-                    new { role = "user", content = $"Analyze this manufacturing knowledge graph and provide 4 key insights:\n\n{JsonSerializer.Serialize(summaryData)}\n\nProvide insights about: 1) Cross-product knowledge transfer 2) Equipment optimization 3) Manufacturing knowledge base value 4) Compliance & standards" }
-                },
-                max_tokens = 1000,
-                temperature = 0.7
-            };
-
-            var jsonData = JsonSerializer.Serialize(requestBody);
-            var requestUrl = $"{endpoint}/openai/deployments/{deploymentName}/chat/completions?api-version={apiVersion}";
+            Console.WriteLine("🤖 Querying Amazon Nova for manufacturing insights...\n");
 
             try
             {
-                using var client = new HttpClient() { Timeout = TimeSpan.FromSeconds(30) };
-                client.DefaultRequestHeaders.Add("api-key", apiKey);
+                var novaClient = new BedrockNovaClient();
+                var insight = await novaClient.InvokeTextAsync(
+                    "You are a manufacturing quality expert. Analyze the knowledge graph data and provide 4 actionable business insights. Format each as: INSIGHT #N: Title, then a brief explanation with an actionable recommendation. Do not use markdown formatting like asterisks, bold, or headers. Use plain text only.",
+                    $"Analyze this manufacturing knowledge graph and provide 4 key insights:\n\n{JsonSerializer.Serialize(summaryData)}\n\nProvide insights about: 1) Cross-product knowledge transfer 2) Equipment optimization 3) Manufacturing knowledge base value 4) Compliance & standards",
+                    false, "knowledge_graph_insights");
 
-                var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(requestUrl, content);
-
-                if (response.IsSuccessStatusCode)
+                if (!string.IsNullOrEmpty(insight))
                 {
-                    var apiResponse = await response.Content.ReadAsStringAsync();
-                    using var doc = JsonDocument.Parse(apiResponse);
-                    var insight = doc.RootElement
-                        .GetProperty("choices")[0]
-                        .GetProperty("message")
-                        .GetProperty("content")
-                        .GetString() ?? "No insights available";
-
-                    // Strip any residual markdown formatting
                     insight = insight.Replace("**", "").Replace("##", "").Replace("###", "");
                     Console.WriteLine(insight);
                 }
                 else
                 {
-                    var errorBody = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"⚠️ API Error: {errorBody}");
-
-                    // Fallback to static insights
                     Console.WriteLine("\n📋 Fallback (static) insights:");
                     Console.WriteLine($"💡 INSIGHT #1: Found {similarities.Count} cross-product defect patterns.");
                     Console.WriteLine($"💡 INSIGHT #2: {equipment.Count} defect types require specific equipment.");
@@ -889,7 +836,7 @@ namespace ManufacturingKnowledgeGraph
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"⚠️ Connection error: {ex.Message}");
+                Console.WriteLine($"⚠️ Nova error: {ex.Message}");
                 Console.WriteLine("\n📋 Fallback (static) insights:");
                 Console.WriteLine($"💡 INSIGHT #1: Found {similarities.Count} cross-product defect patterns.");
                 Console.WriteLine($"💡 INSIGHT #2: {equipment.Count} defect types require specific equipment.");
@@ -942,11 +889,8 @@ namespace ManufacturingKnowledgeGraph
 
             Console.WriteLine($"Found {files.Count} image(s). Processing...\n");
 
-            // Azure OpenAI config (centralized)
-            var aiEndpoint = AppConfig.OpenAIEndpoint;
-            var aiKey = AppConfig.OpenAIKey;
-            var deploymentName = AppConfig.OpenAIDeployment;
-            var aiApiVersion = AppConfig.OpenAIApiVersion;
+            // Amazon Nova client for flowchart AI analysis
+            var novaFlowClient = new BedrockNovaClient();
 
             int ok = 0, fail = 0;
             foreach (var file in files)
@@ -955,7 +899,7 @@ namespace ManufacturingKnowledgeGraph
                 {
                     var result = await FlowchartFolderProcessor.ProcessSingleImageAsync(file);
 
-                    // ── Send merged blocks to Azure OpenAI for classification & detailed caption ──
+                    // ── Send merged blocks to Amazon Nova for classification & detailed caption ──
                     string aiDescription = "";
                     string aiInsights = "";
                     try
@@ -967,11 +911,8 @@ namespace ManufacturingKnowledgeGraph
 
                         var mergedSummary = string.Join("\n", mergedTexts);
 
-                        var requestBody = new
-                        {
-                            messages = new[]
-                            {
-                                new { role = "system", content = @"You are a manufacturing process expert. You receive spatially-merged OCR text blocks extracted from a flowchart image. Each block is one box/shape in the diagram, with its (x,y) position.
+                        var aiText = await novaFlowClient.InvokeTextAsync(
+                            @"You are a manufacturing process expert. You receive spatially-merged OCR text blocks extracted from a flowchart image. Each block is one box/shape in the diagram, with its (x,y) position.
 
 Your job:
 1. Generate a detailed CAPTION describing what this flowchart is about.
@@ -985,31 +926,12 @@ Rules:
 - Decisions are diamond-shaped question boxes (usually contain a question mark or verification/check language).
 - Branch labels are short connectors like Yes, No.
 - Terminals are Start/End/Begin/Stop boxes at the very top or bottom.
-- Output plain text only. No markdown, no asterisks, no bold, no headers." },
-                                new { role = "user", content = $"Flowchart image: {result.ImageName}\nAzure Vision caption: {result.Caption}\nTags: {string.Join(", ", result.Tags)}\n\nSpatially-merged text blocks (one per flowchart shape):\n{mergedSummary}\n\nRespond in this exact format:\nCAPTION: <detailed description of this flowchart>\nSTEPS:\n1. <step text>\n2. <step text>\n...\nDECISIONS:\n1. <full decision question>\n...\nBRANCH_LABELS: <comma-separated>\nINSIGHTS:\n- <insight 1>\n- <insight 2>\n- <insight 3>" }
-                            },
-                            max_tokens = 800,
-                            temperature = 0.3
-                        };
+- Output plain text only. No markdown, no asterisks, no bold, no headers.",
+                            $"Flowchart image: {result.ImageName}\nVision caption: {result.Caption}\nTags: {string.Join(", ", result.Tags)}\n\nSpatially-merged text blocks (one per flowchart shape):\n{mergedSummary}\n\nRespond in this exact format:\nCAPTION: <detailed description of this flowchart>\nSTEPS:\n1. <step text>\n2. <step text>\n...\nDECISIONS:\n1. <full decision question>\n...\nBRANCH_LABELS: <comma-separated>\nINSIGHTS:\n- <insight 1>\n- <insight 2>\n- <insight 3>",
+                            false, "flowchart_analysis") ?? "";
 
-                        var jsonPayload = JsonSerializer.Serialize(requestBody);
-                        var requestUrl = $"{aiEndpoint}/openai/deployments/{deploymentName}/chat/completions?api-version={aiApiVersion}";
-
-                        using var httpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(30) };
-                        httpClient.DefaultRequestHeaders.Add("api-key", aiKey);
-                        var httpContent = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
-                        var httpResponse = await httpClient.PostAsync(requestUrl, httpContent);
-
-                        if (httpResponse.IsSuccessStatusCode)
+                        if (!string.IsNullOrWhiteSpace(aiText))
                         {
-                            var apiResp = await httpResponse.Content.ReadAsStringAsync();
-                            using var aiDoc = JsonDocument.Parse(apiResp);
-                            var aiText = aiDoc.RootElement
-                                .GetProperty("choices")[0]
-                                .GetProperty("message")
-                                .GetProperty("content")
-                                .GetString() ?? "";
-
                             // Strip any residual markdown
                             aiText = aiText.Replace("**", "").Replace("##", "").Replace("###", "");
 
@@ -1081,11 +1003,7 @@ Rules:
                                     Console.WriteLine($"      {ins.Trim()}");
                             }
                         }
-                        else
-                        {
-                            var errBody = await httpResponse.Content.ReadAsStringAsync();
-                            Console.WriteLine($"   ⚠️ AI insight error: {httpResponse.StatusCode}");
-                        }
+
                     }
                     catch (Exception aiEx)
                     {
@@ -1372,9 +1290,7 @@ Rules:
                 return;
             }
 
-            // Create orchestrator (uses GPT-4.1 vision, not Azure AI Vision SDK)
-            var openAIVision = new OpenAIVisionAnalyzer();
-            var orchestrator = new McpOrchestrator(openAIVision, graph);
+            var orchestrator = new McpOrchestrator(graph);
 
             // Run the pipeline
             var caseFile = await orchestrator.RunInspectionPipeline(imagePath);
@@ -1565,8 +1481,7 @@ Rules:
 
             Console.WriteLine($"\n⏳ Running {labels.Count} case(s) — this may take several minutes (1 API call per case)...\n");
 
-            var openAIVision = new OpenAIVisionAnalyzer();
-            var orchestrator = new McpOrchestrator(openAIVision, graph);
+            var orchestrator = new McpOrchestrator(graph);
             var runner = new EvaluationRunner(orchestrator, resolvedPath);
 
             var report = await runner.RunAsync();
@@ -1663,8 +1578,7 @@ Rules:
                     case "2":
                     case "3":
                         var fmt = action == "2" ? "json" : "txt";
-                        var openAIVision = new OpenAIVisionAnalyzer();
-                        var orch = new McpOrchestrator(openAIVision, graph);
+                        var orch = new McpOrchestrator(graph);
                         var path = orch.ExportReport(lastCaseFile, fmt);
                         Console.WriteLine($"  ✅ Exported to: {path}");
                         break;
@@ -1787,10 +1701,7 @@ Rules:
             Console.Write("  Proceed? (y/n): ");
             if (Console.ReadLine()?.ToLower() != "y") return;
 
-            var openAIVision = new OpenAIVisionAnalyzer();
-            var orchestrator = new McpOrchestrator(openAIVision, graph);
-
-            // Run pipeline on each
+            var orchestrator = new McpOrchestrator(graph);
             var results = new List<(string category, string image, CaseStatus status, bool humanReview, int violations)>();
             int done = 0;
 

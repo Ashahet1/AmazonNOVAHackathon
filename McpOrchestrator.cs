@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -34,10 +32,10 @@ namespace ManufacturingKnowledgeGraph
 
     public class McpOrchestrator
     {
-        private readonly OpenAIVisionAnalyzer openAIVision;
         private readonly KnowledgeGraph knowledgeGraph;
+        private readonly BedrockNovaClient _nova;
 
-        // DeepPCB defect-type map (annotation int → name)
+        // DeepPCB defect-type map (annotation int -> name)
         private static readonly Dictionary<int, string> DeepPCBDefectNames = new()
         {
             [0] = "open",
@@ -48,10 +46,10 @@ namespace ManufacturingKnowledgeGraph
             [5] = "spurious_copper"
         };
 
-        public McpOrchestrator(OpenAIVisionAnalyzer openAIVision, KnowledgeGraph knowledgeGraph)
+        public McpOrchestrator(KnowledgeGraph knowledgeGraph)
         {
-            this.openAIVision = openAIVision;
             this.knowledgeGraph = knowledgeGraph;
+            _nova = new BedrockNovaClient();
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -73,13 +71,13 @@ namespace ManufacturingKnowledgeGraph
             Console.WriteLine($"\n{'═',0} MCP INSPECTION PIPELINE — Case {caseFile.CaseId}");
             Console.WriteLine(new string('═', 70));
 
-            // ── Step 1: Analyze image with vision ──
-            Console.Write($"  [1/6] analyze_image_with_vision ({AppConfig.VisionModel}) ... ");
+            // -- Step 1: Analyze image with vision --
+            Console.Write($"  [1/6] analyze_image_with_vision (Nova {AppConfig.NovaVisionModel}) ... ");
             await AnalyzeImageWithVision(caseFile);
             Console.WriteLine(caseFile.VisionAnalysis != null ? "OK" : "FAIL");
 
-            // ── Step 2: Normalize defect (AI-driven) ──
-            Console.Write($"  [2/6] normalize_defect_with_ai ({AppConfig.ClassificationModel}) ... ");
+            // -- Step 2: Normalize defect (AI-driven) --
+            Console.Write($"  [2/6] normalize_defect_with_ai (Nova {AppConfig.NovaReasoningModel}) ... ");
             await NormalizeDefectWithAI(caseFile);
             Console.WriteLine(caseFile.NormalizedDefect != null ? "OK" : "FAIL");
 
@@ -88,13 +86,13 @@ namespace ManufacturingKnowledgeGraph
             QueryKnowledgeGraphEnriched(caseFile);
             Console.WriteLine(caseFile.GraphContext != null ? "OK" : "SKIP");
 
-            // ── Step 4: Root-cause with enriched context (reasoning model) ──
-            Console.Write($"  [4/6] root_cause_enriched ({AppConfig.ReasoningModel}) ... ");
+            // -- Step 4: Root-cause with enriched context --
+            Console.Write($"  [4/6] root_cause_enriched (Nova {AppConfig.NovaReasoningModel}) ... ");
             await RootCauseWithEnrichedContext(caseFile);
             Console.WriteLine(caseFile.RootCause != null ? "OK" : "FALLBACK");
 
-            // ── Step 5: IPC compliance with RAG (compliance model) ──
-            Console.Write($"  [5/6] compliance_with_rag ({AppConfig.ComplianceModel}) ... ");
+            // -- Step 5: IPC compliance with RAG --
+            Console.Write($"  [5/6] compliance_with_rag (Nova {AppConfig.NovaComplianceModel}) ... ");
             await ComplianceWithRAG(caseFile);
             Console.WriteLine(caseFile.Compliance != null ? "OK" : "FALLBACK");
 
@@ -128,12 +126,11 @@ namespace ManufacturingKnowledgeGraph
                     return;
                 }
 
-                var result = await openAIVision.AnalyzeImageAsync(caseFile.ImagePath);
-
+                var result = await _nova.AnalyzeImageAsync(caseFile.ImagePath);
                 caseFile.VisionAnalysis = result;
 
                 caseFile.AddTrace(tool, "success",
-                    $"[{AppConfig.VisionModel}] Caption: \"{result.Caption}\" (conf: {result.Confidence:P1}), " +
+                    $"[Nova {AppConfig.NovaVisionModel}] Caption: \"{result.Caption}\" (conf: {result.Confidence:P1}), " +
                     $"Defect: {result.DefectType} ({result.DefectSeverity}), " +
                     $"Tags: {result.Tags.Count}, Objects: {result.Objects.Count}");
 
@@ -216,7 +213,7 @@ Description: {description}";
 
             var rawJson = await CallModelAsync(
                 aiSystemPrompt, aiUserPrompt,
-                AppConfig.ClassificationModel, caseFile, tool);
+                caseFile, tool);
 
             if (!string.IsNullOrEmpty(rawJson))
             {
@@ -403,11 +400,9 @@ Enriched context:
 
 Provide root-cause analysis as JSON.";
 
-            // Use reasoning model (o4-mini) — different API parameters
-            bool isReasoning = IsReasoningModel(AppConfig.ReasoningModel);
             var rawJson = await CallModelAsync(
                 systemPrompt, userPrompt,
-                AppConfig.ReasoningModel, caseFile, tool, isReasoning);
+                caseFile, tool, isReasoning: true);
 
             if (string.IsNullOrEmpty(rawJson))
             {
@@ -503,7 +498,7 @@ Provide IPC compliance guidance using ONLY the retrieved sections above.";
 
             var rawJson = await CallModelAsync(
                 systemPrompt, userPrompt,
-                AppConfig.ComplianceModel, caseFile, tool);
+                caseFile, tool);
 
             if (string.IsNullOrEmpty(rawJson))
             {
@@ -659,96 +654,14 @@ Provide IPC compliance guidance using ONLY the retrieved sections above.";
         }
 
         /// <summary>
-        /// Calls Azure OpenAI chat completion with the specified deployment.
-        /// Handles reasoning models (o4-mini) which use max_completion_tokens
-        /// instead of max_tokens and do not support temperature.
+        /// Calls Amazon Nova via Bedrock for reasoning/compliance steps.
         /// </summary>
         private async Task<string?> CallModelAsync(
             string systemPrompt, string userPrompt,
-            string deployment, CaseFile caseFile, string tool,
+            CaseFile caseFile, string tool,
             bool isReasoning = false)
         {
-            try
-            {
-                var endpoint = AppConfig.OpenAIEndpoint;
-                var apiKey = AppConfig.OpenAIKey;
-                var apiVersion = AppConfig.OpenAIApiVersion;
-
-                string json;
-
-                if (isReasoning)
-                {
-                    // Reasoning models (o4-mini, o3, etc.):
-                    //   - Use "developer" role instead of "system"
-                    //   - Use max_completion_tokens instead of max_tokens
-                    //   - No temperature parameter
-                    var requestBody = new
-                    {
-                        messages = new[]
-                        {
-                            new { role = "developer", content = systemPrompt },
-                            new { role = "user", content = userPrompt }
-                        },
-                        max_completion_tokens = 1200
-                    };
-                    json = JsonSerializer.Serialize(requestBody);
-                }
-                else
-                {
-                    var requestBody = new
-                    {
-                        messages = new[]
-                        {
-                            new { role = "system", content = systemPrompt },
-                            new { role = "user", content = userPrompt }
-                        },
-                        max_tokens = 800,
-                        temperature = 0.2
-                    };
-                    json = JsonSerializer.Serialize(requestBody);
-                }
-
-                var url = $"{endpoint}/openai/deployments/{deployment}/chat/completions?api-version={apiVersion}";
-
-                using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
-                client.DefaultRequestHeaders.Add("api-key", apiKey);
-
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync(url, content);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorBody = await response.Content.ReadAsStringAsync();
-                    caseFile.AddTrace(tool, "api_error",
-                        $"[{deployment}] HTTP {response.StatusCode}: {errorBody}");
-                    return null;
-                }
-
-                var apiResponse = await response.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(apiResponse);
-                var result = doc.RootElement
-                    .GetProperty("choices")[0]
-                    .GetProperty("message")
-                    .GetProperty("content")
-                    .GetString();
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                caseFile.AddTrace(tool, "api_exception", $"[{deployment}] {ex.Message}");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Detect whether a deployment name is a reasoning model
-        /// (o4-mini, o3, o1, etc.) that needs different API parameters.
-        /// </summary>
-        private static bool IsReasoningModel(string deployment)
-        {
-            var d = deployment.ToLowerInvariant();
-            return d.StartsWith("o4") || d.StartsWith("o3") || d.StartsWith("o1");
+            return await _nova.InvokeTextAsync(systemPrompt, userPrompt, isReasoning, tool, caseFile);
         }
 
         private string BuildEnrichedContextSummary(CaseFile caseFile)
