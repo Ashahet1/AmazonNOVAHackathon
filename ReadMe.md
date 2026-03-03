@@ -1,321 +1,271 @@
-﻿# Manufacturing Knowledge Graph - Cross-Modal Intelligence for PCB Quality Control
+﻿# Manufacturing Knowledge Graph — PCB Quality Control with Amazon Nova
 
-> **AI-powered PCB defect inspection system** built on Azure OpenAI, Azure AI Vision,
-> and the Model Context Protocol (MCP) - demonstrating agentic AI, guardrails, evaluation
-> metrics, and knowledge graph reasoning on real industrial data.
-
----
-
-## Architecture Diagram
-
-```
-+=======================================================================================+
-|         MANUFACTURING KNOWLEDGE GRAPH - FULL SYSTEM ARCHITECTURE                     |
-+=======================================================================================+
-|                                                                                       |
-|  +----------------------------------------------------------------------+            |
-|  |                       DEVELOPER LAYER                                |            |
-|  |                                                                      |            |
-|  |  +----------------------+    +----------------------------------+   |            |
-|  |  |   GitHub Copilot     |    |   Azure AI Foundry               |   |            |
-|  |  |  ------------------- |    |  -------------------------------- |   |            |
-|  |  |  * Code generation   |    |  * Model catalog (GPT-4.1,       |   |            |
-|  |  |  * Inline suggest    |    |    GPT-4.1-nano, o4-mini,        |   |            |
-|  |  |  * Chat (this arch)  |    |    GPT-4.1-mini)                 |   |            |
-|  |  |  * PR review         |    |  * Prompt flow orchestration     |   |            |
-|  |  |  * Test generation   |    |  * Safety & content filters      |   |            |
-|  |  +----------------------+    |  * Evaluation framework          |   |            |
-|  |                              |  * Deployment & versioning       |   |            |
-|  |                              +----------------------------------+   |            |
-|  +----------------------------------------------------------------------+            |
-|                                         |                                            |
-|                                         v                                            |
-|  +----------------------------------------------------------------------+            |
-|  |               MCP AGENTIC INSPECTION PIPELINE                       |            |
-|  |           (Model Context Protocol - 6-step Agent Loop)              |            |
-|  |                                                                      |            |
-|  |   PCB Image                                                          |            |
-|  |       |                                                              |            |
-|  |       v                                                              |            |
-|  |  +---------+   +---------+   +----------+   +------------------+   |            |
-|  |  | Step 1  |-->| Step 2  |-->|  Step 3  |-->|     Step 4       |   |            |
-|  |  | Vision  |   | Context |   |Guardrails|   |  Root-Cause      |   |            |
-|  |  |Analysis |   |Retrieval|   | & Policy |   |  Reasoning       |   |            |
-|  |  |GPT-4.1  |   | (Graph) |   | Checks   |   |  (o4-mini)       |   |            |
-|  |  +---------+   +---------+   +----------+   +------------------+   |            |
-|  |                                                       |             |            |
-|  |  +----------------------------------------------+    v             |            |
-|  |  |              Step 6                          | +--------------+ |            |
-|  |  |         Case File Export                     | |   Step 5     | |            |
-|  |  |   (JSON / TXT audit-ready report)            | | IPC-A-610    | |            |
-|  |  +----------------------------------------------+ | Compliance   | |            |
-|  |                                                   | Check        | |            |
-|  |                                                   |(GPT-4.1-mini)| |            |
-|  |                                                   +--------------+ |            |
-|  +----------------------------------------------------------------------+            |
-|                                         |                                            |
-|              +---------------------------+---------------------------+               |
-|              v                           v                           v               |
-|  +------------------+      +--------------------+      +--------------------+       |
-|  |  AZURE OPENAI    |      |  KNOWLEDGE GRAPH   |      |  AZURE AI VISION   |       |
-|  |  --------------  |      |  ---------------   |      |  ----------------  |       |
-|  |  GPT-4.1         |      |  * 388+ nodes      |      |  * Image Analysis  |       |
-|  |  (Vision+Chat)   |      |  * 1300+ edges     |      |  * Caption & Tags  |       |
-|  |                  |      |  * 6 defect types  |      |  * Object detect   |       |
-|  |  GPT-4.1-mini    |      |  * Equipment nodes |      |  * OCR (bbox)      |       |
-|  |  (Compliance)    |      |  * ISO standards   |      |                    |       |
-|  |                  |      |  * JSON persist    |      |                    |       |
-|  |  GPT-4.1-nano    |      |  * Queryable API   |      |                    |       |
-|  |  (Classif.)      |      |                    |      |                    |       |
-|  |                  |      |                    |      |                    |       |
-|  |  o4-mini         |      |                    |      |                    |       |
-|  |  (Reasoning)     |      |                    |      |                    |       |
-|  +------------------+      +--------------------+      +--------------------+       |
-|                                         |                                            |
-|                                         v                                            |
-|  +----------------------------------------------------------------------+            |
-|  |                    DATA LAYER - DeepPCB Dataset                     |            |
-|  |                                                                      |            |
-|  |   PCBData/                                                           |            |
-|  |   +-- group00041/  +-- group12000/  +-- group12100/ ... (9 groups)  |            |
-|  |   |   +-- 00041/   |   +-- 12000/  |   +-- 12100/                  |            |
-|  |   |   |  *_test.jpg|   |  *_test.. |   |  *_test..  (test images)  |            |
-|  |   |   +-- 00041_not|   +-- 12000_nt|   +-- 12100_nt (annotations)  |            |
-|  |   |      *.txt     |      *.txt    |      *.txt  (x1 y1 x2 y2 cls) |            |
-|  |                                                                      |            |
-|  |   Defect classes: 0=open  1=short  2=mousebite                      |            |
-|  |                   3=spur  4=pin_hole  5=spurious_copper              |            |
-|  +----------------------------------------------------------------------+            |
-|                                         |                                            |
-|                                         v                                            |
-|  +----------------------------------------------------------------------+            |
-|  |               EVALUATION & GOVERNANCE LAYER                        |            |
-|  |                                                                      |            |
-|  |  +------------------+  +------------------+  +------------------+  |            |
-|  |  | Triage Accuracy  |  | JSON Validity    |  | Traceability     |  |            |
-|  |  | Type + Severity  |  | Schema checks    |  | Context cite     |  |            |
-|  |  +------------------+  +------------------+  +------------------+  |            |
-|  |  +------------------+  +------------------+  +------------------+  |            |
-|  |  | Policy Violation |  | Compliance       |  | Human Review     |  |            |
-|  |  | Rate (Guardrails)|  | Completeness     |  | Escalation Rate  |  |            |
-|  |  +------------------+  +------------------+  +------------------+  |            |
-|  +----------------------------------------------------------------------+            |
-+=======================================================================================+
-```
-
-### Service -> Role Mapping
-
-| Microsoft / Azure Service | Role in This System |
-|---|---|
-| **Azure AI Foundry** | Model catalog, deployment management, per-step model selection (GPT-4.1 / GPT-4.1-mini / GPT-4.1-nano / o4-mini), content safety filters |
-| **Azure OpenAI - GPT-4.1** | Step 1 vision analysis, step 2 context enrichment, AI insights (option 8), co-occurrence insights |
-| **Azure OpenAI - o4-mini** | Step 4 root-cause reasoning (cost-efficient, deep logical chain) |
-| **Azure OpenAI - GPT-4.1-mini** | Step 5 IPC-A-610 compliance checking (fast, instruction-following) |
-| **Azure OpenAI - GPT-4.1-nano** | Step 2 defect classification (ultra-fast normalization) |
-| **Azure AI Vision** | Raw image analysis - Caption, Tags, Object detection, OCR with bounding boxes |
-| **Azure Model Context Protocol (MCP)** | Agent loop backbone: Tools = Vision, Context Retrieval, Guardrails, Reasoning, Compliance |
-| **GitHub Copilot** | Entire codebase developed with Copilot Chat + inline suggestions; architecture designed in Copilot Chat |
-
-### Business Value
-
-| Business Problem | This System Solves It By |
-|---|---|
-| **Manual PCB inspection is slow & error-prone** | Automated 6-step AI pipeline with structured outputs in < 30 sec / board |
-| **Defect patterns are siloed per board** | Knowledge graph accumulates cross-board learning - patterns compound over time |
-| **No audit trail for AI decisions** | Full CaseFile with timestamped trace per inspection step, exportable to JSON/TXT |
-| **AI outputs can be unsafe or hallucinated** | Guardrails layer (Step 3) redacts unsafe content and flags policy violations before actions |
-| **Hard to prove AI quality to quality managers** | Evaluation suite (option 15) reports Triage Accuracy, JSON Validity, Traceability Score |
-| **Different defects need different AI models** | Per-step model routing: reasoning tasks -> o4-mini; compliance -> GPT-4.1-mini |
-| **Repair teams don't know co-occurring defects** | Co-occurrence analysis (option 2) surfaces defect pairs with GPT-generated combined fix |
+> **Agentic AI inspection system** built on **Amazon Bedrock (Amazon Nova Pro + Nova Lite)**
+> and the **Model Context Protocol (MCP)** — demonstrating autonomous tool-calling, guardrails,
+> knowledge graph reasoning, and IPC-A-600J compliance on real industrial PCB data.
 
 ---
 
-## Project Overview
+## What Was Built
 
-A **.NET 9 console application** that builds a cross-modal knowledge graph for PCB quality
-control, then exposes it through an **MCP-style 6-step agentic inspection pipeline**. The
-system connects visual defect data from real PCB images (**DeepPCB dataset**) with process
-knowledge, inspection equipment, and IPC-A-610 compliance standards - all surfaced through
-an **interactive 18-option menu** with analytics, AI-powered insights, batch processing,
-and a full evaluation suite.
+A **.NET 9 console application** that inspects PCB images through a **7-step MCP agentic
+pipeline** powered entirely by **Amazon Bedrock**. When a defect is confirmed, an autonomous
+agent loop calls real tools — quarantine records, work orders, and knowledge graph updates —
+with no human input required.
 
-### Two Azure AI Services Working Together
+The system moved completely off Azure. There is no Azure OpenAI, no Azure AI Vision, and no
+Azure SDK dependency. Every AI call goes to **Amazon Nova** via the **Bedrock Converse API**.
+---
 
-| Service | Role | What It Does |
+## Architecture
+
+```
++===========================================================================+
+|           PCB IMAGE (input)                                               |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  STEP 1 — analyze_image_with_vision          [Amazon Nova Pro]           |
+|  Image encoded as base64 → Bedrock Converse API (multimodal)             |
+|  Outputs: defect caption, type, confidence, tags, object list             |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  STEP 2 — normalize_defect_with_ai           [Amazon Nova Lite]          |
+|  Maps raw vision output to canonical defect taxonomy                      |
+|  Outputs: DefectType, Severity, Taxonomy ID, InspectionMethods,          |
+|           AI-inferred equipment (e.g. Etching machine)                   |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  STEP 3 — query_knowledge_graph              [In-Memory Graph]           |
+|  Queries 388-node / 1308-edge knowledge graph for:                       |
+|  * Related historical defects                                             |
+|  * Equipment nodes linked to this defect type                             |
+|  * IPC-A-600J / IPC-6012E standard references                            |
+|  * Co-occurring defect patterns                                           |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  STEP 4 — root_cause_enriched                [Amazon Nova Lite]          |
+|  Deep reasoning over defect + graph context                               |
+|  Outputs: root cause, confidence %, contributing factors, 3 actions      |
+|           (immediate / short-term / long-term) with IPC traceability     |
+|  Validated: JSON schema + context ID citation check                      |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  STEP 5 — compliance_with_rag                [Amazon Nova Lite]          |
+|  RAG: fetches relevant IPC sections for this defect type                 |
+|  Runs compliance checklist against IPC-A-600J / IPC-6012E               |
+|  Outputs: disposition (accept/reject), checklist items, coverage score   |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  [P] — policy_checks                         [Rule Engine]               |
+|  Content policy: unsafe content, PII, confidence threshold               |
+|  Flags or escalates to human review if triggered                         |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  [G] — final_review_gate                     [Rule Engine]               |
+|  All steps must pass before Step 7 fires                                 |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  STEP 7 — agentic_action_loop                [Amazon Nova Lite]          |
+|  Nova reasons over the full case and CALLS TOOLS autonomously:           |
+|                                                                           |
+|  Tool 1: quarantine_batch                                                 |
+|    Writes record to outputs/quarantine_log.jsonl                          |
+|                                                                           |
+|  Tool 2: update_knowledge_graph                                           |
+|    Adds co-occurrence edges, records severity feedback                    |
+|    Saves updated graph to knowledge_graph.json                           |
+|                                                                           |
+|  Tool 3: file_work_order                                                  |
+|    Creates WO-*.json in outputs/work_orders/ (one per action)            |
+|    P1 / P2 / P3 priority assigned by Nova, per-assignee                  |
+|                                                                           |
+|  Loop: Nova observes tool results, calls more tools if needed            |
+|  Exits on end_turn (max 5 iterations)                                    |
++===========================================================================+
+                 |
+                 v
++===========================================================================+
+|  CASE FILE EXPORT                                                         |
+|  Saved to outputs/cases/Case_*.txt + Case_*.json                         |
+|  Vision · Defect · Graph context · Root cause · Compliance               |
+|  AgentActions (ToolName, Input, Result, ExecutedAt) · full trace         |
++===========================================================================+
+```
+
+---
+
+## Models Used
+
+| Model | Used In | Why |
 |---|---|---|
-| **Azure AI Vision** | The Eyes | Image Analysis (Caption, Tags, Objects), OCR with bounding-box coordinates |
-| **Azure OpenAI (GPT-4.1 family + o4-mini)** | The Brain | Vision analysis, defect classification, root-cause reasoning, compliance checking |
+| `us.amazon.nova-pro-v1:0` | Step 1 — Vision analysis | Multimodal; handles base64 image input |
+| `us.amazon.nova-lite-v1:0` | Steps 2, 4, 5, 7 — Reasoning + agentic loop | Fast, cost-efficient; supports tool use via Converse API |
 
-Azure Vision extracts raw visual data. Azure OpenAI reasons on top - via a multi-step MCP
-agent loop that produces structured, traceable, auditable inspection reports.
+Both accessed via **AWS Bedrock Converse API**. Region: `us-east-1`.
 
 ---
 
-## MCP Inspection Pipeline (6 Steps)
+## Agentic Loop — Real Run Output
 
-Option **13 / 14** runs the full agentic loop on any PCB image:
+From `Case_0cd5493612dd` (defect: open circuit, high severity):
 
 ```
-PCB Image File
-      |
-      v
-+--------------------------------------------------------------------------+
-|  STEP 1 - VISION ANALYSIS                              [GPT-4.1]        |
-|  Sends image as base64 to GPT-4.1 vision endpoint.                     |
-|  Outputs: defect_type, confidence, bounding region, raw description.   |
-|  Status: OK / FAIL (null if API unreachable)                            |
-+--------------------------------------------------------------------------+
-      |
-      v
-+--------------------------------------------------------------------------+
-|  STEP 2 - CONTEXT RETRIEVAL                        [Knowledge Graph]    |
-|  Queries the in-memory knowledge graph for:                             |
-|  * Historical defects matching this type                                |
-|  * Equipment recommended for this defect                                |
-|  * Similar defects across all PCB groups                                |
-|  Injects retrieved context IDs into the case file.                     |
-+--------------------------------------------------------------------------+
-      |
-      v
-+--------------------------------------------------------------------------+
-|  STEP 3 - GUARDRAILS & POLICY                      [Rule Engine + AI]  |
-|  Checks the vision output against:                                      |
-|  * Content policy (unsafe / PII / IP leakage)                          |
-|  * Confidence threshold (< 0.5 -> human review flag)                   |
-|  * Redaction rules (masks fields matching policy patterns)              |
-|  Violations logged to CaseFile.PolicyViolations[]                      |
-+--------------------------------------------------------------------------+
-      |
-      v
-+--------------------------------------------------------------------------+
-|  STEP 4 - ROOT-CAUSE REASONING                           [o4-mini]     |
-|  Deep reasoning chain prompted with:                                    |
-|  * Defect type + confidence from Step 1                                 |
-|  * Retrieved historical context from Step 2                             |
-|  Outputs: root cause, recommended action, estimated severity.           |
-|  o4-mini used here for cost-efficient multi-step logical reasoning.     |
-+--------------------------------------------------------------------------+
-      |
-      v
-+--------------------------------------------------------------------------+
-|  STEP 5 - IPC-A-610 COMPLIANCE CHECK              [GPT-4.1-mini]      |
-|  Verifies the recommended action against IPC-A-610 standard:           |
-|  * Checks required checklist items coverage                             |
-|  * Flags incomplete or non-compliant recommendations                    |
-|  * Sets HumanReviewRequired = true if confidence < threshold            |
-+--------------------------------------------------------------------------+
-      |
-      v
-+--------------------------------------------------------------------------+
-|  STEP 6 - CASE FILE EXPORT                                              |
-|  Assembles full CaseFile:                                               |
-|  * Per-step results with OK/FAIL/WARNING status                         |
-|  * Timestamped audit trace (tool, outcome, detail, ms timing)           |
-|  * PolicyViolations[], HumanReviewRequired flag                         |
-|  Exports to JSON or TXT for ERP / QMS integration.                     |
-+--------------------------------------------------------------------------+
+[7]  agentic_action_loop (Nova us.amazon.nova-lite-v1:0) ...
+
+  ⚙️  Executing tool: quarantine_batch
+     → ✅ Batch 'BATCH-20260303-0CD549' quarantined (severity: high).
+          Record appended to outputs/quarantine_log.jsonl. Status: QUARANTINED
+
+  ⚙️  Executing tool: update_knowledge_graph
+     → ✅ Knowledge graph updated for 'open': severity feedback recorded:
+          open → increase; notes logged: Confirmed high severity...
+
+  ⚙️  Executing tool: file_work_order
+     → ✅ WO-20260303-180947-0CD549 filed (P1, process_engineer).
+          Action: "Inspect and calibrate the etching machine settings"
+
+  ⚙️  Executing tool: file_work_order
+     → ✅ WO-20260303-180947-0CD549 filed (P2, qa_team).
+          Action: "Perform a thorough check of the etching solution"
+
+  ⚙️  Executing tool: file_work_order
+     → ✅ WO-20260303-180947-0CD549 filed (P3, maintenance).
+          Action: "Review and update the maintenance schedule"
+
+  ✅ Agentic loop complete — 5 action(s) taken.
 ```
+
+Nova selected every tool, chose priorities and assignees, and filed three work orders
+matching the three root-cause actions from Step 4 — with zero human instruction.
+
+---
+
+## Business Value
+
+| What the Agent Does | Why It Matters |
+|---|---|
+| **Quarantines the batch** | Prevents defective PCBs shipping — record can block ERP/WMS/SAP downstream |
+| **Files P1 WO → Manufacturing Engineer** | Etching machine calibration happens this shift, not next week |
+| **Files P2 WO → QA Team** | Chemical check is assigned before anyone reads the report |
+| **Files P3 WO → Maintenance** | PM schedule update is tracked and owned |
+| **Updates knowledge graph** | Every future inspection of this defect type benefits from confirmed severity data |
+| **Full audit trail in CaseFile** | 21 timestamped trace entries per case — ready for QMS integration |
+
+**Current state:** outputs are local files.  
+**Path to production:** replace `File.AppendAllTextAsync` in `AgentTools.cs` with an HTTP client
+call to SAP QM, ServiceNow, or Oracle MES — the tool executor (`ExecuteAsync`) is the single
+integration point.
+
+---
+
+## Interactive Menu (6 Options)
+
+```
+══════════════════════════════════════════════════════════════════════
+  PCB DEFECT INSPECTION  [Amazon Nova · DeepPCB · 6 defect types]
+══════════════════════════════════════════════════════════════════════
+  1. 🏭  Inspect single PCB image  (MCP pipeline · Nova Pro)   ← runs all 7 steps
+  2. 🔬  Batch inspect  (N images per defect category)
+  3. 📈  Defect statistics & full dashboard
+  4. 🧠  AI insights from knowledge graph  (Nova Lite)
+  5. 📂  View / export last case report
+  6. ❌  Exit
+══════════════════════════════════════════════════════════════════════
+```
+
+Option 1 runs the complete 7-step agentic pipeline. Step 7 fires automatically after the
+final review gate passes — no extra menu selection needed.
 
 ---
 
 ## Dataset
 
-**DeepPCB** - Real PCB defect dataset from Peking University
+**DeepPCB** — Real PCB defect dataset from Peking University
 
 ```
-datasets/
-+-- PCBData/
-    +-- group00041/
-    |   +-- 00041/                       <- test images
-    |   |   +-- 00041000_test.jpg
-    |   |   +-- 00041000_temp.jpg        <- reference (template) image
-    |   |   +-- ...
-    |   +-- 00041_not/                   <- annotation files
-    |       +-- 00041000.txt             <- format: x1 y1 x2 y2 class_id
-    |       +-- ...
-    +-- group12000/
-    +-- group12100/
-    +-- group12300/
-    +-- group13000/
-    +-- group20085/
-    +-- group44000/
-    +-- group50600/
-    +-- group77000/
-    +-- group90100/
+datasets/PCBData/
+  group00041/  group12000/  group12100/  group12300/
+  group13000/  group20085/  group44000/  group50600/
+  group77000/  group90100/
 ```
 
-**Defect classes:** `0` open . `1` short . `2` mousebite . `3` spur . `4` pin_hole . `5` spurious_copper
+Each group: `<id>/` (test images) + `<id>_not/` (annotations, format: `x1 y1 x2 y2 class_id`)
 
-Loading 50 images produces: **~388 nodes, ~1308 relationships, ~327 defects**
+**Defect classes:** `0` open · `1` short · `2` mousebite · `3` spur · `4` pin_hole · `5` spurious_copper
+
+Loading 50 images → **388 nodes, 1308 relationships, ~327 defects**
 
 ---
 
-## Interactive Menu (18 Options)
+## Project Structure
 
 ```
-INTERACTIVE QUERY MENU  [DeepPCB . 1500 images . 6 defect types]
-======================================================================
-
-  -- KNOWLEDGE GRAPH ---------------------------------------------
-  1.  PCB defect statistics (by category)
-  2.  Find co-occurring defects  (NOVEL!)
-  3.  Equipment recommendations by defect type
-  4.  Browse defects by category
-  5.  Custom defect search
-  6.  Generate visual diagram
-  7.  Export graph to file
-  8.  AI-generated insights (GPT-4.1)
-  9.  VIEW COMPLETE DASHBOARD WITH VISUALIZATIONS  ***
-
-  -- CACHE MANAGEMENT --------------------------------------------
-  10. Save graph to cache
-  11. Rebuild graph from DeepPCB dataset
-  12. Delete cache
-
-  -- MCP INSPECTION PIPELINE ------------------------------------
-  13. MCP Pipeline - single image  ***
-  14. MCP Pipeline - batch (N images per category)
-  15. Run full evaluation suite
-  16. View / export case report
-  17. Compare evaluation results
-
-  18. Exit
-======================================================================
+ManufacturingVisionAnalyzer/
+├── ReadMe.md
+├── appsettings.json                    ← AWS credentials (AmazonNova section only)
+├── ManufacturingVisionAnalyzer.csproj  ← .NET 9, AWSSDK.BedrockRuntime only
+│
+├── Program.cs                          ← Entry point + 6-option menu
+├── AppConfig.cs                        ← Config reader (appsettings + env vars)
+├── BedrockNovaClient.cs                ← All Bedrock calls:
+│                                          InvokeAsync (text)
+│                                          InvokeWithImageAsync (vision, Nova Pro)
+│                                          InvokeAgentLoopAsync (tool-calling loop)
+├── AgentTools.cs                       ← 3 tool definitions + ExecuteAsync dispatcher
+│                                          quarantine_batch
+│                                          update_knowledge_graph
+│                                          file_work_order
+├── McpOrchestrator.cs                  ← 7-step MCP pipeline + RunAgenticActionLoop (Step 7)
+├── CaseFile.cs                         ← Case model: Vision, Defect, Graph, RootCause,
+│                                          Compliance, AgentActions, Trace
+├── KnowledgeGraph.cs                   ← Graph (388 nodes), query API, JSON persistence
+├── DeepPCBProcessor.cs                 ← DeepPCB dataset parser
+├── EvaluationRunner.cs                 ← Evaluation metrics suite
+├── Guardrails.cs                       ← Content policy, confidence threshold, human review
+├── IpcComplianceReference.cs           ← IPC-A-600J / IPC-6012E sections (RAG source)
+├── ChartGenerator.cs                   ← Console bar/pie/heatmap charts
+│
+├── outputs/
+│   ├── cases/                          ← Case_*.txt + Case_*.json per inspection
+│   ├── work_orders/                    ← WO-*.json filed by Step 7
+│   └── quarantine_log.jsonl            ← One JSON line per quarantine event
+│
+├── datasets/PCBData/                   ← DeepPCB dataset
+└── knowledge_graph.json                ← Cached graph (auto-updated by Step 7)
 ```
 
-### Option Highlights
-
-| Option | Description |
-|--------|-------------|
-| **1** | Query all 6 DeepPCB defect types - includes 0-count categories with "not in current sample" note |
-| **2** | Co-occurrence analysis: defect-type pairs that appear on the same boards, GPT-4.1 combined-fix insight per pair |
-| **8** | Azure OpenAI generates 4 actionable business insights from graph data |
-| **9** | Full dashboard: metrics, bar charts, pie chart, heatmap, network diagram, 7 local insights |
-| **13** | Run the 6-step MCP pipeline on a single image of your choice |
-| **14** | Batch-run MCP pipeline on N random images per defect category, aggregated results table |
-| **15** | Evaluation suite: runs labeled test cases, reports Triage Accuracy / JSON Validity / Traceability / Compliance |
-| **16** | Inspect the last case file - full timestamped trace, export JSON or TXT |
-| **17** | Side-by-side comparison of two evaluation reports with pass-rate delta |
+**Deleted (not in project):** `AzureVisionAnalyzer.cs`, `OpenAIVisionAnalyzer.cs`,
+`GraphBuilder.cs`, `FlowchartFolderProcessor.cs`
 
 ---
 
-## Evaluation Suite (Option 15)
+## Source File Reference
 
-Runs labeled test cases from `test_cases/expected_labels.json` through the full MCP pipeline
-and produces a governance metrics report:
-
-| Metric | What It Measures |
-|--------|-----------------|
-| **Triage Accuracy (Type)** | % of cases where AI-detected defect type matches the annotation label |
-| **Triage Accuracy (Severity)** | % of cases where AI-assigned severity matches expected |
-| **JSON Validity Rate** | % of agent outputs passing the output schema validation |
-| **Traceability Score** | % of outputs that cite retrieved knowledge graph context IDs |
-| **Policy Violation Rate** | % of outputs that triggered redaction or guardrail flags |
-| **Compliance Completeness** | % coverage of required IPC-A-610 checklist items |
-| **Human Review Rate** | % of cases flagged for human sign-off (low confidence / policy violations) |
-
-Reports are exported to `outputs/evaluations/` as timestamped JSON. Use option 17 to compare
-two runs side-by-side and measure improvement.
+| File | Role |
+|---|---|
+| **BedrockNovaClient.cs** | All Bedrock calls. `InvokeAgentLoopAsync` runs the tool-calling loop with Converse API `ToolConfig` |
+| **AgentTools.cs** | `GetToolDefinitions()` returns JSON schemas for all 3 tools. `ExecuteAsync` dispatches by tool name and records to `CaseFile.AgentActions` |
+| **McpOrchestrator.cs** | Orchestrates all 7 steps. `RunAgenticActionLoop` builds context, calls `InvokeAgentLoopAsync`, logs results |
+| **CaseFile.cs** | `AgentActions = List<AgentAction>` — each entry has ToolName, Input, Result, ExecutedAt |
+| **KnowledgeGraph.cs** | `AddRelationship`, `GetNodeById`, `SaveToFile` — updated live by Step 7 |
+| **IpcComplianceReference.cs** | Hardcoded IPC sections used as RAG context in Step 5 compliance check |
+| **Guardrails.cs** | Policy checks that run between Step 5 and Step 7 |
 
 ---
 
@@ -324,42 +274,24 @@ two runs side-by-side and measure improvement.
 ### Prerequisites
 
 - **.NET 9.0 SDK**
-- **Azure OpenAI** resource with `gpt-4.1` deployment
-- **Azure AI Vision** resource (optional - required only for rebuild)
+- **AWS account** with Bedrock access in `us-east-1`
+- Amazon Nova Pro and Nova Lite **enabled** in Bedrock Model Access
 - **DeepPCB dataset** extracted to `datasets/PCBData/`
 
-### 1. Configure Credentials
+### 1. Configure AWS Credentials
 
 Edit `appsettings.json`:
 
 ```json
 {
-  "AzureVision": {
-    "Endpoint": "https://YOUR-VISION.cognitiveservices.azure.com/",
-    "Key": "YOUR-VISION-KEY"
-  },
-  "AzureOpenAI": {
-    "Endpoint": "https://YOUR-OPENAI.openai.azure.com/",
-    "Key": "YOUR-OPENAI-KEY",
-    "DeploymentName": "gpt-4.1",
-    "ApiVersion": "2025-01-01-preview",
-    "VisionModel": "gpt-4.1",
-    "ClassificationModel": "gpt-4.1-nano",
-    "ReasoningModel": "o4-mini",
-    "ComplianceModel": "gpt-4.1-mini"
+  "AmazonNova": {
+    "AccessKey":     "YOUR-ACCESS-KEY-ID",
+    "SecretKey":     "YOUR-SECRET-ACCESS-KEY",
+    "Region":        "us-east-1",
+    "VisionModelId": "us.amazon.nova-pro-v1:0",
+    "LiteModelId":   "us.amazon.nova-lite-v1:0"
   }
 }
-```
-
-> **Note:** `Endpoint` must be the **base URL only** (e.g. `https://myresource.openai.azure.com/`).
-> Do not include `/openai/deployments/...` - the code constructs the full URL automatically.
-
-**Or use environment variables:**
-
-```powershell
-$env:AZURE_OPENAI_ENDPOINT   = "https://myresource.openai.azure.com/"
-$env:AZURE_OPENAI_KEY        = "your-key"
-$env:AZURE_OPENAI_DEPLOYMENT = "gpt-4.1"
 ```
 
 ### 2. Build & Run
@@ -370,86 +302,14 @@ dotnet build
 dotnet run
 ```
 
-### 3. First Run - Load the Graph
+### 3. First Run — Load the Graph
 
-At the startup prompt, load from cache (option **1** at the dataset menu) if
-`knowledge_graph.json` exists - loads instantly. Otherwise choose option **3** to build
-from the DeepPCB dataset (~50 images, ~1 min).
+At startup press **Enter** for default dataset path, then choose **1** to load from cache
+(instant). If no cache exists, choose **2** to build from dataset (~1 min for 50 images).
 
-### 4. Try the MCP Pipeline (option 13)
+### 4. Run the Full Agentic Pipeline
 
-```
-Enter image path: datasets\PCBData\group00041\00041\00041000_test.jpg
-```
-
-The 6-step pipeline runs, each step shows OK/FAIL, and a full case report is printed and saved.
-
----
-
-## Project Structure
-
-```
-ManufacturingVisionAnalyzer/
-+-- ReadMe.md                              <- This file
-+-- appsettings.json                       <- Azure credentials (base URL only for OpenAI)
-+-- ManufacturingVisionAnalyzer.csproj     <- .NET 9.0 project
-|
-+-- Program.cs                             <- Entry point + 18-option menu + all query workflows
-+-- AppConfig.cs                           <- Centralized config reader (appsettings + env vars)
-+-- KnowledgeGraph.cs                      <- Graph model, queries, analytics, JSON persistence
-+-- DeepPCBProcessor.cs                    <- DeepPCB dataset parser (_not/ annotation convention)
-+-- OpenAIVisionAnalyzer.cs                <- Vision step: base64 image -> GPT-4.1 vision API
-+-- McpOrchestrator.cs                     <- 6-step MCP loop: Vision->Context->Guard->Reason->Comply->Export
-+-- EvaluationRunner.cs                    <- Evaluation suite: labeled test cases + 7 metrics
-+-- GuardrailsEngine.cs                    <- Content policy, redaction, human-review escalation
-+-- AzureVisionAnalyzer.cs                 <- Azure AI Vision SDK (rebuild mode)
-+-- GraphBuilder.cs                        <- Domain knowledge rules, equipment/standard nodes
-+-- ChartGenerator.cs                      <- Console charts: bar, pie, heatmap, network diagram
-|
-+-- test_cases/
-|   +-- expected_labels.json               <- 15 labeled PCB images for evaluation
-|
-+-- datasets/
-|   +-- PCBData/                           <- DeepPCB dataset (9 groups)
-|
-+-- outputs/
-|   +-- evaluations/                       <- Evaluation reports (timestamped JSON)
-|   +-- cases/                             <- Individual MCP case files
-|
-+-- knowledge_graph.json                   <- Cached graph (auto-generated, ~388 nodes)
-```
-
----
-
-## Architecture - Source Files
-
-| File | Purpose |
-|---|---|
-| **Program.cs** | 18-option interactive menu, all query/analytics/pipeline workflows |
-| **AppConfig.cs** | Single config source: reads `appsettings.json`, applies env-var overrides, defensively strips malformed endpoints |
-| **McpOrchestrator.cs** | MCP agent loop - coordinates the 6 steps, writes the audit trace, manages CaseFile lifecycle |
-| **OpenAIVisionAnalyzer.cs** | Step 1 implementation - encodes image to base64, calls GPT-4.1 vision endpoint, parses vision response |
-| **GuardrailsEngine.cs** | Step 3 - content policy checks, PII redaction, confidence thresholding, human-review escalation |
-| **EvaluationRunner.cs** | Option 15 - loads `expected_labels.json`, runs pipeline per case, computes 7 governance metrics |
-| **DeepPCBProcessor.cs** | Reads DeepPCB `_not/` annotation files, maps bounding-box defect codes to class names, links to image nodes |
-| **KnowledgeGraph.cs** | In-memory graph (List<Node>, List<Relationship>), query API, 7 local analytics, JSON persistence |
-| **AzureVisionAnalyzer.cs** | Azure AI Vision SDK (used during graph rebuild - Caption, Tags, Objects) |
-| **GraphBuilder.cs** | Domain rules - maps defect types to equipment/standard nodes |
-| **ChartGenerator.cs** | Console-based bar charts, pie charts, heatmaps, dashboards (no external dependencies) |
-
----
-
-## Troubleshooting
-
-| Problem | Solution |
-|---|---|
-| **MCP Step 1 FAIL** | Check `appsettings.json` endpoint is base URL only: `https://myresource.openai.azure.com/` - no path suffix |
-| **OpenAI 404** | Verify `DeploymentName` matches exactly (e.g. `gpt-4.1`). Verify `ApiVersion = 2025-01-01-preview`. |
-| **Option 14 "dataset not found"** | Ensure dataset is at `datasets/PCBData/` not `datasets/DeepPCB/PCBData/` |
-| **Option 15 all cases skipped** | `test_cases/expected_labels.json` paths must match `datasets/PCBData/...` - already fixed to real paths |
-| **0 defects in graph** | Run option 11 to rebuild. Annotations are in `*_not/` subfolders - handled automatically by `DeepPCBProcessor` |
-| **"open" shows 0** | Correct - the 50-image sample may not contain "open" defects. Option 1 now shows all 6 types with 0-count note |
-| **Vision auth failed** | Verify endpoint includes `https://` and trailing `/`. Key has no extra spaces. |
+Select **Option 1** → press Enter for the sample image → all 7 steps run automatically.
 
 ---
 
@@ -458,39 +318,53 @@ ManufacturingVisionAnalyzer/
 | | |
 |---|---|
 | **Language** | C# / .NET 9.0 |
-| **Azure OpenAI** | GPT-4.1 (vision + chat), GPT-4.1-nano, GPT-4.1-mini, o4-mini - Chat Completions API |
-| **Azure AI Vision** | Image Analysis 4.0 (Caption, Tags, Objects, OCR) |
-| **Protocol** | Azure MCP pattern (Tool -> Context -> Guard -> Reason -> Comply -> Export) |
-| **NuGet** | `Azure.AI.Vision.ImageAnalysis 1.0.0-beta.3` |
+| **AI Provider** | AWS Bedrock — Amazon Nova Pro + Nova Lite |
+| **API** | Bedrock Converse API (`AmazonBedrockRuntimeClient.ConverseAsync`) |
+| **Tool Calling** | Converse API `ToolConfig` with `ToolInputSchema` (Amazon.Runtime.Documents.Document) |
+| **NuGet** | `AWSSDK.BedrockRuntime` only |
 | **Serialization** | `System.Text.Json` (built-in) |
-| **Graph** | In-memory (List<Node>, List<Relationship>), persisted as JSON |
-| **Evaluation** | 7 governance metrics, exportable JSON reports, side-by-side comparison |
-| **Memory** | < 50 MB for 50-image DeepPCB graph |
+| **Graph** | In-memory, persisted as `knowledge_graph.json` |
+| **Region** | `us-east-1` (Nova cross-region inference profile) |
+| **Memory** | < 50 MB for 50-image graph |
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| **Step 1 fails** | Confirm `VisionModelId = us.amazon.nova-pro-v1:0` and Nova Pro enabled in Bedrock Model Access |
+| **Step 7 skipped** | Step 7 only runs if `final_review_gate` PASSED — check for policy violations in trace |
+| **Tool loop error** | Check that `block.ToolUse.Input` is non-null in `InvokeAgentLoopAsync` |
+| **Sample image not found** | Ensure dataset is at `datasets/PCBData/` not nested deeper |
+| **Knowledge graph empty** | Choose option 2 at startup to rebuild from dataset |
 
 ---
 
 ## References
 
-- **Azure AI Foundry** - https://ai.azure.com
-- **Azure OpenAI Service** - https://learn.microsoft.com/azure/ai-services/openai/
-- **Azure AI Vision** - https://learn.microsoft.com/azure/ai-services/computer-vision/
-- **Model Context Protocol (MCP)** - https://modelcontextprotocol.io
-- **DeepPCB Dataset** - Ding et al., "TDD-net: a tiny defect detection network for printed circuit boards", CAAI Transactions 2019
-- **IPC-A-610** - Acceptability of Electronic Assemblies standard
-- **GitHub Copilot** - https://github.com/features/copilot
+- **Amazon Bedrock** — https://aws.amazon.com/bedrock/
+- **Amazon Nova** — https://aws.amazon.com/bedrock/nova/
+- **Bedrock Converse API** — https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html
+- **Model Context Protocol** — https://modelcontextprotocol.io
+- **DeepPCB Dataset** — Ding et al., "TDD-net: a tiny defect detection network for printed circuit boards", CAAI Transactions 2019
+- **IPC-A-600J / IPC-6012E** — PCB acceptability and performance standards
+- **GitHub Copilot** — https://github.com/features/copilot
 
 ---
 
 ## License
 
-Educational / demo project.
+Educational / hackathon project.
 
-- **Azure OpenAI / Azure AI Vision**: Requires Azure subscription
-- **DeepPCB Dataset**: Free for research and educational use (see dataset readme)
+- **Amazon Bedrock / Nova**: Requires AWS account with Bedrock access
+- **DeepPCB Dataset**: Free for research and educational use
 
 ---
 
-**Last Updated**: 2026-03-02
-**Version**: 4.0 - MCP agentic pipeline, DeepPCB, 18-option menu, Evaluation suite, Guardrails, Azure AI Foundry multi-model routing
-**Status**: Complete
-**Built with**: GitHub Copilot + Azure AI Foundry + Azure OpenAI + Azure AI Vision
+**Last Updated**: 2026-03-03  
+**Version**: 5.0 — Amazon Nova · 7-step agentic pipeline · 3 autonomous tools · No Azure dependencies  
+**Status**: Working end-to-end (all 7 steps confirmed live)  
+**Built with**: GitHub Copilot + Amazon Bedrock + Amazon Nova Pro/Lite  
+**Repository**: https://github.com/Ashahet1/AmazonNOVAHackathon  
+**Repository**: https://github.com/Ashahet1/AmazonNOVAHackathon
