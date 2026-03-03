@@ -47,6 +47,20 @@ obj/
 *.exe
 
 # ----------------------------
+# Dashboard (React / Node)
+# ----------------------------
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.env
+dashboard/.env.*
+
+# ----------------------------
+# Generated runtime outputs
+# ----------------------------
+outputs/work_orders/
+outputs/quarantine_log.jsonl
+
+# ----------------------------
 # OS / editor noise
 # ----------------------------
 .DS_Store

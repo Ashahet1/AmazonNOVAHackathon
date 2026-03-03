@@ -112,6 +112,10 @@ namespace ManufacturingKnowledgeGraph
             await RunAgenticActionLoop(caseFile);
 
             Console.WriteLine(new string('═', 70));
+
+            // Write latest result to dashboard for live data display
+            WriteToDashboard(caseFile);
+
             return caseFile;
         }
 
@@ -638,6 +642,43 @@ Provide IPC compliance guidance using ONLY the retrieved sections above.";
 
             caseFile.AddTrace(tool, "exported", $"Report saved to {outputPath}");
             return outputPath;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  DASHBOARD LIVE DATA — writes latest_case.json for the React UI
+        // ═══════════════════════════════════════════════════════════════
+
+        private static void WriteToDashboard(CaseFile caseFile)
+        {
+            try
+            {
+                // Resolve dashboard/public/data from the project root
+                // Works whether running from bin/Debug/net9.0 or project root
+                var dir = Environment.CurrentDirectory;
+                string? dashDir = null;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    var candidate = Path.Combine(dir, "dashboard", "public", "data");
+                    if (Directory.Exists(Path.Combine(dir, "dashboard")))
+                    {
+                        dashDir = candidate;
+                        break;
+                    }
+                    var parent = Directory.GetParent(dir)?.FullName;
+                    if (parent == null) break;
+                    dir = parent;
+                }
+
+                if (dashDir == null) return;
+
+                Directory.CreateDirectory(dashDir);
+                File.WriteAllText(Path.Combine(dashDir, "latest_case.json"), caseFile.ToJson());
+            }
+            catch
+            {
+                // Non-critical — dashboard update failure should never break a run
+            }
         }
 
         // ═══════════════════════════════════════════════════════════════

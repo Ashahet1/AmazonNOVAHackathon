@@ -11,6 +11,8 @@ namespace ManufacturingKnowledgeGraph
     class Program
     {
         private static KnowledgeGraph graph;
+        private static string _datasetRoot = "datasets";
+        private static DashboardApiServer? _apiServer;
 
         static async Task Main(string[] args)
         {
@@ -82,8 +84,22 @@ namespace ManufacturingKnowledgeGraph
 
             Console.WriteLine("\n✅ Knowledge graph ready!\n");
 
-            // ===== INTERACTIVE MENU =====
-            await RunInteractiveMenu();
+            // ===== DASHBOARD API SERVER =====
+            _datasetRoot = mvtecPath;
+            using var cts = new System.Threading.CancellationTokenSource();
+            _apiServer = new DashboardApiServer(graph, _datasetRoot);
+            _apiServer.Start(cts.Token);
+
+            try
+            {
+                // ===== INTERACTIVE MENU =====
+                await RunInteractiveMenu();
+            }
+            finally
+            {
+                cts.Cancel();
+                _apiServer.Stop();
+            }
         }
 
         // Helper method to build graph — supports both DeepPCB datasets
@@ -695,7 +711,7 @@ namespace ManufacturingKnowledgeGraph
 
         static async Task ShowSampleInsights()
         {
-            Console.WriteLine("🔬 SAMPLE INSIGHTS: AI-Generated Manufacturing Intelligence");
+            Console.WriteLine("🔬 INSIGHTS: Manufacturing Intelligence");
             Console.WriteLine(new string('─', 70));
             Console.WriteLine();
 
