@@ -1,0 +1,13 @@
+{
+  "WorkOrderId": "WO-20260303-193755-F8AE0A",
+  "CreatedAt": "2026-03-03T19:37:55.2795271Z",
+  "CaseId": "f8ae0a474826",
+  "BatchId": "BATCH-20260303-F8AE0A",
+  "DefectType": "pin_hole",
+  "Action": "Conduct a root-cause analysis on historical drilling incidents",
+  "Priority": "P3",
+  "Assignee": "process_engineer",
+  "Status": "OPEN",
+  "Source": "MCP_Agent_Pipeline",
+  "ImagePath": "00041005_test.jpg"
+}

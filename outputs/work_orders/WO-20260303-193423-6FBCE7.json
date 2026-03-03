@@ -1,0 +1,13 @@
+{
+  "WorkOrderId": "WO-20260303-193423-6FBCE7",
+  "CreatedAt": "2026-03-03T19:34:23.2595120Z",
+  "CaseId": "6fbce72c5fc0",
+  "BatchId": "BATCH-20260303-6FBCE7",
+  "DefectType": "short",
+  "Action": "Inspect equipment calibration",
+  "Priority": "P2",
+  "Assignee": "process_engineer",
+  "Status": "OPEN",
+  "Source": "MCP_Agent_Pipeline",
+  "ImagePath": "00041000_test.jpg"
+}

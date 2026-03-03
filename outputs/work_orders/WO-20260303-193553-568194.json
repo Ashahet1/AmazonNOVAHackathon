@@ -1,0 +1,13 @@
+{
+  "WorkOrderId": "WO-20260303-193553-568194",
+  "CreatedAt": "2026-03-03T19:35:53.2762527Z",
+  "CaseId": "56819497af7c",
+  "BatchId": "BATCH-20260303-568194",
+  "DefectType": "spur",
+  "Action": "Review and validate the etching mask alignment and resist application process",
+  "Priority": "P2",
+  "Assignee": "process_engineer",
+  "Status": "OPEN",
+  "Source": "MCP_Agent_Pipeline",
+  "ImagePath": "00041000_test.jpg"
+}
