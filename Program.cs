@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
-using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace ManufacturingKnowledgeGraph
 {
@@ -17,17 +16,13 @@ namespace ManufacturingKnowledgeGraph
         {
             PrintBanner();
 
-            // ===== CONFIGURATION (from appsettings.json / env vars) =====
-            string azureEndpoint = AppConfig.VisionEndpoint;
-            string azureKey = AppConfig.VisionKey;
-
+            // ===== CONFIGURATION =====
             string mvtecPath = args.Length > 0
                 ? args[0]
                 : GetDatasetPath();
 
             string cacheFile = "knowledge_graph.json";
 
-            Console.WriteLine($"📍 Azure Endpoint: {azureEndpoint.Substring(0, Math.Min(50, azureEndpoint.Length))}...");
             Console.WriteLine($"📂 Dataset Path: {mvtecPath}");
             Console.WriteLine($"💾 Cache File: {cacheFile}\n");
 
@@ -53,13 +48,13 @@ namespace ManufacturingKnowledgeGraph
                     if (graph == null)
                     {
                         Console.WriteLine("❌ Failed to load cache. Rebuilding...");
-                        await BuildNewGraph(azureEndpoint, azureKey, mvtecPath, cacheFile);
+                        await BuildNewGraph(mvtecPath, cacheFile);
                     }
                 }
                 else if (choice == "2")
                 {
                     // Rebuild
-                    await BuildNewGraph(azureEndpoint, azureKey, mvtecPath, cacheFile);
+                    await BuildNewGraph(mvtecPath, cacheFile);
                 }
                 else
                 {
@@ -82,7 +77,7 @@ namespace ManufacturingKnowledgeGraph
                     return;
                 }
 
-                await BuildNewGraph(azureEndpoint, azureKey, mvtecPath, cacheFile);
+                await BuildNewGraph(mvtecPath, cacheFile);
             }
 
             Console.WriteLine("\n✅ Knowledge graph ready!\n");
@@ -91,31 +86,13 @@ namespace ManufacturingKnowledgeGraph
             await RunInteractiveMenu();
         }
 
-        // Helper method to build graph — supports both DeepPCB and MVTec datasets
-        static async Task BuildNewGraph(string endpoint, string key, string datasetPath, string cacheFile)
+        // Helper method to build graph — supports both DeepPCB datasets
+        static async Task BuildNewGraph(string datasetPath, string cacheFile)
         {
             graph = new KnowledgeGraph();
-
-            // Detect dataset type from path
-            bool isDeepPCB = datasetPath.IndexOf("DeepPCB", StringComparison.OrdinalIgnoreCase) >= 0
-                          || datasetPath.IndexOf("PCBData", StringComparison.OrdinalIgnoreCase) >= 0
-                          || Directory.Exists(Path.Combine(datasetPath, "PCBData"));
-
-            if (isDeepPCB)
-            {
-                Console.WriteLine("\n🔍 Building knowledge graph from DeepPCB dataset...\n");
-                var processor = new DeepPCBProcessor(graph);
-                await processor.ProcessDataset(datasetPath, maxImages: 50);
-            }
-            else
-            {
-                Console.WriteLine("\n🔍 Building knowledge graph from MVTec dataset...\n");
-                var analyzer = new AzureVisionAnalyzer(endpoint, key);
-                var builder = new GraphBuilder(graph, analyzer);
-                await builder.ProcessMVTecDataset(datasetPath, maxImagesPerProduct: 2);
-            }
-
-            // Save to cache
+            Console.WriteLine("\n🔍 Building knowledge graph from DeepPCB dataset...\n");
+            var processor = new DeepPCBProcessor(graph);
+            await processor.ProcessDataset(datasetPath, maxImages: 50);
             graph.SaveToFile(cacheFile);
         }
 
@@ -124,47 +101,19 @@ namespace ManufacturingKnowledgeGraph
             while (true)
             {
                 Console.WriteLine("\n" + new string('═', 70));
-
-                // Show statistics
-                Console.WriteLine("📊 KNOWLEDGE GRAPH STATISTICS");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("  PCB DEFECT INSPECTION  [Amazon Nova · DeepPCB · 6 defect types]");
+                Console.ResetColor();
                 Console.WriteLine(new string('═', 70));
-                graph.PrintGraph();
-
-                Console.WriteLine("\n\n🔍 INTERACTIVE QUERY MENU  [DeepPCB · 1500 images · 6 defect types]");
-                Console.WriteLine(new string('═', 70));
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("  ── 📊 KNOWLEDGE GRAPH ──────────────────────────────────────────");
-                Console.ResetColor();
-                Console.WriteLine("  1.  📊 PCB defect statistics (by category)");
-                Console.WriteLine("  2.  🔗 Find co-occurring defects  (NOVEL!)");
-                Console.WriteLine("  3.  🔧 Equipment recommendations by defect type");
-                Console.WriteLine("  4.  🗂️  Browse defects by category");
-                Console.WriteLine("  5.  🎯 Custom defect search");
-                Console.WriteLine("  6.  📈 Generate visual diagram");
-                Console.WriteLine("  7.  💾 Export graph to file");
-                Console.WriteLine("  8.  🤖 AI-generated insights (GPT-4.1)");
-                Console.WriteLine("  9.  📊 VIEW COMPLETE DASHBOARD WITH VISUALIZATIONS ⭐");
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("  ── 💾 CACHE MANAGEMENT ─────────────────────────────────────────");
-                Console.ResetColor();
-                Console.WriteLine("  10. 💾 Save graph to cache");
-                Console.WriteLine("  11. 🔄 Rebuild graph from DeepPCB dataset");
-                Console.WriteLine("  12. 🗑️  Delete cache");
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("  ── 🏭 MCP INSPECTION PIPELINE ──────────────────────────────────");
-                Console.ResetColor();
-                Console.WriteLine("  13. 🏭 MCP Pipeline — single image  ⭐");
-                Console.WriteLine("  14. 🔁 MCP Pipeline — batch (N images per category)  🆕");
-                Console.WriteLine("  15. 📊 Run full evaluation suite");
-                Console.WriteLine("  16. 📂 View / export case report");
-                Console.WriteLine("  17. 📋 Compare evaluation results  🆕");
-                Console.ForegroundColor = ConsoleColor.Cyan;
-                Console.WriteLine("  ── ❌ ────────────────────────────────────────────────────────────");
-                Console.ResetColor();
-                Console.WriteLine("  18. ❌ Exit");
+                Console.WriteLine("  1. 🏭  Inspect single PCB image  (MCP pipeline · Nova Pro)  ⭐");
+                Console.WriteLine("  2. 🔁  Batch inspect  (N images per defect category)  🆕");
+                Console.WriteLine("  3. 📊  Defect statistics & full dashboard");
+                Console.WriteLine("  4. 🤖  AI insights from knowledge graph  (Nova Lite)");
+                Console.WriteLine("  5. 📂  View / export last case report");
+                Console.WriteLine("  6. ❌  Exit");
                 Console.WriteLine(new string('═', 70));
 
-                Console.Write("\n👉 Select option (1-18): ");
+                Console.Write("\n👉 Select option (1-6): ");
                 var choice = Console.ReadLine();
 
                 Console.WriteLine();
@@ -172,61 +121,25 @@ namespace ManufacturingKnowledgeGraph
                 switch (choice)
                 {
                     case "1":
-                        await QueryDefectsByCategory();
-                        break;
-                    case "2":
-                        await FindCoOccurringDefects();
-                        break;
-                    case "3":
-                        await ShowEquipmentRecommendations();
-                        break;
-                    case "4":
-                        await BrowseDefectCategories();
-                        break;
-                    case "5":
-                        await CustomDefectSearch();
-                        break;
-                    case "6":
-                        await GenerateVisualDiagram();
-                        break;
-                    case "7":
-                        await ExportResults();
-                        break;
-                    case "8":
-                        await ShowSampleInsights();
-                        break;
-                    case "9":
-                        await ShowCompleteDashboard();
-                        break;
-                    case "10":
-                        await SaveGraphCache();
-                        break;
-                    case "11":
-                        await RebuildGraph();
-                        break;
-                    case "12":
-                        await DeleteCache();
-                        break;
-                    case "13":
                         await RunMcpInspection();
                         break;
-                    case "14":
+                    case "2":
                         await RunBatchMcpInspection();
                         break;
-                    case "15":
-                        await RunEvaluationSuite();
+                    case "3":
+                        await ShowCompleteDashboard();
                         break;
-                    case "16":
+                    case "4":
+                        await ShowSampleInsights();
+                        break;
+                    case "5":
                         await ViewOrExportCase();
                         break;
-                    case "17":
-                        await CompareEvaluationResults();
-                        break;
-                    case "18":
+                    case "6":
                         Console.WriteLine("👋 Goodbye!");
                         return;
                     default:
-                        Console.WriteLine("❌ Invalid option. Try again.");
+                        Console.WriteLine("❌ Invalid option. Please enter 1-6.");
                         break;
                 }
 
@@ -847,407 +760,6 @@ namespace ManufacturingKnowledgeGraph
             Console.WriteLine("\n" + new string('─', 70));
             Console.WriteLine("✅ Insights generation complete.");
         }
-
-        static async Task RunFlowchartFolderModeAsync()
-        {
-            Console.WriteLine("\n🧭 Flowchart/Diagram Folder Mode");
-            Console.WriteLine("Enter folder path (or press Enter for default: ./datasets/flowcharts):");
-            var folder = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(folder))
-                folder = Path.Combine(Environment.CurrentDirectory, "datasets", "flowcharts");
-
-            // Also accept "flowchart" (singular) as fallback
-            if (!Directory.Exists(folder))
-            {
-                var altFolder = Path.Combine(Environment.CurrentDirectory, "datasets", "flowchart");
-                if (Directory.Exists(altFolder))
-                    folder = altFolder;
-            }
-
-            if (!Directory.Exists(folder))
-            {
-                Console.WriteLine($"❌ Folder not found: {folder}");
-                return;
-            }
-
-            var outputDir = Path.Combine(Environment.CurrentDirectory, "outputs", "flowcharts");
-            Directory.CreateDirectory(outputDir);
-
-            var supported = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        { ".png", ".jpg", ".jpeg", ".bmp", ".tif", ".tiff" };
-
-            var files = Directory.GetFiles(folder)
-                .Where(f => supported.Contains(Path.GetExtension(f)))
-                .OrderBy(f => f)
-                .ToList();
-
-            if (files.Count == 0)
-            {
-                Console.WriteLine($"⚠️ No images found in: {folder}");
-                return;
-            }
-
-            Console.WriteLine($"Found {files.Count} image(s). Processing...\n");
-
-            // Amazon Nova client for flowchart AI analysis
-            var novaFlowClient = new BedrockNovaClient();
-
-            int ok = 0, fail = 0;
-            foreach (var file in files)
-            {
-                try
-                {
-                    var result = await FlowchartFolderProcessor.ProcessSingleImageAsync(file);
-
-                    // ── Send merged blocks to Amazon Nova for classification & detailed caption ──
-                    string aiDescription = "";
-                    string aiInsights = "";
-                    try
-                    {
-                        // Build a clean summary of merged blocks for the AI
-                        var mergedTexts = result.MergedBlocks
-                            .Select((b, idx) => $"  Block {idx + 1}: \"{b.Text}\" (x={b.BoundingBoxLeft:F0}, y={b.BoundingBoxTop:F0})")
-                            .ToList();
-
-                        var mergedSummary = string.Join("\n", mergedTexts);
-
-                        var aiText = await novaFlowClient.InvokeTextAsync(
-                            @"You are a manufacturing process expert. You receive spatially-merged OCR text blocks extracted from a flowchart image. Each block is one box/shape in the diagram, with its (x,y) position.
-
-Your job:
-1. Generate a detailed CAPTION describing what this flowchart is about.
-2. Classify each block as STEP, DECISION, BRANCH_LABEL, or TERMINAL (start/end).
-3. List the properly ordered STEPS (action boxes only).
-4. List the complete DECISION questions.
-5. List BRANCH_LABELS (Yes/No/etc).
-
-Rules:
-- Steps are action/process boxes (rectangles).
-- Decisions are diamond-shaped question boxes (usually contain a question mark or verification/check language).
-- Branch labels are short connectors like Yes, No.
-- Terminals are Start/End/Begin/Stop boxes at the very top or bottom.
-- Output plain text only. No markdown, no asterisks, no bold, no headers.",
-                            $"Flowchart image: {result.ImageName}\nVision caption: {result.Caption}\nTags: {string.Join(", ", result.Tags)}\n\nSpatially-merged text blocks (one per flowchart shape):\n{mergedSummary}\n\nRespond in this exact format:\nCAPTION: <detailed description of this flowchart>\nSTEPS:\n1. <step text>\n2. <step text>\n...\nDECISIONS:\n1. <full decision question>\n...\nBRANCH_LABELS: <comma-separated>\nINSIGHTS:\n- <insight 1>\n- <insight 2>\n- <insight 3>",
-                            false, "flowchart_analysis") ?? "";
-
-                        if (!string.IsNullOrWhiteSpace(aiText))
-                        {
-                            // Strip any residual markdown
-                            aiText = aiText.Replace("**", "").Replace("##", "").Replace("###", "");
-
-                            // Parse structured AI response
-                            string currentSection = "";
-                            foreach (var line in aiText.Split('\n'))
-                            {
-                                var trimmed = line.Trim();
-                                if (trimmed.StartsWith("CAPTION:", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    result.DetailedCaption = trimmed.Substring(8).Trim();
-                                    currentSection = "caption";
-                                }
-                                else if (trimmed.StartsWith("STEPS:", StringComparison.OrdinalIgnoreCase))
-                                    currentSection = "steps";
-                                else if (trimmed.StartsWith("DECISIONS:", StringComparison.OrdinalIgnoreCase))
-                                    currentSection = "decisions";
-                                else if (trimmed.StartsWith("BRANCH_LABELS:", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    var labels = trimmed.Substring(14).Trim();
-                                    result.BranchLabels = labels.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                                        .Select(l => l.Trim()).Where(l => l.Length > 0).ToList();
-                                    currentSection = "branch";
-                                }
-                                else if (trimmed.StartsWith("INSIGHTS:", StringComparison.OrdinalIgnoreCase))
-                                    currentSection = "insights";
-                                else if (!string.IsNullOrWhiteSpace(trimmed))
-                                {
-                                    // Remove leading numbering like "1. " or "- "
-                                    var clean = System.Text.RegularExpressions.Regex.Replace(trimmed, @"^\d+\.\s*", "");
-                                    clean = clean.TrimStart('-').Trim();
-
-                                    if (currentSection == "steps" && clean.Length > 0)
-                                        result.ProcessSteps.Add(clean);
-                                    else if (currentSection == "decisions" && clean.Length > 0)
-                                        result.DecisionPoints.Add(clean);
-                                    else if (currentSection == "insights" && clean.Length > 0)
-                                        aiInsights += "- " + clean + "\n";
-                                }
-                            }
-
-                            aiDescription = result.DetailedCaption ?? result.Caption ?? "";
-
-                            // Display enhanced output
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"\n📊 {result.ImageName}");
-                            Console.ResetColor();
-                            Console.WriteLine($"   📛 Caption: {aiDescription}");
-
-                            if (result.ProcessSteps.Count > 0)
-                            {
-                                Console.WriteLine($"   📋 Steps ({result.ProcessSteps.Count}):");
-                                for (int s = 0; s < result.ProcessSteps.Count; s++)
-                                    Console.WriteLine($"      {s + 1}. {result.ProcessSteps[s]}");
-                            }
-                            if (result.DecisionPoints.Count > 0)
-                            {
-                                Console.WriteLine($"   ❓ Decisions ({result.DecisionPoints.Count}):");
-                                foreach (var d in result.DecisionPoints)
-                                    Console.WriteLine($"      - {d}");
-                            }
-                            if (result.BranchLabels.Count > 0)
-                                Console.WriteLine($"   🔀 Branch Labels: {string.Join(", ", result.BranchLabels)}");
-
-                            if (!string.IsNullOrWhiteSpace(aiInsights))
-                            {
-                                Console.WriteLine($"   💡 Insights:");
-                                foreach (var ins in aiInsights.Split('\n', StringSplitOptions.RemoveEmptyEntries))
-                                    Console.WriteLine($"      {ins.Trim()}");
-                            }
-                        }
-
-                    }
-                    catch (Exception aiEx)
-                    {
-                        Console.WriteLine($"   ⚠️ AI insight skipped: {aiEx.Message}");
-                    }
-
-                    var outPath = Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file) + ".json");
-                    var json = System.Text.Json.JsonSerializer.Serialize(
-                            result,
-                            new System.Text.Json.JsonSerializerOptions
-                            {
-                                WriteIndented = true,
-                                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                            });
-
-                    await File.WriteAllTextAsync(outPath, json);
-
-                    Console.WriteLine($"   ✅ Saved → {Path.GetFileName(outPath)}");
-                    ok++;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"❌ {Path.GetFileName(file)} failed: {ex.Message}");
-                    fail++;
-                }
-            }
-
-            Console.WriteLine($"\nDone. Success: {ok}, Failed: {fail}");
-            Console.WriteLine($"Outputs: {outputDir}");
-
-            // Summary insights across all flowcharts
-            if (ok > 0)
-            {
-                Console.WriteLine($"\n🤖 Generating cross-flowchart insights...\n");
-                try
-                {
-                    var allJsonFiles = Directory.GetFiles(outputDir, "*.json").ToList();
-                    var allSteps = new List<string>();
-                    var allDecisions = new List<string>();
-                    var flowchartNames = new List<string>();
-
-                    foreach (var jf in allJsonFiles)
-                    {
-                        var jContent = await File.ReadAllTextAsync(jf);
-                        using var jDoc = JsonDocument.Parse(jContent);
-                        var imgName = jDoc.RootElement.GetProperty("ImageName").GetString() ?? "";
-
-                        // Prefer AI-enhanced caption if available
-                        var caption = "";
-                        if (jDoc.RootElement.TryGetProperty("DetailedCaption", out var capEl) && capEl.ValueKind == JsonValueKind.String)
-                            caption = capEl.GetString() ?? "";
-                        if (string.IsNullOrWhiteSpace(caption) && jDoc.RootElement.TryGetProperty("Caption", out var rawCap))
-                            caption = rawCap.GetString() ?? "";
-                        flowchartNames.Add($"{imgName} ({caption})");
-
-                        // Prefer ProcessSteps over raw Steps
-                        var stepsKey = jDoc.RootElement.TryGetProperty("ProcessSteps", out var procStepsEl) && procStepsEl.ValueKind == JsonValueKind.Array && procStepsEl.GetArrayLength() > 0
-                            ? "ProcessSteps" : "Steps";
-                        if (jDoc.RootElement.TryGetProperty(stepsKey, out var stepsEl) && stepsEl.ValueKind == JsonValueKind.Array)
-                            foreach (var s in stepsEl.EnumerateArray())
-                                allSteps.Add(s.GetString() ?? "");
-
-                        // Prefer DecisionPoints over raw Decisions
-                        var decsKey = jDoc.RootElement.TryGetProperty("DecisionPoints", out var decPtsEl) && decPtsEl.ValueKind == JsonValueKind.Array && decPtsEl.GetArrayLength() > 0
-                            ? "DecisionPoints" : "Decisions";
-                        if (jDoc.RootElement.TryGetProperty(decsKey, out var decsEl) && decsEl.ValueKind == JsonValueKind.Array)
-                            foreach (var d in decsEl.EnumerateArray())
-                                allDecisions.Add(d.GetString() ?? "");
-                    }
-
-                    var summaryBody = new
-                    {
-                        messages = new[]
-                        {
-                            new { role = "system", content = "You are a manufacturing process expert. Analyze the combined data from multiple flowchart diagrams and identify common patterns, shared keywords, and overall process insights. The steps and decisions provided have been AI-classified from spatially-merged OCR text. Do not use markdown formatting like asterisks, bold, or headers. Use plain text only." },
-                            new { role = "user", content = $"Here are {flowchartNames.Count} flowcharts analyzed:\n{string.Join("\n", flowchartNames.Select((n, i) => $"  {i + 1}. {n}"))}\n\nAll process steps found: {string.Join("; ", allSteps.Distinct().Take(40))}\n\nAll decision points: {string.Join("; ", allDecisions.Distinct().Take(20))}\n\nProvide:\n1) Common themes across all flowcharts\n2) Shared keywords/patterns\n3) Process improvement recommendations" }
-                        },
-                        max_tokens = 600,
-                        temperature = 0.5
-                    };
-
-                    var summaryJson = JsonSerializer.Serialize(summaryBody);
-                    var summaryUrl = $"{aiEndpoint}/openai/deployments/{deploymentName}/chat/completions?api-version={aiApiVersion}";
-
-                    using var summaryClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(30) };
-                    summaryClient.DefaultRequestHeaders.Add("api-key", aiKey);
-                    var summaryContent = new StringContent(summaryJson, Encoding.UTF8, "application/json");
-                    var summaryResp = await summaryClient.PostAsync(summaryUrl, summaryContent);
-
-                    if (summaryResp.IsSuccessStatusCode)
-                    {
-                        var summaryApiResp = await summaryResp.Content.ReadAsStringAsync();
-                        using var summaryDoc = JsonDocument.Parse(summaryApiResp);
-                        var summaryText = summaryDoc.RootElement
-                            .GetProperty("choices")[0]
-                            .GetProperty("message")
-                            .GetProperty("content")
-                            .GetString() ?? "No summary available";
-
-                        // Strip any residual markdown formatting
-                        summaryText = summaryText.Replace("**", "").Replace("##", "").Replace("###", "");
-
-                        Console.ForegroundColor = ConsoleColor.Cyan;
-                        Console.WriteLine("\n───────────────────────────────────────────────────────────────");
-                        Console.WriteLine("   🔗 CROSS-FLOWCHART INSIGHTS");
-                        Console.WriteLine("───────────────────────────────────────────────────────────────");
-                        Console.ResetColor();
-                        Console.WriteLine(summaryText);
-                    }
-                    else
-                    {
-                        var errBody = await summaryResp.Content.ReadAsStringAsync();
-                        Console.WriteLine($"⚠️ Summary API error: {errBody}");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"⚠️ Cross-flowchart analysis skipped: {ex.Message}");
-                }
-            }
-        }
-
-        static async Task RunFlowchartKeywordSearch()
-        {
-            Console.WriteLine("\n🔎 Search inside flowcharts (from outputs/flowcharts JSON)");
-            Console.Write("Enter keyword (e.g., approve, inspection, SOP): ");
-            var keyword = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                Console.WriteLine("⚠️ Keyword is empty.");
-                return;
-            }
-
-            var outputDir = Path.Combine(Environment.CurrentDirectory, "outputs", "flowcharts");
-            if (!Directory.Exists(outputDir))
-            {
-                Console.WriteLine($"❌ Output folder not found: {outputDir}");
-                Console.WriteLine("Run Option 13 (Flowchart mode) first to generate JSON outputs.");
-                return;
-            }
-
-            var jsonFiles = Directory.GetFiles(outputDir, "*.json")
-                .Where(f => !f.EndsWith(".summary.json", StringComparison.OrdinalIgnoreCase)) // in case you add summaries later
-                .OrderBy(f => f)
-                .ToList();
-
-            if (jsonFiles.Count == 0)
-            {
-                Console.WriteLine($"⚠️ No JSON files found in: {outputDir}");
-                return;
-            }
-
-            int matches = 0;
-
-            foreach (var file in jsonFiles)
-            {
-                try
-                {
-                    var json = await File.ReadAllTextAsync(file);
-
-                    // Minimal parse: pull out Steps only
-                    var doc = System.Text.Json.JsonDocument.Parse(json);
-
-                    bool hit = false;
-
-                    // Search Caption
-                    if (doc.RootElement.TryGetProperty("Caption", out var captionEl))
-                    {
-                        var caption = captionEl.GetString() ?? "";
-                        if (caption.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-                            hit = true;
-                    }
-
-                    // Search Tags
-                    if (!hit && doc.RootElement.TryGetProperty("Tags", out var tagsEl) &&
-                        tagsEl.ValueKind == System.Text.Json.JsonValueKind.Array)
-                    {
-                        foreach (var tag in tagsEl.EnumerateArray())
-                        {
-                            var tagText = tag.GetString() ?? "";
-                            if (tagText.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-                            { hit = true; break; }
-                        }
-                    }
-
-                    // Search Steps
-                    if (!hit && doc.RootElement.TryGetProperty("Steps", out var stepsElement) &&
-                        stepsElement.ValueKind == System.Text.Json.JsonValueKind.Array)
-                    {
-                        foreach (var s in stepsElement.EnumerateArray())
-                        {
-                            var stepText = s.GetString() ?? "";
-                            if (stepText.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-                            { hit = true; break; }
-                        }
-                    }
-
-                    // Search Decisions
-                    if (!hit && doc.RootElement.TryGetProperty("Decisions", out var decisionsEl) &&
-                        decisionsEl.ValueKind == System.Text.Json.JsonValueKind.Array)
-                    {
-                        foreach (var d in decisionsEl.EnumerateArray())
-                        {
-                            var dText = d.GetString() ?? "";
-                            if (dText.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-                            { hit = true; break; }
-                        }
-                    }
-
-                    if (hit)
-                    {
-                        matches++;
-                        Console.WriteLine($"✅ {Path.GetFileName(file)}");
-                        if (doc.RootElement.TryGetProperty("Steps", out var matchSteps) &&
-                            matchSteps.ValueKind == System.Text.Json.JsonValueKind.Array)
-                        {
-                            foreach (var s in matchSteps.EnumerateArray())
-                            {
-                                var stepText = s.GetString() ?? "";
-                                if (stepText.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) >= 0)
-                                {
-                                    Console.ForegroundColor = ConsoleColor.Yellow;
-                                    Console.WriteLine($"   → \"{stepText}\"");
-                                    Console.ResetColor();
-                                }
-                            }
-                        }
-                    }
-                }
-                catch
-                {
-                    // ignore bad files; keep the demo smooth
-                }
-            }
-
-            Console.WriteLine(matches == 0
-                ? "No matches found."
-                : $"Total matches: {matches}");
-        }
-
-        // ═══════════════════════════════════════════════════════════════
-        //  MCP INSPECTION PIPELINE (menu option 15)
-        // ═══════════════════════════════════════════════════════════════
 
         private static CaseFile? lastCaseFile; // keep last case for viewing
 
@@ -2052,11 +1564,9 @@ Rules:
                 return;
             }
 
-            string azureEndpoint = AppConfig.VisionEndpoint;
-            string azureKey = AppConfig.VisionKey;
             string datasetPath = GetDatasetPath();
 
-            await BuildNewGraph(azureEndpoint, azureKey, datasetPath, "knowledge_graph.json");
+            await BuildNewGraph(datasetPath, "knowledge_graph.json");
 
             Console.WriteLine("\n✅ Graph rebuilt successfully!");
 

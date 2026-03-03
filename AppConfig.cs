@@ -11,10 +11,6 @@ namespace ManufacturingKnowledgeGraph
     /// </summary>
     public static class AppConfig
     {
-        // ── Azure AI Vision ──
-        public static string VisionEndpoint { get; }
-        public static string VisionKey { get; }
-
         // ── Amazon Nova / AWS Bedrock ──
         public static string AwsRegion { get; }              // e.g. "us-east-1"
         public static string AwsAccessKeyId { get; }         // leave blank to use IAM role / env chain
@@ -34,9 +30,6 @@ namespace ManufacturingKnowledgeGraph
             if (!File.Exists(settingsPath))
                 settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
 
-            string visionEndpoint = "";
-            string visionKey = "";
-
             // Amazon Nova defaults
             string awsRegion = "us-east-1";
             string awsAccessKeyId = "";
@@ -52,12 +45,6 @@ namespace ManufacturingKnowledgeGraph
                     var json = File.ReadAllText(settingsPath);
                     using var doc = JsonDocument.Parse(json);
                     var root = doc.RootElement;
-
-                    if (root.TryGetProperty("AzureVision", out var vision))
-                    {
-                        visionEndpoint = vision.TryGetProperty("Endpoint", out var ep) ? ep.GetString() ?? "" : "";
-                        visionKey = vision.TryGetProperty("Key", out var k) ? k.GetString() ?? "" : "";
-                    }
 
                     if (root.TryGetProperty("AmazonNova", out var nova))
                     {
@@ -78,10 +65,6 @@ namespace ManufacturingKnowledgeGraph
             {
                 Console.WriteLine("⚠️ Warning: appsettings.json not found. Using environment variables only.");
             }
-
-            // Environment variables override the JSON values (if set)
-            VisionEndpoint = Environment.GetEnvironmentVariable("VISION_ENDPOINT") ?? visionEndpoint;
-            VisionKey = Environment.GetEnvironmentVariable("VISION_KEY") ?? visionKey;
 
             // Amazon Nova / Bedrock
             AwsRegion = Environment.GetEnvironmentVariable("AWS_DEFAULT_REGION") ?? awsRegion;
