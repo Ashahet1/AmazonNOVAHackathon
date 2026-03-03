@@ -1,0 +1,2 @@
+{"BatchId":"BATCH-20260303-D186E1","QuarantinedAt":"2026-03-03T18:02:43.1040656Z","Reason":"Etching process anomaly","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260303-9EFE54","QuarantinedAt":"2026-03-03T18:05:34.7832634Z","Reason":"Etching equipment malfunction","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}

@@ -1,0 +1,696 @@
+{
+  "caseId": "87a8eab89708",
+  "createdAt": "2026-03-03T17:23:45.0660148Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group20085\\20085\\20085176_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "PCB with a large circular pad and a smaller circular pad with a pin hole defect.",
+    "tags": [
+      "pin_hole",
+      "low_severity"
+    ],
+    "objects": [
+      {
+        "name": "large_pad",
+        "confidence": 0.9
+      },
+      {
+        "name": "small_pad_with_pin_hole",
+        "confidence": 0.85
+      }
+    ],
+    "confidence": 0.85,
+    "defectType": "pin_hole",
+    "defectSeverity": "low",
+    "defectDescription": "The smaller circular pad exhibits a pin hole defect, which is a tiny hole in the copper pad."
+  },
+  "normalizedDefect": {
+    "defectType": "pin_hole",
+    "severity": "low",
+    "product": "pcb",
+    "description": "The smaller circular pad exhibits a pin hole defect, which is a tiny hole in the copper pad.",
+    "taxonomyId": "DEF-PIN-HOLE-PCB",
+    "inspectionMethods": [
+      "Visual inspection",
+      "Automated Optical Inspection (AOI)"
+    ],
+    "reasoning": "Pin holes in copper pads are typically caused by issues during the etching or drilling process."
+  },
+  "graphContext": {
+    "relatedDefectIds": [
+      "defect_pcb_00041000_pin_hole_2",
+      "defect_pcb_00041000_pin_hole_3",
+      "defect_pcb_00041001_pin_hole_9",
+      "defect_pcb_00041002_pin_hole_13",
+      "defect_pcb_00041002_pin_hole_14",
+      "defect_pcb_00041004_pin_hole_22",
+      "defect_pcb_00041004_pin_hole_24",
+      "defect_pcb_00041005_pin_hole_29",
+      "defect_pcb_00041005_pin_hole_33",
+      "defect_pcb_00041006_pin_hole_35",
+      "defect_pcb_00041006_pin_hole_38",
+      "defect_pcb_00041006_pin_hole_39",
+      "defect_pcb_00041007_pin_hole_46",
+      "defect_pcb_00041009_pin_hole_57",
+      "defect_pcb_00041010_pin_hole_61",
+      "defect_pcb_00041010_pin_hole_63",
+      "defect_pcb_00041010_pin_hole_64",
+      "defect_pcb_00041011_pin_hole_72",
+      "defect_pcb_00041013_pin_hole_82",
+      "defect_pcb_00041013_pin_hole_86",
+      "defect_pcb_00041014_pin_hole_94",
+      "defect_pcb_00041016_pin_hole_103",
+      "defect_pcb_00041017_pin_hole_109",
+      "defect_pcb_00041018_pin_hole_116",
+      "defect_pcb_00041019_pin_hole_122",
+      "defect_pcb_00041020_pin_hole_127",
+      "defect_pcb_00041021_pin_hole_131",
+      "defect_pcb_00041023_pin_hole_142",
+      "defect_pcb_00041024_pin_hole_148",
+      "defect_pcb_00041024_pin_hole_150",
+      "defect_pcb_00041025_pin_hole_155",
+      "defect_pcb_00041026_pin_hole_163",
+      "defect_pcb_00041026_pin_hole_165",
+      "defect_pcb_00041027_pin_hole_171",
+      "defect_pcb_00041028_pin_hole_178",
+      "defect_pcb_00041028_pin_hole_180",
+      "defect_pcb_00041028_pin_hole_182",
+      "defect_pcb_00041030_pin_hole_189",
+      "defect_pcb_00041030_pin_hole_191",
+      "defect_pcb_00041033_pin_hole_209",
+      "defect_pcb_00041033_pin_hole_211",
+      "defect_pcb_00041034_pin_hole_216",
+      "defect_pcb_00041034_pin_hole_219",
+      "defect_pcb_00041035_pin_hole_223",
+      "defect_pcb_00041036_pin_hole_234",
+      "defect_pcb_00041037_pin_hole_239",
+      "defect_pcb_00041037_pin_hole_240",
+      "defect_pcb_00041038_pin_hole_245",
+      "defect_pcb_00041039_pin_hole_251",
+      "defect_pcb_00041040_pin_hole_259",
+      "defect_pcb_00041041_pin_hole_265",
+      "defect_pcb_00041041_pin_hole_267",
+      "defect_pcb_00041042_pin_hole_275",
+      "defect_pcb_00041043_pin_hole_281",
+      "defect_pcb_00041044_pin_hole_288",
+      "defect_pcb_00041044_pin_hole_291",
+      "defect_pcb_00041045_pin_hole_297",
+      "defect_pcb_00041045_pin_hole_298",
+      "defect_pcb_00041046_pin_hole_302",
+      "defect_pcb_00041047_pin_hole_306",
+      "defect_pcb_00041047_pin_hole_310",
+      "defect_pcb_00041048_pin_hole_316",
+      "defect_pcb_00041048_pin_hole_318",
+      "defect_pcb_00041049_pin_hole_322",
+      "defect_pcb_00041049_pin_hole_323",
+      "defect_pcb_00041049_pin_hole_326"
+    ],
+    "equipmentIds": [
+      "Etching equipment",
+      "Drilling equipment"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.1",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-A-600-2.5",
+      "IPC-6012-3.2"
+    ],
+    "historicalIncidents": [
+      {
+        "defectNodeId": "defect_pcb_00041000_pin_hole_2",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041000_pin_hole_3",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041001_pin_hole_9",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041002_pin_hole_13",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041002_pin_hole_14",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041004_pin_hole_22",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041004_pin_hole_24",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_pin_hole_29",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041005_pin_hole_33",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_pin_hole_35",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_pin_hole_38",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041006_pin_hole_39",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041007_pin_hole_46",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041009_pin_hole_57",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_pin_hole_61",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_pin_hole_63",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041010_pin_hole_64",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041011_pin_hole_72",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041013_pin_hole_82",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041013_pin_hole_86",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041014_pin_hole_94",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041016_pin_hole_103",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041017_pin_hole_109",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041018_pin_hole_116",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041019_pin_hole_122",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041020_pin_hole_127",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041021_pin_hole_131",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041023_pin_hole_142",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041024_pin_hole_148",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041024_pin_hole_150",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041025_pin_hole_155",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041026_pin_hole_163",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041026_pin_hole_165",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041027_pin_hole_171",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041028_pin_hole_178",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041028_pin_hole_180",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041028_pin_hole_182",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041030_pin_hole_189",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041030_pin_hole_191",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041033_pin_hole_209",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041033_pin_hole_211",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041034_pin_hole_216",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041034_pin_hole_219",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041035_pin_hole_223",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041036_pin_hole_234",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041037_pin_hole_239",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041037_pin_hole_240",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041038_pin_hole_245",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041039_pin_hole_251",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041040_pin_hole_259",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041041_pin_hole_265",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041041_pin_hole_267",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041042_pin_hole_275",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041043_pin_hole_281",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041044_pin_hole_288",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041044_pin_hole_291",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041045_pin_hole_297",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041045_pin_hole_298",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041046_pin_hole_302",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_pin_hole_306",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041047_pin_hole_310",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041048_pin_hole_316",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041048_pin_hole_318",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_pin_hole_322",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_pin_hole_323",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      },
+      {
+        "defectNodeId": "defect_pcb_00041049_pin_hole_326",
+        "product": "pin_hole",
+        "defectType": "pin_hole",
+        "severity": "low"
+      }
+    ],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.1 \u2014 Board Substrate Conditions",
+      "IPC-A-600J \u00A7 2.2 \u2014 Conductor / Land Integrity",
+      "IPC-A-600J \u00A7 2.3 \u2014 Annular Ring \u0026 Land Conditions",
+      "IPC-A-600J \u00A7 2.5 \u2014 Plating \u0026 Coating Conditions",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Inconsistent drilling process leading to weak copper pads",
+    "contributingFactors": [
+      "Potential inconsistency in the drilling process",
+      "Weakness in the copper pad material or preparation"
+    ],
+    "actions": [
+      {
+        "action": "Investigate and calibrate the drilling equipment to ensure consistent hole sizes and depths.",
+        "priority": "immediate",
+        "owner": "Manufacturing Engineer",
+        "contextRef": "IPC-A-600J \u00A7 2.2"
+      },
+      {
+        "action": "Review and possibly adjust the drilling parameters and settings.",
+        "priority": "short-term",
+        "owner": "Quality Engineer",
+        "contextRef": "IPC-A-600J \u00A7 2.3"
+      },
+      {
+        "action": "Perform a material analysis of the copper pads to ensure they meet the required specifications.",
+        "priority": "short-term",
+        "owner": "Material Scientist",
+        "contextRef": "IPC-A-600J \u00A7 2.1"
+      }
+    ],
+    "referencedContextIds": [
+      "defect_pcb_00041000_pin_hole_2",
+      "IPC-A-600J \u00A7 2.2"
+    ],
+    "reasoning": "The defect report indicates a pin hole in the smaller circular pad, which is a tiny hole in the copper pad. The defect density is very low, suggesting this is not a systemic issue but rather an isolated incident. The AI-inferred equipment links to both etching and drilling equipment, but the defect\u0027s nature (a hole in the copper pad) points more towards a drilling issue. Additionally, the co-occurrence of similar defects on other boards suggests a recurring problem with the drilling process.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-A-600J",
+    "section": "\u00A7 2.2 \u2014 Conductor / Land Integrity",
+    "checklist": [
+      {
+        "requirement": "No nicks, scratches or pinholes on conductors",
+        "addressed": false,
+        "evidence": "Pin hole defect detected on the smaller circular pad.",
+        "sectionRef": "IPC-A-600-2.2"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-A-600-2.2"
+    ],
+    "fullyCovered": true,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.1",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-A-600-2.5",
+      "IPC-6012-3.2"
+    ],
+    "classification": "Class 2",
+    "disposition": "rework"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-03T17:23:45.0660263Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 20085176_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:47.6892729Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[Nova us.amazon.nova-pro-v1:0] Caption: \u0022PCB with a large circular pad and a smaller circular pad with a pin hole defect.\u0022 (conf: 85.0%), Defect: pin_hole (low), Tags: 2, Objects: 2"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:47.6892764Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 85.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:48.2139034Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 191"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:48.2139476Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "Etching equipment|Drilling equipment"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:48.2139512Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: pin_hole, Severity: low, Taxonomy: DEF-PIN-HOLE-PCB, InspectionMethods: [Visual inspection, Automated Optical Inspection (AOI)]"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:48.2175604Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 66, AI-equipment: 2, IPC sections: 6, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:50.5697542Z",
+      "tool": "root_cause_enriched",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 1421"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:50.569845Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_invalid",
+      "detail": "Validation error: \u0027\u0060\u0027 is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0."
+    },
+    {
+      "timestamp": "2026-03-03T17:23:50.5698866Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_repaired",
+      "detail": "Output repaired (stripped markdown fences) and now valid"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:50.5698883Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 2 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:50.570322Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 6 IPC sections for defect type \u0027pin_hole\u0027"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:51.6967543Z",
+      "tool": "compliance_with_rag",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 1341"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:51.6967904Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:51.6967963Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 1 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:51.6972441Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:51.6977138Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

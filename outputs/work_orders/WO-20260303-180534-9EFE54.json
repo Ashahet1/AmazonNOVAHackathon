@@ -1,0 +1,13 @@
+{
+  "WorkOrderId": "WO-20260303-180534-9EFE54",
+  "CreatedAt": "2026-03-03T18:05:34.9243679Z",
+  "CaseId": "9efe5437c827",
+  "BatchId": "BATCH-20260303-9EFE54",
+  "DefectType": "open",
+  "Action": "Inspect and calibrate the etching equipment",
+  "Priority": "P1",
+  "Assignee": "process_engineer",
+  "Status": "OPEN",
+  "Source": "MCP_Agent_Pipeline",
+  "ImagePath": "77000070_test.jpg"
+}

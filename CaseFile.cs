@@ -39,6 +39,9 @@ namespace ManufacturingKnowledgeGraph
         public List<string> HumanReviewReasons { get; set; } = new();
         public List<PolicyViolation> PolicyViolations { get; set; } = new();
 
+        // ── Step 7: Agentic Actions ──
+        public List<AgentAction> AgentActions { get; set; } = new();
+
         // ── Trace ──
         public List<TraceEntry> Trace { get; set; } = new();
 

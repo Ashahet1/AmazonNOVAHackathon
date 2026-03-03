@@ -775,17 +775,18 @@ namespace ManufacturingKnowledgeGraph
             string imagePath;
             if (string.IsNullOrWhiteSpace(inputPath))
             {
-                // Try DeepPCB dataset first, then MVTec
-                var deepPcbRoot = Path.Combine(Environment.CurrentDirectory, "datasets", "DeepPCB");
-                var sample = FindFirstTestImage(deepPcbRoot);
+                // Try all known dataset locations in priority order
+                var deepPcbRoot  = Path.Combine(Environment.CurrentDirectory, "datasets", "DeepPCB");
+                var pcbDataDirect = Path.Combine(Environment.CurrentDirectory, "datasets", "PCBData");
+                var mvtecRoot    = Path.Combine(Environment.CurrentDirectory, "datasets", "mvtec_anomaly_detection");
+
+                var sample = FindFirstTestImage(deepPcbRoot)
+                          ?? FindFirstTestImage(pcbDataDirect)   // datasets/PCBData directly
+                          ?? FindFirstTestImage(mvtecRoot);
+
                 if (sample == null)
                 {
-                    var mvtecRoot = Path.Combine(Environment.CurrentDirectory, "datasets", "mvtec_anomaly_detection");
-                    sample = FindFirstTestImage(mvtecRoot);
-                }
-                if (sample == null)
-                {
-                    Console.WriteLine("❌ No sample images found. Place DeepPCB dataset in datasets/DeepPCB/");
+                    Console.WriteLine("❌ No sample images found. Place DeepPCB dataset in datasets/PCBData/");
                     return;
                 }
                 imagePath = sample;

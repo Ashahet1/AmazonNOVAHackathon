@@ -107,6 +107,10 @@ namespace ManufacturingKnowledgeGraph
             Guardrails.FinalReviewGate(caseFile);
             Console.WriteLine(caseFile.HumanReviewRequired ? "REVIEW REQUIRED" : "PASSED");
 
+            // ── Step 7: Agentic action loop ──
+            Console.WriteLine($"  [7]   agentic_action_loop (Nova {AppConfig.NovaReasoningModel}) ...");
+            await RunAgenticActionLoop(caseFile);
+
             Console.WriteLine(new string('═', 70));
             return caseFile;
         }
@@ -522,6 +526,88 @@ Provide IPC compliance guidance using ONLY the retrieved sections above.";
             caseFile.Compliance = result;
 
             Guardrails.CheckTraceability(result.ReferencedContextIds, caseFile, tool);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        //  MCP TOOL 7 — agentic_action_loop
+        //
+        //  Gives Nova three callable tools and lets it decide autonomously
+        //  which actions to take based on the completed inspection.
+        //  Nova loops (perceive → reason → act → observe result → reason)
+        //  until it reaches end_turn or the 5-iteration safety cap.
+        // ═══════════════════════════════════════════════════════════════
+
+        private async Task RunAgenticActionLoop(CaseFile caseFile)
+        {
+            const string tool = "agentic_action_loop";
+
+            try
+            {
+                // Derive a demo batch ID from the case / image for context
+                var batchId = $"BATCH-{DateTime.UtcNow:yyyyMMdd}-{caseFile.CaseId[..6].ToUpper()}";
+
+                // Build a rich context summary for Nova
+                var defectType  = caseFile.NormalizedDefect?.DefectType  ?? caseFile.VisionAnalysis?.DefectType ?? "unknown";
+                var severity    = caseFile.NormalizedDefect?.Severity    ?? caseFile.VisionAnalysis?.DefectSeverity ?? "medium";
+                var rootCause   = caseFile.RootCause?.ProbableCause      ?? "undetermined";
+                var actionsText = caseFile.RootCause?.Actions != null
+                    ? string.Join("; ", caseFile.RootCause.Actions.Select(a => $"[{a.Priority}] {a.Action}"))
+                    : "none";
+                var compliance  = caseFile.Compliance?.ApplicableStandard ?? "IPC-A-610";
+                var humanReview = caseFile.HumanReviewRequired;
+                var violations  = caseFile.PolicyViolations.Count;
+
+                var systemPrompt =
+                    "You are an autonomous manufacturing quality agent. You have just completed a full PCB inspection " +
+                    "and now must take concrete corrective actions using the tools available to you. " +
+                    "Do not just recommend — actually call the tools. " +
+                    "After calling tools and receiving their results, summarize what you did and why. " +
+                    "Available tools: quarantine_batch, update_knowledge_graph, file_work_order.";
+
+                var userPrompt =
+                    $"INSPECTION SUMMARY:\n" +
+                    $"  Batch ID:        {batchId}\n" +
+                    $"  Defect Type:     {defectType}\n" +
+                    $"  Severity:        {severity}\n" +
+                    $"  Root Cause:      {rootCause}\n" +
+                    $"  Recommended Actions: {actionsText}\n" +
+                    $"  Compliance Standard: {compliance}\n" +
+                    $"  Human Review Required: {humanReview}\n" +
+                    $"  Policy Violations: {violations}\n\n" +
+                    $"Based on this inspection result, decide which tools to call and call them now. " +
+                    $"Use quarantine_batch if the severity warrants it. " +
+                    $"Always file_work_order for any actionable finding. " +
+                    $"Always call update_knowledge_graph to record what was learned.";
+
+                var tools = AgentTools.GetToolDefinitions();
+
+                // Run the agentic loop — Nova calls tools until end_turn
+                var finalSummary = await _nova.InvokeAgentLoopAsync(
+                    systemPrompt,
+                    userPrompt,
+                    tools,
+                    async (toolName, inputDoc) =>
+                        await AgentTools.ExecuteAsync(toolName, inputDoc, knowledgeGraph, caseFile)
+                );
+
+                // Log Nova's final reasoning
+                if (!string.IsNullOrWhiteSpace(finalSummary))
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"\n  🤖 Agent Summary: {finalSummary[..Math.Min(200, finalSummary.Length)]}...");
+                    Console.ResetColor();
+                    caseFile.AddTrace(tool, "loop_complete", finalSummary[..Math.Min(300, finalSummary.Length)]);
+                }
+
+                Console.WriteLine($"  ✅ Agentic loop complete — {caseFile.AgentActions.Count} action(s) taken.");
+            }
+            catch (Exception ex)
+            {
+                caseFile.AddTrace(tool, "error", ex.Message);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"  ⚠️  Agentic loop error: {ex.Message}");
+                Console.ResetColor();
+            }
         }
 
         // ═══════════════════════════════════════════════════════════════

@@ -1,0 +1,250 @@
+{
+  "caseId": "22dd06f8a738",
+  "createdAt": "2026-03-03T17:23:51.7057231Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group20085\\20085\\20085011_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "PCB with visible defects including a broken trace and a short circuit.",
+    "tags": [
+      "open",
+      "short"
+    ],
+    "objects": [
+      {
+        "name": "broken_trace",
+        "confidence": 0.9
+      },
+      {
+        "name": "short_circuit",
+        "confidence": 0.85
+      }
+    ],
+    "confidence": 0.85,
+    "defectType": "open",
+    "defectSeverity": "high",
+    "defectDescription": "There is a broken trace near the top-left corner of the PCB, indicating an open circuit. Additionally, there appears to be a short circuit where two traces are unintentionally connected near the center of the PCB."
+  },
+  "normalizedDefect": {
+    "defectType": "open",
+    "severity": "high",
+    "product": "pcb",
+    "description": "There is a broken trace near the top-left corner of the PCB, indicating an open circuit. Additionally, there appears to be a short circuit where two traces are unintentionally connected near the center of the PCB.",
+    "taxonomyId": "DEF-OPEN-PCB",
+    "inspectionMethods": [
+      "Visual inspection",
+      "Electrical testing",
+      "Automated Optical Inspection (AOI)"
+    ],
+    "reasoning": "The open circuit could be due to improper etching or drilling, while the short circuit might result from issues in solder mask application."
+  },
+  "graphContext": {
+    "relatedDefectIds": [],
+    "equipmentIds": [
+      "Etching machine",
+      "Solder mask application equipment",
+      "Drilling machine"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "historicalIncidents": [],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.2 \u2014 Conductor / Land Integrity",
+      "IPC-A-600J \u00A7 2.3 \u2014 Annular Ring \u0026 Land Conditions",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements",
+      "IPC-6012E \u00A7 3.3 \u2014 Conductor Width, Spacing \u0026 Integrity",
+      "IPC-6012E \u00A7 3.6 \u2014 Electrical Requirements"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Etching process anomaly",
+    "contributingFactors": [
+      "Possible over-etching or under-etching",
+      "Contamination or residue on the etching machine",
+      "Inconsistent etching parameters"
+    ],
+    "actions": [
+      {
+        "action": "Inspect and clean the etching machine",
+        "priority": "immediate",
+        "owner": "Manufacturing Engineer",
+        "contextRef": "IPC-6012E \u00A7 3.2"
+      },
+      {
+        "action": "Review and calibrate etching parameters",
+        "priority": "short-term",
+        "owner": "Process Engineer",
+        "contextRef": "IPC-6012E \u00A7 3.3"
+      },
+      {
+        "action": "Perform a root-cause analysis on the specific areas of the PCB where defects occurred",
+        "priority": "short-term",
+        "owner": "Quality Engineer",
+        "contextRef": "IPC-A-600J \u00A7 2.2"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-6012E \u00A7 3.2",
+      "IPC-6012E \u00A7 3.3",
+      "IPC-A-600J \u00A7 2.2"
+    ],
+    "reasoning": "The defect report indicates an open circuit near the top-left corner and a short circuit near the center of the PCB. The defect density is low, suggesting a localized issue rather than a systemic one. The co-occurrence of open and short circuits suggests a problem with the etching process, as these are common defects associated with etching. The AI-inferred equipment links the defect to the etching machine, further supporting this conclusion.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-A-600J",
+    "section": "\u00A7 2.2 \u2014 Conductor / Land Integrity",
+    "checklist": [
+      {
+        "requirement": "No opens or shorts in conductors",
+        "addressed": false,
+        "evidence": "There is a broken trace indicating an open circuit and a short circuit where two traces are unintentionally connected.",
+        "sectionRef": "IPC-A-600-2.2"
+      },
+      {
+        "requirement": "Nick/pinhole depth \u2264 20%",
+        "addressed": false,
+        "evidence": "The open circuit is due to a broken trace, not a nick or pinhole, but the presence of a short circuit is also a defect.",
+        "sectionRef": "IPC-6012-3.3"
+      },
+      {
+        "requirement": "100% net-list continuity and isolation test",
+        "addressed": false,
+        "evidence": "The presence of both an open and a short circuit indicates failures in both continuity and isolation tests.",
+        "sectionRef": "IPC-6012-3.6"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-A-600-2.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "fullyCovered": true,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "classification": "Class 2",
+    "disposition": "reject"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-03T17:23:51.7057376Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 20085011_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:54.1752343Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[Nova us.amazon.nova-pro-v1:0] Caption: \u0022PCB with visible defects including a broken trace and a short circuit.\u0022 (conf: 85.0%), Defect: open (high), Tags: 2, Objects: 2"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:54.1752381Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 85.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:55.2603754Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 231"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:55.2604211Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "Etching machine|Solder mask application equipment|Drilling machine"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:55.2604246Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: open, Severity: high, Taxonomy: DEF-OPEN-PCB, InspectionMethods: [Visual inspection, Electrical testing, Automated Optical Inspection (AOI)]"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:55.2624258Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 0, AI-equipment: 3, IPC sections: 6, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:57.193504Z",
+      "tool": "root_cause_enriched",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 1033"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:57.1936112Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_invalid",
+      "detail": "Validation error: \u0027\u0060\u0027 is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0."
+    },
+    {
+      "timestamp": "2026-03-03T17:23:57.1936575Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_repaired",
+      "detail": "Output repaired (stripped markdown fences) and now valid"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:57.1936602Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 3 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:57.1944062Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 6 IPC sections for defect type \u0027open\u0027"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:58.9263205Z",
+      "tool": "compliance_with_rag",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 1595"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:58.9263553Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:58.9263604Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 3 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:58.9268099Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-03T17:23:58.9270703Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

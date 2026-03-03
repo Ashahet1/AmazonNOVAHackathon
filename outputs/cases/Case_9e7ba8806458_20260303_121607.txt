@@ -1,0 +1,69 @@
+═══════════════════════════════════════════════════════════════
+  MCP INSPECTION REPORT
+═══════════════════════════════════════════════════════════════
+  Case ID:      9e7ba8806458
+  Created:      2026-03-03 17:15:50 UTC
+  Image:        00041003_test.jpg
+  Product:      pcb
+  Status:       Completed
+  Human Review: No
+
+── VISION ANALYSIS ──
+  Caption:    PCB with visible trace and pad anomalies
+  Confidence: 85.0%
+  Tags:       mousebite, trace_anomaly
+
+── NORMALIZED DEFECT ──
+  Type:       mousebite
+  Severity:   medium
+  Taxonomy:   DEF-MOUSEBITE-PCB
+  Inspection: [visual inspection, automated optical inspection (AOI)]
+  Reasoning:  Mousebite defects are typically caused by improper etching processes where the etchant solution causes irregular notching on the edges of the traces.
+
+── KNOWLEDGE GRAPH CONTEXT ──
+  Related defects:      47
+  AI-equipment:         etching equipment
+  Co-occurring:         []
+  Defect density:       0.00
+  Historical incidents: 47
+  IPC references:       IPC-A-600J § 1.0 — Scope & General Information; IPC-A-600J § 2.2 — Conductor / Land Integrity; IPC-A-600J § 3.1 — Solder Mask / Resist Conditions; IPC-6012E § 3.2 — Visual & Dimensional Requirements; IPC-6012E § 3.3 — Conductor Width, Spacing & Integrity
+
+── ROOT-CAUSE ANALYSIS ──
+  Probable cause: Improper etching process parameters
+  Confidence:     85%
+  Reasoning:      The mousebite defects are irregular notches on the edges of the traces, which are indicative of issues during the etching process. The defect density is low, suggesting it is not a widespread systemic issue but rather a specific problem with the etching equipment. The co-occurrence of similar defects on multiple boards and the AI-inferred link to the etching equipment further support this conclusion. The defects are located along the upper and lower traces, which could be related to the specific etching parameters or equipment settings.
+  Contributing factors:
+    - Potential inconsistencies in the etching solution concentration or temperature
+    - Possible wear or misalignment of the etching equipment
+  Actions:
+    [immediate] Review and calibrate etching equipment settings (Owner: Manufacturing Engineer) ← IPC-6012E § 3.2
+    [short-term] Inspect and possibly replace worn components in the etching equipment (Owner: Maintenance Technician) ← IPC-A-600J § 3.1
+    [long-term] Implement a more rigorous monitoring and control of etching solution parameters (Owner: Quality Engineer) ← IPC-6012E § 3.3
+  Referenced IDs: defect_pcb_00041000_mousebite_1, IPC-A-600J § 3.1
+
+── IPC COMPLIANCE ──
+  Standard:     IPC-A-600J § § 2.2 — Conductor / Land Integrity
+  Class:        Class 2
+  Disposition:  rework
+  Fully covered: Yes
+  Retrieved:    [IPC-A-600-1.0, IPC-A-600-2.2, IPC-A-600-3.1, IPC-6012-3.2, IPC-6012-3.3]
+  Checklist:
+    [ ] Conductor width reduced up to 20%; nicks must not exceed 20% of width  — Irregular notching observed on the edges of the traces, indicative of mousebite defects. [IPC-A-600-2.2]
+
+── TRACE ──
+  17:15:50.637 | pipeline                       | started              | Image: 00041003_test.jpg, Product: pcb
+  17:15:53.449 | analyze_image_with_vision      | success              | [Nova us.amazon.nova-pro-v1:0] Caption: "PCB with visible trace and pad anomalies" (conf: 85.0%), Defect: mousebite (medium), Tags: 2, Objects: 2
+  17:15:53.449 | confidence_check               | above_threshold      | Confidence 85.0% >= 40.0%
+  17:15:54.158 | normalize_defect_with_ai       | nova_success         | [us.amazon.nova-lite-v1:0] Tokens used: 202
+  17:15:54.159 | normalize_defect_with_ai       | ai_equipment         | etching equipment
+  17:15:54.159 | normalize_defect_with_ai       | success              | Type: mousebite, Severity: medium, Taxonomy: DEF-MOUSEBITE-PCB, InspectionMethods: [visual inspection, automated optical inspection (AOI)]
+  17:15:54.163 | query_knowledge_graph          | success              | Related defects: 47, AI-equipment: 1, IPC sections: 5, Co-occurring: [], Density: 0.00, BBoxes: 0
+  17:15:56.712 | root_cause_enriched            | nova_success         | [us.amazon.nova-lite-v1:0] Tokens used: 1357
+  17:15:56.720 | root_cause_enriched            | schema_valid         | Output passed JSON schema validation
+  17:15:56.720 | root_cause_enriched            | traceability_pass    | Output references 2 context ID(s)
+  17:15:56.723 | compliance_with_rag            | rag_retrieval        | Retrieved 5 IPC sections for defect type 'mousebite'
+  17:15:58.166 | compliance_with_rag            | nova_success         | [us.amazon.nova-lite-v1:0] Tokens used: 1276
+  17:15:58.170 | compliance_with_rag            | schema_valid         | Output passed JSON schema validation
+  17:15:58.170 | compliance_with_rag            | traceability_pass    | Output references 1 context ID(s)
+  17:15:58.192 | policy_check                   | clean                | No policy violations detected
+  17:15:58.193 | final_gate                     | Completed            | Case passed all guardrails

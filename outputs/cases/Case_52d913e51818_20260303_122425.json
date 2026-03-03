@@ -1,0 +1,237 @@
+{
+  "caseId": "52d913e51818",
+  "createdAt": "2026-03-03T17:24:18.3560933Z",
+  "imagePath": "C:\\Users\\rishah\\OneDrive\\Pictures\\Desktop\\MicrosoftML.NET\\AzureAITalk--main\\AzureAITalk--main\\datasets\\PCBData\\group20085\\20085\\20085012_test.jpg",
+  "productType": "pcb",
+  "visionAnalysis": {
+    "caption": "PCB with a visible open circuit defect on the trace.",
+    "tags": [
+      "open_circuit",
+      "trace_break"
+    ],
+    "objects": [
+      {
+        "name": "PCB",
+        "confidence": 0.9
+      }
+    ],
+    "confidence": 0.85,
+    "defectType": "open",
+    "defectSeverity": "high",
+    "defectDescription": "There is a broken trace on the upper section of the PCB, indicating an open circuit. The trace appears to be disconnected, which could lead to a failure in the circuit\u0027s functionality."
+  },
+  "normalizedDefect": {
+    "defectType": "open",
+    "severity": "high",
+    "product": "pcb",
+    "description": "There is a broken trace on the upper section of the PCB, indicating an open circuit. The trace appears to be disconnected, which could lead to a failure in the circuit\u0027s functionality.",
+    "taxonomyId": "DEF-OPEN-PCB",
+    "inspectionMethods": [
+      "Visual inspection",
+      "Electrical testing",
+      "Automated Optical Inspection (AOI)"
+    ],
+    "reasoning": "An open circuit defect is typically caused by issues in the etching, lamination, or drilling processes."
+  },
+  "graphContext": {
+    "relatedDefectIds": [],
+    "equipmentIds": [
+      "Etching machine",
+      "Lamination press",
+      "Drilling machine"
+    ],
+    "standardIds": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "historicalIncidents": [],
+    "isoSnippets": [
+      "IPC-A-600J \u00A7 1.0 \u2014 Scope \u0026 General Information",
+      "IPC-A-600J \u00A7 2.2 \u2014 Conductor / Land Integrity",
+      "IPC-A-600J \u00A7 2.3 \u2014 Annular Ring \u0026 Land Conditions",
+      "IPC-6012E \u00A7 3.2 \u2014 Visual \u0026 Dimensional Requirements",
+      "IPC-6012E \u00A7 3.3 \u2014 Conductor Width, Spacing \u0026 Integrity",
+      "IPC-6012E \u00A7 3.6 \u2014 Electrical Requirements"
+    ],
+    "coOccurringDefects": [],
+    "defectDensity": 0
+  },
+  "rootCause": {
+    "probableCause": "Etching machine malfunction",
+    "contributingFactors": [
+      "Possible chemical concentration issue in the etching solution",
+      "Mechanical wear or misalignment in the etching machine"
+    ],
+    "actions": [
+      {
+        "action": "Inspect and calibrate the etching machine",
+        "priority": "immediate",
+        "owner": "Manufacturing Engineer",
+        "contextRef": "IPC-6012E \u00A7 3.2"
+      },
+      {
+        "action": "Analyze the chemical concentration and condition of the etching solution",
+        "priority": "short-term",
+        "owner": "Quality Control",
+        "contextRef": "IPC-6012E \u00A7 3.3"
+      }
+    ],
+    "referencedContextIds": [
+      "DEF-OPEN-PCB"
+    ],
+    "reasoning": "The defect is an open circuit on the PCB, which is a common issue related to the etching process. The defect density is low, suggesting it is not a systemic issue but rather isolated to specific areas. The defect location on the upper section of the PCB aligns with the etching stage of production. The AI-inferred equipment link to the etching machine further supports this conclusion.",
+    "confidence": 0.85
+  },
+  "compliance": {
+    "applicableStandard": "IPC-A-600J",
+    "section": "Conductor / Land Integrity",
+    "checklist": [
+      {
+        "requirement": "No opens in conductors",
+        "addressed": false,
+        "evidence": "There is a broken trace on the upper section of the PCB, indicating an open circuit.",
+        "sectionRef": "IPC-A-600-2.2"
+      },
+      {
+        "requirement": "Nick/pinhole depth \u2264 20%",
+        "addressed": true,
+        "evidence": "No nicks or pinholes are mentioned in the defect description.",
+        "sectionRef": "IPC-6012-3.3"
+      },
+      {
+        "requirement": "180\u00B0 breakout max; minimum annular ring maintained",
+        "addressed": true,
+        "evidence": "The defect is a broken trace, not related to annular ring or breakout.",
+        "sectionRef": "IPC-A-600-2.3"
+      }
+    ],
+    "referencedContextIds": [
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.3"
+    ],
+    "fullyCovered": true,
+    "retrievedSections": [
+      "IPC-A-600-1.0",
+      "IPC-A-600-2.2",
+      "IPC-A-600-2.3",
+      "IPC-6012-3.2",
+      "IPC-6012-3.3",
+      "IPC-6012-3.6"
+    ],
+    "classification": "Class 2",
+    "disposition": "reject"
+  },
+  "humanReviewRequired": false,
+  "humanReviewReasons": [],
+  "policyViolations": [],
+  "trace": [
+    {
+      "timestamp": "2026-03-03T17:24:18.3560997Z",
+      "tool": "pipeline",
+      "outcome": "started",
+      "detail": "Image: 20085012_test.jpg, Product: pcb"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:21.4367603Z",
+      "tool": "analyze_image_with_vision",
+      "outcome": "success",
+      "detail": "[Nova us.amazon.nova-pro-v1:0] Caption: \u0022PCB with a visible open circuit defect on the trace.\u0022 (conf: 85.0%), Defect: open (high), Tags: 2, Objects: 1"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:21.4367689Z",
+      "tool": "confidence_check",
+      "outcome": "above_threshold",
+      "detail": "Confidence 85.0% \u003E= 40.0%"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:22.1580503Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 225"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:22.1580988Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "ai_equipment",
+      "detail": "Etching machine|Lamination press|Drilling machine"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:22.1581007Z",
+      "tool": "normalize_defect_with_ai",
+      "outcome": "success",
+      "detail": "Type: open, Severity: high, Taxonomy: DEF-OPEN-PCB, InspectionMethods: [Visual inspection, Electrical testing, Automated Optical Inspection (AOI)]"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:22.1598478Z",
+      "tool": "query_knowledge_graph",
+      "outcome": "success",
+      "detail": "Related defects: 0, AI-equipment: 3, IPC sections: 6, Co-occurring: [], Density: 0.00, BBoxes: 0"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:23.4882403Z",
+      "tool": "root_cause_enriched",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 910"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:23.4883292Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_invalid",
+      "detail": "Validation error: \u0027\u0060\u0027 is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0."
+    },
+    {
+      "timestamp": "2026-03-03T17:24:23.4883728Z",
+      "tool": "root_cause_enriched",
+      "outcome": "schema_repaired",
+      "detail": "Output repaired (stripped markdown fences) and now valid"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:23.4883748Z",
+      "tool": "root_cause_enriched",
+      "outcome": "traceability_pass",
+      "detail": "Output references 1 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:23.4887836Z",
+      "tool": "compliance_with_rag",
+      "outcome": "rag_retrieval",
+      "detail": "Retrieved 6 IPC sections for defect type \u0027open\u0027"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:25.3198681Z",
+      "tool": "compliance_with_rag",
+      "outcome": "nova_success",
+      "detail": "[us.amazon.nova-lite-v1:0] Tokens used: 1566"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:25.3199043Z",
+      "tool": "compliance_with_rag",
+      "outcome": "schema_valid",
+      "detail": "Output passed JSON schema validation"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:25.3199089Z",
+      "tool": "compliance_with_rag",
+      "outcome": "traceability_pass",
+      "detail": "Output references 3 context ID(s)"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:25.3204258Z",
+      "tool": "policy_check",
+      "outcome": "clean",
+      "detail": "No policy violations detected"
+    },
+    {
+      "timestamp": "2026-03-03T17:24:25.3205783Z",
+      "tool": "final_gate",
+      "outcome": "Completed",
+      "detail": "Case passed all guardrails"
+    }
+  ],
+  "status": "Completed"
+}

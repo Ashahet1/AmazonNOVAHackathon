@@ -215,6 +215,95 @@ Rules: Return raw JSON only, no markdown, no extra text.";
         }
 
         // ═══════════════════════════════════════════════════════════════
+        //  Step 7 — Agentic loop with tool calling  (Nova Lite)
+        //
+        //  Sends a ConverseRequest with ToolConfig to Nova.
+        //  When Nova responds with stopReason == "tool_use", the caller's
+        //  executor delegate is invoked for each tool call.  The result is
+        //  fed back as a ToolResult and the conversation resumes.
+        //  Loops until Nova produces "end_turn" or maxIterations is reached.
+        // ═══════════════════════════════════════════════════════════════
+
+        public async Task<string> InvokeAgentLoopAsync(
+            string systemPrompt,
+            string userPrompt,
+            List<Amazon.BedrockRuntime.Model.Tool> tools,
+            Func<string, Amazon.Runtime.Documents.Document, Task<string>> toolExecutor,
+            int maxIterations = 5)
+        {
+            var messages = new List<Amazon.BedrockRuntime.Model.Message>
+            {
+                new Amazon.BedrockRuntime.Model.Message
+                {
+                    Role    = ConversationRole.User,
+                    Content = new List<ContentBlock> { new ContentBlock { Text = userPrompt } }
+                }
+            };
+
+            string finalText = "";
+
+            for (int iteration = 0; iteration < maxIterations; iteration++)
+            {
+                var request = new ConverseRequest
+                {
+                    ModelId    = _reasoningModelId,
+                    System     = new List<SystemContentBlock> { new SystemContentBlock { Text = systemPrompt } },
+                    Messages   = messages,
+                    ToolConfig = new Amazon.BedrockRuntime.Model.ToolConfiguration { Tools = tools },
+                    InferenceConfig = new InferenceConfiguration { MaxTokens = 1500, Temperature = 0.1f }
+                };
+
+                var response = await _bedrock.ConverseAsync(request);
+                var assistantMessage = response.Output.Message;
+
+                // Always add assistant turn to history
+                messages.Add(assistantMessage);
+
+                // Capture any text in this turn
+                foreach (var block in assistantMessage.Content)
+                    if (block.Text != null) finalText = block.Text;
+
+                // If Nova is done reasoning — exit loop
+                if (response.StopReason == "end_turn" || response.StopReason == "max_tokens")
+                    break;
+
+                // If Nova wants to call tools
+                if (response.StopReason == "tool_use")
+                {
+                    var toolResultBlocks = new List<ContentBlock>();
+
+                    foreach (var block in assistantMessage.Content)
+                    {
+                        if (block.ToolUse == null) continue;
+
+                        var toolResult = await toolExecutor(block.ToolUse.Name, block.ToolUse.Input);
+
+                        toolResultBlocks.Add(new ContentBlock
+                        {
+                            ToolResult = new Amazon.BedrockRuntime.Model.ToolResultBlock
+                            {
+                                ToolUseId = block.ToolUse.ToolUseId,
+                                Content   = new List<Amazon.BedrockRuntime.Model.ToolResultContentBlock>
+                                {
+                                    new Amazon.BedrockRuntime.Model.ToolResultContentBlock { Text = toolResult }
+                                }
+                            }
+                        });
+                    }
+
+                    // Feed tool results back to Nova
+                    messages.Add(new Amazon.BedrockRuntime.Model.Message
+                    {
+                        Role    = ConversationRole.User,
+                        Content = toolResultBlocks
+                    });
+                }
+            }
+
+            return finalText;
+        }
+
+        // ═══════════════════════════════════════════════════════════════
         //  JSON parser (identical shape to OpenAIVisionAnalyzer)
         // ═══════════════════════════════════════════════════════════════
 
