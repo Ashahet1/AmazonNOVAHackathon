@@ -108,7 +108,7 @@ namespace ManufacturingKnowledgeGraph
             Console.WriteLine(caseFile.HumanReviewRequired ? "REVIEW REQUIRED" : "PASSED");
 
             // ── Step 7: Agentic action loop ──
-            Console.WriteLine($"  [7]   agentic_action_loop (Nova {AppConfig.NovaReasoningModel}) ...");
+            Console.WriteLine($"  [7]   agentic_action_loop (Nova {AppConfig.NovaAgentModel}) ...");
             await RunAgenticActionLoop(caseFile);
 
             Console.WriteLine(new string('═', 70));

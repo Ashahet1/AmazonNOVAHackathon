@@ -36,6 +36,7 @@ namespace ManufacturingKnowledgeGraph
         private readonly string _visionModelId;
         private readonly string _reasoningModelId;
         private readonly string _complianceModelId;
+        private readonly string _agentModelId;   // v1 only — tool use via ToolConfig
 
         public BedrockNovaClient()
         {
@@ -56,6 +57,7 @@ namespace ManufacturingKnowledgeGraph
             _visionModelId    = AppConfig.NovaVisionModel;
             _reasoningModelId = AppConfig.NovaReasoningModel;
             _complianceModelId = AppConfig.NovaComplianceModel;
+            _agentModelId     = AppConfig.NovaAgentModel;
         }
 
         // ═══════════════════════════════════════════════════════════════
@@ -246,7 +248,7 @@ Rules: Return raw JSON only, no markdown, no extra text.";
             {
                 var request = new ConverseRequest
                 {
-                    ModelId    = _reasoningModelId,
+                    ModelId    = _agentModelId,
                     System     = new List<SystemContentBlock> { new SystemContentBlock { Text = systemPrompt } },
                     Messages   = messages,
                     ToolConfig = new Amazon.BedrockRuntime.Model.ToolConfiguration { Tools = tools },
