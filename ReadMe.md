@@ -367,4 +367,4 @@ Educational / hackathon project.
 **Status**: Working end-to-end (all 7 steps confirmed live)  
 **Built with**: GitHub Copilot + Amazon Bedrock + Amazon Nova Pro/Lite  
 **Repository**: https://github.com/Ashahet1/AmazonNOVAHackathon  
-**Repository**: https://github.com/Ashahet1/AmazonNOVAHackathon
+
