@@ -1,0 +1,76 @@
+═══════════════════════════════════════════════════════════════
+  MCP INSPECTION REPORT
+═══════════════════════════════════════════════════════════════
+  Case ID:      0cd5493612dd
+  Created:      2026-03-03 18:09:36 UTC
+  Image:        00041005_test.jpg
+  Product:      pcb
+  Status:       Completed
+  Human Review: No
+
+── VISION ANALYSIS ──
+  Caption:    PCB with visible defects including a large open circuit and a pin hole.
+  Confidence: 85.0%
+  Tags:       open_circuit, pin_hole
+
+── NORMALIZED DEFECT ──
+  Type:       open
+  Severity:   high
+  Taxonomy:   DEF-OPEN-PCB
+  Inspection: [Electrical testing, Visual inspection, X-ray inspection]
+  Reasoning:  An open circuit and pinhole defect are typically caused by issues in the etching and drilling processes.
+
+── KNOWLEDGE GRAPH CONTEXT ──
+  Related defects:      0
+  AI-equipment:         Etching machine, Drilling machine
+  Co-occurring:         []
+  Defect density:       0.00
+  Historical incidents: 0
+  IPC references:       IPC-A-600J § 1.0 — Scope & General Information; IPC-A-600J § 2.2 — Conductor / Land Integrity; IPC-A-600J § 2.3 — Annular Ring & Land Conditions; IPC-6012E § 3.2 — Visual & Dimensional Requirements; IPC-6012E § 3.3 — Conductor Width, Spacing & Integrity; IPC-6012E § 3.6 — Electrical Requirements
+
+── ROOT-CAUSE ANALYSIS ──
+  Probable cause: Defects in the etching process
+  Confidence:     85%
+  Reasoning:      The defect report indicates an open circuit in the upper section of the PCB and a pinhole in a copper pad, which are both integrity issues. The defect density is low, suggesting these are isolated incidents rather than systemic issues. The AI-inferred equipment links point to the etching machine and drilling machine, and the IPC sections related to conductor integrity and land conditions support the conclusion that the etching process is likely at fault. The location of the defects aligns with areas typically affected by etching problems.
+  Contributing factors:
+    - Potential inconsistencies in the etching solution concentration or temperature
+    - Possible wear or misalignment in the etching machine
+  Actions:
+    [immediate] Inspect and calibrate the etching machine settings (Owner: Manufacturing Engineer) ← IPC-A-600-2.2
+    [short-term] Perform a thorough check of the etching solution and its storage conditions (Owner: Quality Control) ← IPC-A-600-1.0
+    [long-term] Review and update the maintenance schedule for the etching machine (Owner: Maintenance Team) ← IPC-A-600-2.3
+  Referenced IDs: IPC-A-600-2.2, IPC-A-600-2.3
+
+── IPC COMPLIANCE ──
+  Standard:     IPC-A-600J § § 2.2 — Conductor / Land Integrity
+  Class:        Class 2
+  Disposition:  reject
+  Fully covered: Yes
+  Retrieved:    [IPC-A-600-1.0, IPC-A-600-2.2, IPC-A-600-2.3, IPC-6012-3.2, IPC-6012-3.3, IPC-6012-3.6]
+  Checklist:
+    [ ] No opens or shorts in conductors  — There is a significant open circuit in the upper section of the PCB, disrupting the continuity of the trace. [IPC-A-600-2.2]
+    [ ] Nick/pinhole depth ≤ 20%  — A pinhole is present in one of the copper pads. [IPC-6012-3.3]
+
+── TRACE ──
+  18:09:36.808 | pipeline                       | started              | Image: 00041005_test.jpg, Product: pcb
+  18:09:40.065 | analyze_image_with_vision      | success              | [Nova us.amazon.nova-pro-v1:0] Caption: "PCB with visible defects including a large open circuit and a pin hole." (conf: 85.0%), Defect: open (high), Tags: 2, Objects: 2
+  18:09:40.065 | confidence_check               | above_threshold      | Confidence 85.0% >= 40.0%
+  18:09:40.841 | normalize_defect_with_ai       | nova_success         | [us.amazon.nova-lite-v1:0] Tokens used: 206
+  18:09:40.842 | normalize_defect_with_ai       | ai_equipment         | Etching machine|Drilling machine
+  18:09:40.842 | normalize_defect_with_ai       | success              | Type: open, Severity: high, Taxonomy: DEF-OPEN-PCB, InspectionMethods: [Electrical testing, Visual inspection, X-ray inspection]
+  18:09:40.847 | query_knowledge_graph          | success              | Related defects: 0, AI-equipment: 2, IPC sections: 6, Co-occurring: [], Density: 0.00, BBoxes: 0
+  18:09:43.072 | root_cause_enriched            | nova_success         | [us.amazon.nova-lite-v1:0] Tokens used: 1000
+  18:09:43.080 | root_cause_enriched            | schema_valid         | Output passed JSON schema validation
+  18:09:43.081 | root_cause_enriched            | traceability_pass    | Output references 2 context ID(s)
+  18:09:43.083 | compliance_with_rag            | rag_retrieval        | Retrieved 6 IPC sections for defect type 'open'
+  18:09:44.706 | compliance_with_rag            | nova_success         | [us.amazon.nova-lite-v1:0] Tokens used: 1479
+  18:09:44.709 | compliance_with_rag            | schema_valid         | Output passed JSON schema validation
+  18:09:44.709 | compliance_with_rag            | traceability_pass    | Output references 2 context ID(s)
+  18:09:44.727 | policy_check                   | clean                | No policy violations detected
+  18:09:44.728 | final_gate                     | Completed            | Case passed all guardrails
+  18:09:47.353 | agentic_loop                   | tool_executed:quarantine_batch | ✅ Batch 'BATCH-20260303-0CD549' quarantined (severity: high). Record appended to outputs/quarantine_log.jsonl. Status: Q
+  18:09:47.494 | agentic_loop                   | tool_executed:update_knowledge_graph | ✅ Knowledge graph updated for 'open': severity feedback recorded: open → increase; notes logged: Confirmed high severity
+  18:09:47.557 | agentic_loop                   | tool_executed:file_work_order | ✅ Work order 'WO-20260303-180947-0CD549' filed (priority: P1, assignee: process_engineer). Action: "Inspect and calibrat
+  18:09:47.562 | agentic_loop                   | tool_executed:file_work_order | ✅ Work order 'WO-20260303-180947-0CD549' filed (priority: P2, assignee: qa_team). Action: "Perform a thorough check of t
+  18:09:47.566 | agentic_loop                   | tool_executed:file_work_order | ✅ Work order 'WO-20260303-180947-0CD549' filed (priority: P3, assignee: maintenance). Action: "Review and update the mai
+  18:09:49.595 | agentic_action_loop            | loop_complete        | <thinking>All the tools have been successfully called and the results indicate that the batch has been quarantined, the knowledge graph has been updated, and work orders have been filed for each of the recommended actions. The severity of the defect was confirmed to be high, and appropriate actions 

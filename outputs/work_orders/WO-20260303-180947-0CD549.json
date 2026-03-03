@@ -1,0 +1,13 @@
+{
+  "WorkOrderId": "WO-20260303-180947-0CD549",
+  "CreatedAt": "2026-03-03T18:09:47.5632323Z",
+  "CaseId": "0cd5493612dd",
+  "BatchId": "BATCH-20260303-0CD549",
+  "DefectType": "open",
+  "Action": "Review and update the maintenance schedule for the etching machine",
+  "Priority": "P3",
+  "Assignee": "maintenance",
+  "Status": "OPEN",
+  "Source": "MCP_Agent_Pipeline",
+  "ImagePath": "00041005_test.jpg"
+}
