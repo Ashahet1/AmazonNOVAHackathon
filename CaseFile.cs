@@ -97,7 +97,7 @@ namespace ManufacturingKnowledgeGraph
         public List<DetectedObjectInfo> Objects { get; set; } = new();
         public double Confidence { get; set; }
 
-        // ── GPT-4.1 vision enrichment (not available from Azure AI Vision SDK) ──
+        // ── GPT-4.1 vision enrichment (LLM-based, beyond basic SDK tags) ──
         public string DefectType { get; set; } = "";
         public string DefectSeverity { get; set; } = "";
         public string DefectDescription { get; set; } = "";

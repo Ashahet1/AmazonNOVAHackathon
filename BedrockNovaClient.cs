@@ -63,7 +63,7 @@ namespace ManufacturingKnowledgeGraph
         // ═══════════════════════════════════════════════════════════════
         //  Step 1 — Multimodal vision analysis (Nova Pro)
         //  Sends image + prompt to Amazon Nova via Bedrock Converse API.
-        //  Returns a VisionStepResult with the same shape as the Azure path.
+        //  Returns a VisionStepResult with the same shape as the standard path.
         // ═══════════════════════════════════════════════════════════════
 
         public async Task<VisionStepResult> AnalyzeImageAsync(string imagePath)

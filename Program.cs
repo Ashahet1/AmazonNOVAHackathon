@@ -723,7 +723,7 @@ namespace ManufacturingKnowledgeGraph
                 .ToList();
             var defects = graph.GetNodesByType("defect");
 
-            // Build a summary of the knowledge graph for Azure OpenAI
+            // Build a summary of the knowledge graph for the AI model
             var summaryData = new
             {
                 TotalProducts = products.Count,
