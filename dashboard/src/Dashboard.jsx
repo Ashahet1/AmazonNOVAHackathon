@@ -469,6 +469,8 @@ export default function Dashboard() {
     if (apiRunning) return;
     setApiError('');
     setApiRunning(true);
+    setRealInsights(null);   // clear stale insights from previous image
+    setInsightsMeta(null);
     run(); // start animation simultaneously
     try {
       const res = await fetch(`${API}/api/inspect`, {
@@ -499,24 +501,34 @@ export default function Dashboard() {
   const [batchLoading, setBatchLoading] = useState(false);
   const [batchError, setBatchError] = useState('');
 
+  const [insightsMeta, setInsightsMeta] = useState(null); // { caseSpecific, imageName, defectType, source }
   const generateInsights = useCallback(async () => {
     setInsightsLoading(true); setInsightsError('');
     try {
-      const r = await fetch(`${API}/api/insights`);
+      const opts = liveData
+        ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(liveData) }
+        : { method: 'GET' };
+      const r = await fetch(`${API}/api/insights`, opts);
       const d = await r.json();
-      if (d.ok && d.insights) setRealInsights(d.insights);
+      if (d.ok && d.insights) {
+        setRealInsights(d.insights);
+        setInsightsMeta({ caseSpecific: d.caseSpecific, imageName: d.imageName, defectType: d.defectType, source: d.source });
+      }
       else setInsightsError(d.error || 'Failed');
-    } catch { setInsightsError('API unreachable — is the .NET app running?'); }
+    } catch { setInsightsError('API unreachable - is the .NET app running?'); }
     finally { setInsightsLoading(false); }
-  }, []);
+  }, [liveData]);
 
+  const [statsError, setStatsError] = useState('');
+  const [statsLastLoaded, setStatsLastLoaded] = useState(null);
   const loadStats = useCallback(async () => {
-    setStatsLoading(true);
+    setStatsLoading(true); setStatsError('');
     try {
       const r = await fetch(`${API}/api/stats`);
       const d = await r.json();
-      if (d.ok) setRealStats(d);
-    } catch { }
+      if (d.ok) { setRealStats(d); setStatsLastLoaded(new Date()); }
+      else setStatsError(d.message || d.error || 'API returned not-ok');
+    } catch (e) { setStatsError('API unreachable - is the .NET app running on port 5174?'); }
     finally { setStatsLoading(false); }
   }, []);
 
@@ -533,6 +545,11 @@ export default function Dashboard() {
     } catch { setBatchError('API unreachable — is the .NET app running?'); }
     finally { setBatchLoading(false); }
   }, []);
+
+  // Auto-load stats whenever the user switches to tab 3
+  useEffect(() => {
+    if (selectedMenu === 3 && !realStats && !statsLoading) loadStats();
+  }, [selectedMenu, realStats, statsLoading, loadStats]);
 
   const DISPLAY_DATA = liveData ? mapCaseFile(liveData) : CASE_DATA;
 
@@ -928,8 +945,13 @@ export default function Dashboard() {
                 style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid #8b5cf650",
                   background: statsLoading ? "#8b5cf608" : "#8b5cf620", color: "#8b5cf6",
                   fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", cursor: statsLoading ? "not-allowed" : "pointer", fontWeight: 700 }}>
-                {statsLoading ? "⏳ LOADING…" : "📊 LOAD REAL STATS"}
+                {statsLoading ? "LOADING..." : "LOAD REAL STATS"}
               </button>
+              {statsLastLoaded && !statsLoading && (
+                <span style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: "#10b981", border: "1px solid #10b98140", borderRadius: 4, padding: "3px 8px" }}>
+                  REFRESHED {statsLastLoaded.toLocaleTimeString()}
+                </span>
+              )}
               <button onClick={downloadStats}
                 style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid #10b98150",
                   background: "#10b98115", color: "#10b981",
@@ -939,14 +961,31 @@ export default function Dashboard() {
               {S && <div style={{ marginLeft: "auto", fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: "#ffffff30" }}>LIVE DATA · {S.totalDefects} defects across {S.totalImages} images</div>}
             </div>
 
+            {/* Error banner */}
+            {statsError && <div style={{ padding: "8px 14px", background: "#ef444415", border: "1px solid #ef444440", borderRadius: 7, fontSize: 10, color: "#ef4444", fontFamily: "'IBM Plex Mono', monospace" }}>⚠ {statsError}</div>}
+
+            {/* TOP INSIGHTS — exact strings from graph.GenerateInsights() via API */}
+            {S && (S.insights || []).length > 0 && (
+              <div style={{ background: "#0a0f14", border: "1px solid #00d4ff18", borderRadius: 10, padding: "12px 16px", fontFamily: "'IBM Plex Mono', monospace" }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#00d4ff70", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 10 }}>💡 TOP INSIGHTS</div>
+                {(S.insights || []).map((line, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, marginBottom: 6, fontSize: 10, color: "#ffffff65", lineHeight: 1.6 }}>
+                    <span style={{ color: "#10b981", flexShrink: 0 }}>✓</span>
+                    <span>{line}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Key Metrics strip */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 8 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 8 }}>
               {[
-                ["Images Analyzed",    S?.totalImages     ?? 50,   "#00d4ff"],
-                ["Total Defects",      S?.totalDefects    ?? 327,  "#f59e0b"],
-                ["Products",           S?.totalProducts   ?? 1,    "#ffffff70"],
-                ["Equipment Types",    S?.totalEquipment  ?? 7,    "#f59e0b"],
-                ["Avg Defects/Prod",   S?.avgDefectsPerProduct ?? 327, "#8b5cf6"],
+                ["Images Analyzed",       S?.totalImages              ?? 50,   "#00d4ff"],
+                ["Total Defects",         S?.totalDefects             ?? 327,  "#f59e0b"],
+                ["Product Categories",    S?.totalProducts            ?? 1,    "#ffffff70"],
+                ["Equipment Types",       S?.totalEquipment           ?? 7,    "#f59e0b"],
+                ["Avg Defects/Prod",      S?.avgDefectsPerProduct     ?? 327,  "#8b5cf6"],
+                ["Cross-Product Patterns",S?.crossProductPatterns     ?? 0,    "#10b981"],
               ].map(([l,v,c]) => (
                 <div key={l} style={{ background: "#0d1117", border: "1px solid #ffffff10", borderRadius: 8, padding: "10px 14px" }}>
                   <div style={{ fontSize: 8, color: "#ffffff35", fontFamily: "'Barlow', sans-serif", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>{l}</div>
@@ -1086,15 +1125,36 @@ export default function Dashboard() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ flex: 1, padding: "8px 14px", background: "#10b98108", border: "1px solid #10b98120", borderRadius: 8, fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#10b98180" }}>
-                🤖 Amazon Nova Lite · knowledge graph insights · {realInsights ? realInsights.length : AI_INSIGHTS.length} insights {realInsights ? "— LIVE from LLM" : "— demo data"}
+                Amazon Nova Lite
+                {insightsMeta
+                  ? <span style={{ marginLeft: 8 }}>
+                      {insightsMeta.caseSpecific
+                        ? <><span style={{ color: "#00d4ff80" }}>CASE-SPECIFIC</span> · {insightsMeta.imageName} · defect: <span style={{ color: "#ef4444a0" }}>{insightsMeta.defectType}</span></>
+                        : <span style={{ color: "#ffffff30" }}>GENERAL GRAPH INSIGHTS</span>
+                      }
+                      <span style={{ marginLeft: 8, color: insightsMeta.source === "nova" ? "#10b98180" : "#ffffff30" }}>
+                        · {insightsMeta.source === "nova" ? "LIVE LLM" : "static fallback"}
+                      </span>
+                    </span>
+                  : <span style={{ marginLeft: 8, color: "#ffffff30" }}>
+                      {liveData ? `ready to analyse: ${(liveData.imagePath || '').split(/[\\/]/).pop()}` : "run inspection first for image-specific insights"}
+                    </span>
+                }
               </div>
               <button onClick={generateInsights} disabled={insightsLoading}
-                style={{ padding: "8px 16px", borderRadius: 6, border: "1px solid #10b98150",
-                  background: insightsLoading ? "#10b98108" : "#10b98120", color: "#10b981",
+                style={{ padding: "8px 16px", borderRadius: 6,
+                  border: `1px solid ${liveData ? "#00d4ff50" : "#10b98150"}`,
+                  background: insightsLoading ? "#ffffff08" : liveData ? "#00d4ff15" : "#10b98115",
+                  color: insightsLoading ? "#ffffff40" : liveData ? "#00d4ff" : "#10b981",
                   fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", cursor: insightsLoading ? "not-allowed" : "pointer", fontWeight: 700, whiteSpace: "nowrap" }}>
-                {insightsLoading ? "⏳ CALLING LLM…" : "🤖 GENERATE REAL INSIGHTS"}
+                {insightsLoading ? "CALLING LLM..." : liveData ? "ANALYSE THIS IMAGE" : "GENERATE INSIGHTS"}
               </button>
             </div>
+            {!liveData && !realInsights && (
+              <div style={{ padding: "10px 14px", background: "#f59e0b06", border: "1px solid #f59e0b20", borderRadius: 7, fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#f59e0b70" }}>
+                Tip: Run an inspection on Tab 1 first — insights will be specific to that image's defect type, root cause, and IPC compliance failures.
+              </div>
+            )}
             {insightsError && (
               <div style={{ padding: "8px 14px", background: "#ef444410", border: "1px solid #ef444430", borderRadius: 6, fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#ef4444" }}>{insightsError}</div>
             )}
@@ -1287,12 +1347,12 @@ export default function Dashboard() {
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
                 {[
-                  { label: "Case ID", value: DISPLAY_DATA.caseId || "—", color: "#00d4ff" },
-                  { label: "Defect Type", value: DISPLAY_DATA.defectType || "—", color: "#ef4444" },
-                  { label: "Severity", value: DISPLAY_DATA.severity || "—", color: "#ef4444" },
-                  { label: "Confidence", value: DISPLAY_DATA.rootCauseConfidence || "—", color: "#10b981" },
-                  { label: "Taxonomy", value: DISPLAY_DATA.taxonomy || "—", color: "#8b5cf6" },
-                  { label: "Disposition", value: DISPLAY_DATA.disposition || "—", color: "#ef4444" },
+                  { label: "Case ID", value: liveData ? (DISPLAY_DATA.caseId || "—") : "—", color: "#00d4ff" },
+                  { label: "Defect Type", value: liveData ? (DISPLAY_DATA.defectType || "—") : "—", color: "#ef4444" },
+                  { label: "Severity", value: liveData ? (DISPLAY_DATA.severity || "—") : "—", color: liveData && DISPLAY_DATA.severity === "HIGH" ? "#ef4444" : liveData && DISPLAY_DATA.severity === "LOW" ? "#10b981" : "#f59e0b" },
+                  { label: "Confidence", value: liveData ? (DISPLAY_DATA.rootCauseConfidence || "—") : "—", color: "#10b981" },
+                  { label: "Taxonomy", value: liveData ? (DISPLAY_DATA.taxonomy || "—") : "—", color: "#8b5cf6" },
+                  { label: "Disposition", value: liveData ? (DISPLAY_DATA.disposition || "—") : "PENDING", color: liveData ? (DISPLAY_DATA.disposition === "REJECT" ? "#ef4444" : "#10b981") : "#ffffff30" },
                 ].map(item => (
                   <div key={item.label} style={{
                     padding: "8px 12px", background: "#ffffff04",
@@ -1304,8 +1364,16 @@ export default function Dashboard() {
                 ))}
               </div>
 
-              {/* Root cause */}
-              <div style={{ padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b20", borderRadius: 6, marginBottom: 10 }}>
+              {/* Root cause — only shown after a real pipeline run */}
+              {!liveData && (
+                <div style={{ padding: "24px 12px", background: "#ffffff04", border: "1px dashed #ffffff15", borderRadius: 6, marginBottom: 10, textAlign: "center" }}>
+                  <div style={{ fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#ffffff25", marginBottom: 6 }}>ROOT CAUSE · IPC COMPLIANCE</div>
+                  <div style={{ fontSize: 11, fontFamily: "'Barlow', sans-serif", color: "#ffffff35", lineHeight: 1.6 }}>
+                    Press <span style={{ color: "#00d4ff60", fontWeight: 600 }}>RUN</span> to execute the AI pipeline<br />and see live analysis results here.
+                  </div>
+                </div>
+              )}
+              {liveData && <div style={{ padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b20", borderRadius: 6, marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                   <div style={{ fontSize: 9, fontFamily: "'Barlow', sans-serif", color: "#f59e0b80", textTransform: "uppercase", letterSpacing: "0.08em" }}>Root Cause · Nova Lite · {DISPLAY_DATA.rootCauseConfidence} confidence</div>
                   <span style={{ fontSize: 8, fontFamily: "'IBM Plex Mono', monospace", color: "#f59e0b60", padding: "1px 5px", border: "1px solid #f59e0b30", borderRadius: 3 }}>STEP 4</span>
@@ -1340,15 +1408,15 @@ export default function Dashboard() {
                     );
                   })}
                 </div>
-              </div>
+              </div>}
 
-              {/* IPC compliance */}
-              <div style={{ padding: "10px 12px", background: "#8b5cf608", border: "1px solid #8b5cf620", borderRadius: 6 }}>
+              {/* IPC compliance — only shown after a real pipeline run */}
+              {liveData && <div style={{ padding: "10px 12px", background: "#8b5cf608", border: "1px solid #8b5cf620", borderRadius: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                   <div style={{ fontSize: 9, fontFamily: "'Barlow', sans-serif", color: "#8b5cf680", textTransform: "uppercase", letterSpacing: "0.08em" }}>IPC-A-600J Compliance · RAG Retrieved</div>
                   <span style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: "#8b5cf660" }}>{DISPLAY_DATA.compliance.classification}</span>
                 </div>
-                <div style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: "#ef4444a0", marginBottom: 8, padding: "3px 6px", background: "#ef444410", borderRadius: 3, border: "1px solid #ef444420" }}>
+                <div style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: DISPLAY_DATA.compliance.disposition === "REJECT" ? "#ef4444a0" : "#10b981a0", marginBottom: 8, padding: "3px 6px", background: DISPLAY_DATA.compliance.disposition === "REJECT" ? "#ef444410" : "#10b98110", borderRadius: 3, border: `1px solid ${DISPLAY_DATA.compliance.disposition === "REJECT" ? "#ef444420" : "#10b98120"}` }}>
                   {DISPLAY_DATA.compliance.disposition}
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
@@ -1369,7 +1437,7 @@ export default function Dashboard() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div>}
             </div>
 
             {/* Recent Cases Table */}

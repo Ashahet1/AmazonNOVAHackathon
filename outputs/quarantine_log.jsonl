@@ -26,3 +26,13 @@
 {"BatchId":"BATCH-20260303-CC971B","QuarantinedAt":"2026-03-03T22:08:47.4716186Z","Reason":"Etching equipment malfunction","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
 {"BatchId":"BATCH-20260303-7E7A4C","QuarantinedAt":"2026-03-03T22:09:03.6950433Z","Reason":"Etching process anomaly leading to copper bridge formation","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
 {"BatchId":"BATCH-20260303-0892D8","QuarantinedAt":"2026-03-03T22:23:17.7068346Z","Reason":"Etching process inconsistency","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-A2DA26","QuarantinedAt":"2026-03-04T16:10:47.6692586Z","Reason":"Etching machine malfunction","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-DEB370","QuarantinedAt":"2026-03-04T16:20:39.6412122Z","Reason":"Etching process inconsistency","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-DF5610","QuarantinedAt":"2026-03-04T16:51:48.5861560Z","Reason":"Etching equipment malfunction","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-D1DD77","QuarantinedAt":"2026-03-04T16:53:26.9050089Z","Reason":"Etching process defect","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-6947B9","QuarantinedAt":"2026-03-04T16:53:40.0025887Z","Reason":"Etching process error causing short circuits","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-554907","QuarantinedAt":"2026-03-04T16:53:53.3548495Z","Reason":"Exposure Unit malfunction leading to improper exposure","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-7F2B03","QuarantinedAt":"2026-03-04T16:54:21.0124350Z","Reason":"Etching process defect","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-429EEB","QuarantinedAt":"2026-03-04T16:54:32.5414670Z","Reason":"Etching machine malfunction","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-A8B49E","QuarantinedAt":"2026-03-04T17:05:23.6433469Z","Reason":"High severity open defect due to etching machine misalignment or improper etching parameters.","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
+{"BatchId":"BATCH-20260304-80D2CF","QuarantinedAt":"2026-03-04T17:05:57.1968114Z","Reason":"Etching equipment malfunction","Severity":"high","Status":"QUARANTINED","Source":"MCP_Agent_Pipeline"}
