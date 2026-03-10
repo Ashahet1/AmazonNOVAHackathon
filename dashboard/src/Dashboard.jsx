@@ -422,7 +422,9 @@ function mapCaseFile(d) {
   };
 }
 
-const API = 'http://localhost:5174';
+// Empty string = relative URLs → works when C# serves the built app on any port.
+// Vite dev mode proxies /api/* to localhost:5174 via vite.config.js.
+const API = '';
 
 export default function Dashboard() {
   const { activeStep, completedSteps, running, done, run } = useCyclingInspection();

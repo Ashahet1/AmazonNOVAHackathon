@@ -178,11 +178,7 @@ namespace ManufacturingKnowledgeGraph
 
                 else
                 {
-                    res.StatusCode = 404;
-                    await WriteJson(res, new { error = "Not found", availableEndpoints = new[] {
-                        "GET /api/status", "GET /api/images", "GET /api/stats",
-                        "GET /api/insights", "POST /api/inspect", "POST /api/batch"
-                    }});
+                    await ServeStaticFile(res, path);
                 }
             }
             catch (Exception ex)
@@ -716,6 +712,101 @@ namespace ManufacturingKnowledgeGraph
             }
 
             return results.Take(100).ToList();
+        }
+
+        // ---- Static file serving (dashboard/dist/) ----
+
+        private static readonly string _distRoot = FindDistRoot();
+
+        private static string FindDistRoot()
+        {
+            // 1. CWD (works with `dotnet run` from project root)
+            var cwd = Path.Combine(Environment.CurrentDirectory, "dashboard", "dist");
+            if (Directory.Exists(cwd)) return cwd;
+
+            // 2. Walk up from the exe location (works when published)
+            var dir = AppContext.BaseDirectory;
+            for (int i = 0; i < 6; i++)
+            {
+                var candidate = Path.Combine(dir, "dashboard", "dist");
+                if (Directory.Exists(candidate)) return candidate;
+                var parent = Path.GetDirectoryName(dir);
+                if (parent == null || parent == dir) break;
+                dir = parent;
+            }
+            return cwd; // return CWD-based path as default (will show helpful error)
+        }
+
+        private static readonly Dictionary<string, string> _mimeTypes = new(StringComparer.OrdinalIgnoreCase)
+        {
+            [".html"]  = "text/html; charset=utf-8",
+            [".js"]    = "application/javascript; charset=utf-8",
+            [".mjs"]   = "application/javascript; charset=utf-8",
+            [".css"]   = "text/css; charset=utf-8",
+            [".json"]  = "application/json; charset=utf-8",
+            [".png"]   = "image/png",
+            [".jpg"]   = "image/jpeg",
+            [".jpeg"]  = "image/jpeg",
+            [".svg"]   = "image/svg+xml",
+            [".ico"]   = "image/x-icon",
+            [".woff"]  = "font/woff",
+            [".woff2"] = "font/woff2",
+            [".txt"]   = "text/plain; charset=utf-8",
+        };
+
+        private async Task ServeStaticFile(HttpListenerResponse res, string urlPath)
+        {
+            if (!Directory.Exists(_distRoot))
+            {
+                res.StatusCode = 503;
+                await WriteJson(res, new
+                {
+                    error = "Dashboard not built yet.",
+                    fix   = "Run: cd dashboard && npm install && npm run build",
+                    distPath = _distRoot
+                });
+                return;
+            }
+
+            // Map URL path to a file inside dist/
+            var relative = urlPath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+            if (string.IsNullOrEmpty(relative))
+                relative = "index.html";
+
+            var filePath = Path.GetFullPath(Path.Combine(_distRoot, relative));
+            var distRootFull = Path.GetFullPath(_distRoot);
+
+            // Security: prevent path traversal outside dist/
+            if (!filePath.StartsWith(distRootFull, StringComparison.OrdinalIgnoreCase))
+            {
+                res.StatusCode = 403;
+                await WriteJson(res, new { error = "Forbidden" });
+                return;
+            }
+
+            // SPA fallback: unknown paths serve index.html so React Router works
+            if (!File.Exists(filePath))
+                filePath = Path.Combine(_distRoot, "index.html");
+
+            if (!File.Exists(filePath))
+            {
+                res.StatusCode = 404;
+                await WriteJson(res, new { error = "Not found", path = urlPath });
+                return;
+            }
+
+            var ext = Path.GetExtension(filePath);
+            res.ContentType = _mimeTypes.TryGetValue(ext, out var mime) ? mime : "application/octet-stream";
+            res.StatusCode = 200;
+
+            var bytes = await File.ReadAllBytesAsync(filePath);
+            res.ContentLength64 = bytes.Length;
+            try
+            {
+                await res.OutputStream.WriteAsync(bytes);
+                res.OutputStream.Close();
+            }
+            catch { /* client disconnected */ }
         }
 
         // ---- JSON writer ----
