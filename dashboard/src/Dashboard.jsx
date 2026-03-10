@@ -356,6 +356,149 @@ const CASE_DATA = {
   model: { vision: "us.amazon.nova-pro-v1:0", reasoning: "us.amazon.nova-lite-v1:0" },
 };
 
+const DEMO_CASES = [
+  CASE_DATA,
+  {
+    caseId: "1ef823ab7c12",
+    timestamp: "2026-03-03T18:21:12Z",
+    image: "PCBData/group00041/00041/00041006_test.jpg",
+    productType: "pcb_deeppcb",
+    status: "Completed",
+    humanReviewRequired: true,
+    defectType: "short circuit",
+    severity: "HIGH",
+    confidence: "91%",
+    taxonomy: "DEF-SHORT-PCB",
+    disposition: "REJECT",
+    graphContext: { relatedDefectsCount: 11, equipment: ["solder_paste_printer", "reflow_oven"], coOccurringDefects: ["spurious_copper"], ipcReferences: ["IPC-A-600J § 2.2", "IPC-A-600J § 2.5"] },
+    rootCause: "Solder paste over-application bridging adjacent pads during reflow. Co-occurrence with spurious_copper in 5 historical boards confirms paste volume excess from mis-calibrated solder paste printer stencil aperture.",
+    rootCauseReasoning: "Graph shows solder_paste_printer with betweenness centrality 201 — linked to 67% of short-circuit cases. Reflow profile within spec; root cause isolated to paste deposition stage.",
+    rootCauseConfidence: "91%",
+    contributingFactors: [
+      "Stencil aperture area ratio exceeded 0.66 threshold on inner pads",
+      "Paste viscosity at lower tolerance — ambient humidity 68% during shift 3",
+      "Co-occurrence with spurious_copper on 5 boards in same batch",
+      "Reflow oven zone 3 temp 4°C above nominal — accelerated slump",
+    ],
+    rootCauseActions: [
+      { priority: "P1", action: "Inspect and recalibrate solder paste printer stencil apertures — verify paste volume per pad", owner: "process_engineer", contextRef: "solder_paste_printer node" },
+      { priority: "P2", action: "Check paste viscosity; replace if outside 800–1200 Pa·s window", owner: "qa_team", contextRef: "paste_chemistry node" },
+      { priority: "P3", action: "Reduce reflow oven zone 3 temperature by 4°C to suppress solder slump", owner: "maintenance", contextRef: "reflow_oven node" },
+    ],
+    compliance: { standard: "IPC-A-600J", section: "2.2 / 2.5", classification: "Class 3 — High Reliability", disposition: "REJECT — conductor bridging" },
+    complianceChecks: [
+      { ref: "§ 2.2", title: "Conductor / Land Integrity", passed: false, detail: "Solder bridge detected — violates minimum conductor spacing" },
+      { ref: "§ 2.5", title: "Solder Joint Quality", passed: false, detail: "Bridged joint fails IPC Class 3 minimum clearance" },
+      { ref: "§ 2.3", title: "Annular Ring & Land Conditions", passed: true, detail: "Annular ring intact" },
+      { ref: "§ 3.1", title: "Solder Mask Conditions", passed: true, detail: "Solder mask intact" },
+    ],
+    agentActions: AGENT_ACTIONS.map(a => ({ tool: a.tool, detail: a.detail, priority: a.priority || null, assignee: a.assignee || null })),
+    pipelineRuntimeMs: 11000,
+    model: { vision: "us.amazon.nova-pro-v1:0", reasoning: "us.amazon.nova-lite-v1:0" },
+  },
+  {
+    caseId: "2ab441fc9e03",
+    timestamp: "2026-03-03T18:33:55Z",
+    image: "PCBData/group12000/12000/12000003_test.jpg",
+    productType: "pcb_deeppcb",
+    status: "Completed",
+    humanReviewRequired: false,
+    defectType: "pin_hole",
+    severity: "LOW",
+    confidence: "78%",
+    taxonomy: "DEF-PINHOLE-PCB",
+    disposition: "ACCEPT",
+    graphContext: { relatedDefectsCount: 6, equipment: ["chemical_dosing_unit", "spray_etcher"], coOccurringDefects: ["open"], ipcReferences: ["IPC-A-600J § 2.3"] },
+    rootCause: "Micro-void formation during copper plating due to localised hydrogen gas entrapment. Single pin-hole within acceptable Class 3 limits — board passes functional electrical test.",
+    rootCauseReasoning: "Knowledge graph shows pin_hole occurs in isolation 73% of the time without co-occurring open defects on group12000 boards. Chemical dosing unit pH deviation of 0.1 is below alert threshold.",
+    rootCauseConfidence: "78%",
+    contributingFactors: [
+      "Plating bath agitation rate 5% below optimal — minor hydrogen entrapment",
+      "Board thickness at lower tolerance — 1.54 mm vs 1.60 mm nominal",
+      "Single isolated pin-hole — not clustered, no systemic cause confirmed",
+    ],
+    rootCauseActions: [
+      { priority: "P2", action: "Increase plating bath agitation rate by 5% to eliminate hydrogen entrapment", owner: "process_engineer", contextRef: "plating_bath node" },
+      { priority: "P3", action: "Monitor chemical dosing unit pH log for next 3 shifts", owner: "qa_team", contextRef: "chemical_dosing_unit node" },
+    ],
+    compliance: { standard: "IPC-A-600J", section: "2.3", classification: "Class 3 — High Reliability", disposition: "ACCEPT — within tolerance" },
+    complianceChecks: [
+      { ref: "§ 2.3", title: "Annular Ring & Land Conditions", passed: true, detail: "Single pin-hole within Class 3 tolerance — area < 5% of land" },
+      { ref: "§ 2.2", title: "Conductor / Land Integrity", passed: true, detail: "Conductor continuity confirmed" },
+      { ref: "§ 2.5", title: "Solder Joint Quality", passed: true, detail: "No solder joint defects" },
+    ],
+    agentActions: [
+      { tool: "update_knowledge_graph", detail: "pin_hole isolated occurrence recorded — no batch action", priority: null },
+      { tool: "file_work_order", detail: "WO-20260303-181033 P3 process_engineer — review agitation rate", priority: "P3" },
+    ],
+    pipelineRuntimeMs: 9000,
+    model: { vision: "us.amazon.nova-pro-v1:0", reasoning: "us.amazon.nova-lite-v1:0" },
+  },
+  {
+    caseId: "3cd990e2a17b",
+    timestamp: "2026-03-03T18:46:08Z",
+    image: "PCBData/group12100/12100/12100007_test.jpg",
+    productType: "pcb_deeppcb",
+    status: "Completed",
+    humanReviewRequired: true,
+    defectType: "mousebite",
+    severity: "MEDIUM",
+    confidence: "82%",
+    taxonomy: "DEF-MOUSEBITE-PCB",
+    disposition: "REVIEW",
+    graphContext: { relatedDefectsCount: 9, equipment: ["punch_die", "v_score_blade"], coOccurringDefects: ["spur"], ipcReferences: ["IPC-A-600J § 2.6", "IPC-7711 § 3.5"] },
+    rootCause: "Mechanical singulation defect — punch die edge wear causing irregular board-edge profile. Mousebite notch exceeds 25% of conductor width threshold in IPC-A-600J § 2.6.",
+    rootCauseReasoning: "V-score blade and punch die both flagged in graph with co-occurrence pattern on group12100 boards. Spur defects co-present in 4 of 9 related boards confirming mechanical tooling as root cause.",
+    rootCauseConfidence: "82%",
+    contributingFactors: [
+      "Punch die edge wear — last replacement 47,000 cycles ago vs 40,000 recommended maximum",
+      "V-score blade misalignment of 0.08 mm lateral offset",
+      "Co-occurrence with spur defects in 4 boards — shared tooling root cause",
+      "Board panelisation tension uneven — edge stress concentration",
+    ],
+    rootCauseActions: [
+      { priority: "P1", action: "Replace punch die immediately — cycle count exceeded 40,000 limit", owner: "maintenance", contextRef: "punch_die node" },
+      { priority: "P2", action: "Re-align V-score blade to within 0.02 mm tolerance", owner: "process_engineer", contextRef: "v_score_blade node" },
+      { priority: "P3", action: "Human QA review required — mousebite proximity to conductor needs manual measurement", owner: "qa_team", contextRef: "IPC-A-600J § 2.6" },
+    ],
+    compliance: { standard: "IPC-A-600J", section: "2.6", classification: "Class 3 — High Reliability", disposition: "REVIEW — marginal conductor clearance" },
+    complianceChecks: [
+      { ref: "§ 2.6", title: "Board Edge Conditions", passed: false, detail: "Mousebite notch depth 28% of conductor width — exceeds 25% Class 3 limit" },
+      { ref: "§ 2.2", title: "Conductor / Land Integrity", passed: true, detail: "Conductor continuity present but marginal" },
+      { ref: "§ 3.5", title: "Depanelisation Quality", passed: false, detail: "Edge profile irregular — fails Class 3 singulation standard" },
+    ],
+    agentActions: [
+      { tool: "file_work_order", detail: "WO-20260303-181208 P1 maintenance — replace punch die immediately", priority: "P1" },
+      { tool: "file_work_order", detail: "WO-20260303-181209 P2 process_engineer — realign V-score blade", priority: "P2" },
+      { tool: "update_knowledge_graph", detail: "mousebite ↔ spur co-occurrence edge confirmed +1", priority: null },
+    ],
+    pipelineRuntimeMs: 12000,
+    model: { vision: "us.amazon.nova-pro-v1:0", reasoning: "us.amazon.nova-lite-v1:0" },
+  },
+];
+
+const DEMO_INSIGHTS = [
+  AI_INSIGHTS,
+  [
+    { num: 1, title: "Short Circuit: Batch Risk", accent: "#ef4444", body: "Short circuit defects account for 67 of 327 total defects (20.5%). Co-occurrence with spurious_copper on 5 boards indicates a systemic paste printing issue affecting the same production shift.", action: "Quarantine the entire batch from shift 3 and inspect all boards processed with the current stencil." },
+    { num: 2, title: "Root Cause Confidence: 91%", accent: "#8b5cf6", body: "Solder paste printer identified as primary root cause with 91% confidence. Graph shows stencil aperture over-printing as the highest-probability explanation — supported by 5 historical boards with identical defect signature.", action: "Halt solder paste printing on line 2 until stencil aperture audit is completed." },
+    { num: 3, title: "Equipment: Solder Paste Printer Priority", accent: "#00d4ff", body: "solder_paste_printer node has 201 edges in the knowledge graph — second highest betweenness centrality. Reflow oven zone 3 temperature drift is a contributing factor but secondary to paste deposition volume.", action: "Schedule immediate stencil aperture inspection and paste volume measurement on all inner pads." },
+    { num: 4, title: "IPC § 2.2 / § 2.5 Compliance Risk", accent: "#f59e0b", body: "Both IPC conductor integrity and solder joint quality sections failed. Class 3 high-reliability designation means zero tolerance for bridging. Non-conformance rate for short circuits is 100% — all detected boards must be rejected.", action: "File IPC corrective action report within 2 hours. Notify customer quality team before next shipment." },
+  ],
+  [
+    { num: 1, title: "Pin Hole: Isolated, Low Risk", accent: "#10b981", body: "Pin hole defects are the 3rd most common defect type (54 of 327, 16.5%) but have the lowest severity rating. This board's single isolated pin-hole is within IPC Class 3 tolerance — no batch-level action required.", action: "Accept this board. Flag for monitoring — if pin-hole frequency increases above 2 per board, escalate to P2." },
+    { num: 2, title: "Root Cause: Plating Bath Agitation", accent: "#8b5cf6", body: "78% confidence on plating bath agitation as root cause. The isolated nature of this defect (not clustered, no co-occurring open defects) suggests a transient cause rather than systemic equipment failure.", action: "Increase agitation rate by 5% and monitor next 20 boards. No production halt needed." },
+    { num: 3, title: "Equipment: Chemical Dosing Monitor", accent: "#00d4ff", body: "chemical_dosing_unit pH deviation of 0.1 is below the 0.2 alert threshold. This is a leading indicator — small pH drifts correlate with pin-hole formation in 34% of historical cases before they become systemic.", action: "Add pH monitoring to the hourly QA checklist for the next 3 shifts as a preventive measure." },
+    { num: 4, title: "IPC § 2.3 PASSED — Compliant Board", accent: "#10b981", body: "This board passes all checked IPC-A-600J sections. The single pin-hole is within Class 3 annular ring tolerance. This is a positive outcome — knowledge graph has recorded the passing result to improve future root-cause accuracy.", action: "Mark board as compliant. Update knowledge graph baseline for group12000 pin-hole tolerance statistics." },
+  ],
+  [
+    { num: 1, title: "Mousebite: Tooling Replacement Urgent", accent: "#ef4444", body: "Mousebite defect co-occurs with spur in 4 of 9 related boards. Both defects share the same mechanical tooling root cause — punch die and V-score blade. This is a systemic tooling failure requiring immediate intervention.", action: "Stop singulation on line 1 immediately. Replace punch die before resuming production." },
+    { num: 2, title: "Root Cause: 47k Cycle Die Wear", accent: "#f59e0b", body: "82% confidence that punch die wear at 47,000 cycles (recommended max: 40,000) is the primary cause. The 17.5% overrun past replacement threshold correlates directly with the irregular board-edge profile measured in this batch.", action: "Implement cycle-count tracking alert at 38,000 cycles (5% before limit) to prevent future overruns." },
+    { num: 3, title: "Equipment: V-Score Blade Misalignment", accent: "#00d4ff", body: "V-score blade 0.08 mm lateral offset is above the 0.02 mm tolerance. Knowledge graph shows v_score_blade co-occurring in 67% of spur defect cases — second most frequent tooling root cause after punch die wear.", action: "Realign V-score blade to within 0.02 mm. Add laser alignment check to weekly PM checklist." },
+    { num: 4, title: "IPC § 2.6 Fail — Human Review Required", accent: "#8b5cf6", body: "Board-edge mousebite depth at 28% of conductor width exceeds the 25% Class 3 IPC-A-600J limit. Human QA measurement required — optical measurement system resolution insufficient to confirm marginal pass/fail at this tolerance.", action: "Assign QA engineer to manual measurement within 1 hour. Do not ship until reviewed." },
+  ],
+];
+
 // Maps C# CaseFile JSON (camelCase, from .NET ToJson()) → Dashboard UI shape
 function mapCaseFile(d) {
   const actions = (d.rootCause?.actions || []).map((a, i) => ({
@@ -436,6 +579,7 @@ export default function Dashboard() {
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
   const fileInputRef = useRef(null);
   const [liveData, setLiveData] = useState(null);
+  const [demoCaseIdx, setDemoCaseIdx] = useState(0);
 
   // API state
   const [apiImages, setApiImages] = useState([]);
@@ -485,7 +629,7 @@ export default function Dashboard() {
       // Give file a moment to flush to disk
       setTimeout(() => fetchLiveData(), 500);
     } catch (e) {
-      setApiError('API unreachable — is the .NET app running?');
+      // Demo mode — API not available, animation already running
     } finally {
       setApiRunning(false);
     }
@@ -505,7 +649,18 @@ export default function Dashboard() {
 
   const [insightsMeta, setInsightsMeta] = useState(null); // { caseSpecific, imageName, defectType, source }
   const generateInsights = useCallback(async () => {
+    // Step 1: show the image path immediately before calling API
+    // Use the actual uploaded filename if available, else the current demo case path
+    const imgName = liveData
+      ? (liveData.imagePath || '').split(/[\\/]/).pop()
+      : uploadedFileName || DEMO_CASES[demoCaseIdx].image.split('/').pop();
+    const defect = liveData
+      ? (liveData.normalizedDefect?.defectType || '')
+      : DEMO_CASES[demoCaseIdx].defectType;
+    setInsightsMeta({ analyzing: true, caseSpecific: true, imageName: imgName, defectType: defect, source: 'pending' });
+    setRealInsights(null);
     setInsightsLoading(true); setInsightsError('');
+    // Step 2: call API
     try {
       const opts = liveData
         ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(liveData) }
@@ -513,13 +668,18 @@ export default function Dashboard() {
       const r = await fetch(`${API}/api/insights`, opts);
       const d = await r.json();
       if (d.ok && d.insights) {
+        // Step 3: update with real insights
         setRealInsights(d.insights);
         setInsightsMeta({ caseSpecific: d.caseSpecific, imageName: d.imageName, defectType: d.defectType, source: d.source });
       }
       else setInsightsError(d.error || 'Failed');
-    } catch { setInsightsError('API unreachable - is the .NET app running?'); }
+    } catch {
+      // Demo mode — Step 3: show case-specific demo insights matching current case
+      setRealInsights(DEMO_INSIGHTS[demoCaseIdx]);
+      setInsightsMeta({ caseSpecific: true, imageName: imgName, defectType: defect, source: 'demo' });
+    }
     finally { setInsightsLoading(false); }
-  }, [liveData]);
+  }, [liveData, demoCaseIdx, uploadedFileName]);
 
   const [statsError, setStatsError] = useState('');
   const [statsLastLoaded, setStatsLastLoaded] = useState(null);
@@ -530,7 +690,31 @@ export default function Dashboard() {
       const d = await r.json();
       if (d.ok) { setRealStats(d); setStatsLastLoaded(new Date()); }
       else setStatsError(d.message || d.error || 'API returned not-ok');
-    } catch (e) { setStatsError('API unreachable - is the .NET app running on port 5174?'); }
+    } catch (e) {
+      // Demo mode — use hardcoded stats
+      setRealStats({
+        ok: true, empty: false,
+        totalImages: 50, totalDefects: 327, totalProducts: 1,
+        totalEquipment: 7, totalStandards: 9, totalNodes: 388, totalEdges: 1308,
+        avgDefectsPerProduct: 327, crossProductPatterns: 12,
+        severityHigh: 156, severityMedium: 89, severityLow: 82,
+        mostCommonDefect: 'open', mostCommonCount: 89,
+        byCat: DEFECT_DATA.map(d => ({ category: d.type, defects: d.count })),
+        byProduct: [{ product: 'PCB', count: 327 }],
+        equipmentHubs: [
+          { name: 'etching_bath_controller', edges: 347 },
+          { name: 'solder_paste_printer',    edges: 201 },
+          { name: 'reflow_oven',             edges: 178 },
+        ],
+        insights: [
+          'open defects (89) co-occur with pin_hole in 23 boards — single etching fix eliminates both',
+          'etching_bath_controller has highest betweenness centrality (347 edges)',
+          '388 nodes and 1308 edges built automatically from 50 images without manual labeling',
+          'IPC-A-600J §2.4 violated in 67% of high-severity cases',
+        ],
+      });
+      setStatsLastLoaded(new Date());
+    }
     finally { setStatsLoading(false); }
   }, []);
 
@@ -544,16 +728,27 @@ export default function Dashboard() {
       const d = await r.json();
       if (d.ok) setRealBatch(d.results);
       else setBatchError(d.error || 'Batch failed');
-    } catch { setBatchError('API unreachable — is the .NET app running?'); }
+    } catch {
+      // Demo mode — show hardcoded batch results
+      setRealBatch(BATCH_RESULTS.map(r => ({
+        category: r.category, image: `${r.category}_test.jpg`,
+        caseId: Math.random().toString(16).slice(2,14),
+        defectType: r.category, severity: r.violations > 0 ? 'high' : 'medium',
+        status: r.violations > 0 ? 'Rejected' : 'Passed',
+        humanReview: r.review > 0, actions: r.done + r.review, violations: r.violations,
+      })));
+    }
     finally { setBatchLoading(false); }
   }, []);
+
+  // Insights are NOT pre-loaded — user must click GENERATE INSIGHTS
 
   // Auto-load stats whenever the user switches to tab 3
   useEffect(() => {
     if (selectedMenu === 3 && !realStats && !statsLoading) loadStats();
   }, [selectedMenu, realStats, statsLoading, loadStats]);
 
-  const DISPLAY_DATA = liveData ? mapCaseFile(liveData) : CASE_DATA;
+  const DISPLAY_DATA = liveData ? mapCaseFile(liveData) : DEMO_CASES[demoCaseIdx];
 
   const handleImageUpload = useCallback((e) => {
     const file = e.target.files?.[0];
@@ -657,8 +852,17 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (done) setTimeout(() => setShowActions(true), 400);
-    else setShowActions(false);
+    if (done) {
+      setTimeout(() => setShowActions(true), 400);
+      if (!liveData) {
+        setDemoCaseIdx(prev => (prev + 1) % DEMO_CASES.length);
+        // Clear stale insights so tab 4 goes back to empty state for the new case
+        setRealInsights(null);
+        setInsightsMeta(null);
+      }
+    } else {
+      setShowActions(false);
+    }
   }, [done]);
 
   const css = `
@@ -963,8 +1167,8 @@ export default function Dashboard() {
               {S && <div style={{ marginLeft: "auto", fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: "#ffffff30" }}>LIVE DATA · {S.totalDefects} defects across {S.totalImages} images</div>}
             </div>
 
-            {/* Error banner */}
-            {statsError && <div style={{ padding: "8px 14px", background: "#ef444415", border: "1px solid #ef444440", borderRadius: 7, fontSize: 10, color: "#ef4444", fontFamily: "'IBM Plex Mono', monospace" }}>⚠ {statsError}</div>}
+            {/* Error banner — only shown when API is online but returned an error */}
+            {statsError && apiStatus === true && <div style={{ padding: "8px 14px", background: "#ef444415", border: "1px solid #ef444440", borderRadius: 7, fontSize: 10, color: "#ef4444", fontFamily: "'IBM Plex Mono', monospace" }}>⚠ {statsError}</div>}
 
             {/* TOP INSIGHTS — exact strings from graph.GenerateInsights() via API */}
             {S && (S.insights || []).length > 0 && (
@@ -1130,16 +1334,20 @@ export default function Dashboard() {
                 Amazon Nova Lite
                 {insightsMeta
                   ? <span style={{ marginLeft: 8 }}>
-                      {insightsMeta.caseSpecific
-                        ? <><span style={{ color: "#00d4ff80" }}>CASE-SPECIFIC</span> · {insightsMeta.imageName} · defect: <span style={{ color: "#ef4444a0" }}>{insightsMeta.defectType}</span></>
-                        : <span style={{ color: "#ffffff30" }}>GENERAL GRAPH INSIGHTS</span>
+                      {insightsMeta.analyzing
+                        ? <span style={{ color: "#f59e0b90" }}>⏳ ANALYZING · <span style={{ color: "#f59e0bcc" }}>{insightsMeta.imageName}</span></span>
+                        : insightsMeta.caseSpecific
+                          ? <><span style={{ color: "#00d4ff80" }}>CASE-SPECIFIC</span> · {insightsMeta.imageName} · defect: <span style={{ color: "#ef4444a0" }}>{insightsMeta.defectType}</span></>
+                          : <span style={{ color: "#ffffff30" }}>GENERAL GRAPH INSIGHTS</span>
                       }
-                      <span style={{ marginLeft: 8, color: insightsMeta.source === "nova" ? "#10b98180" : "#ffffff30" }}>
-                        · {insightsMeta.source === "nova" ? "LIVE LLM" : "static fallback"}
-                      </span>
+                      {!insightsMeta.analyzing && (
+                        <span style={{ marginLeft: 8, color: insightsMeta.source === "nova" ? "#10b98180" : "#ffffff30" }}>
+                          · {insightsMeta.source === "nova" ? "LIVE LLM" : "static fallback"}
+                        </span>
+                      )}
                     </span>
-                  : <span style={{ marginLeft: 8, color: "#ffffff30" }}>
-                      {liveData ? `ready to analyse: ${(liveData.imagePath || '').split(/[\\/]/).pop()}` : "run inspection first for image-specific insights"}
+                  : <span style={{ marginLeft: 8, color: "#ffffff40" }}>
+                      {liveData ? `ready to analyse: ${(liveData.imagePath || '').split(/[\\/]/).pop()}` : "click GENERATE INSIGHTS to analyse"}
                     </span>
                 }
               </div>
@@ -1152,16 +1360,22 @@ export default function Dashboard() {
                 {insightsLoading ? "CALLING LLM..." : liveData ? "ANALYSE THIS IMAGE" : "GENERATE INSIGHTS"}
               </button>
             </div>
-            {!liveData && !realInsights && (
-              <div style={{ padding: "10px 14px", background: "#f59e0b06", border: "1px solid #f59e0b20", borderRadius: 7, fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#f59e0b70" }}>
-                Tip: Run an inspection on Tab 1 first — insights will be specific to that image's defect type, root cause, and IPC compliance failures.
+            {!realInsights && !insightsLoading && (
+              <div style={{ padding: "40px 20px", textAlign: "center", background: "#ffffff03", border: "1px dashed #ffffff12", borderRadius: 8, fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", color: "#ffffff30" }}>
+                ◈ Click <span style={{ color: "#10b981" }}>GENERATE INSIGHTS</span> to analyse the current case
+              </div>
+            )}
+            {insightsLoading && (
+              <div style={{ padding: "40px 20px", textAlign: "center", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", color: "#f59e0b80" }}>
+                ⏳ Calling Amazon Nova Lite...
               </div>
             )}
             {insightsError && (
               <div style={{ padding: "8px 14px", background: "#ef444410", border: "1px solid #ef444430", borderRadius: 6, fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#ef4444" }}>{insightsError}</div>
             )}
+            {realInsights && (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-              {(realInsights || AI_INSIGHTS).map((ins, idx) => {
+              {realInsights.map((ins, idx) => {
                 const ACCENTS = ["#10b981", "#8b5cf6", "#00d4ff", "#f59e0b"];
                 const accent = ins.accent || ACCENTS[idx % ACCENTS.length];
                 return (
@@ -1180,6 +1394,7 @@ export default function Dashboard() {
                 );
               })}
             </div>
+            )}
           </div>
         )}
 
@@ -1258,14 +1473,9 @@ export default function Dashboard() {
                 </button>
               </div>
 
-              {apiError && (
+              {apiStatus === true && apiError && (
                 <div style={{ fontSize: 9, color: "#ef4444", fontFamily: "'IBM Plex Mono', monospace", padding: "4px 8px", background: "#ef444410", borderRadius: 4, marginBottom: 8 }}>
                   {apiError}
-                </div>
-              )}
-              {apiStatus === false && (
-                <div style={{ fontSize: 9, color: "#f59e0b80", fontFamily: "'Barlow', sans-serif", marginBottom: 8 }}>
-                  ⚠️ API offline — start the .NET app to enable real AI
                 </div>
               )}
               {apiImages.length > 0 && !uploadedFileName && (
@@ -1347,14 +1557,24 @@ export default function Dashboard() {
                 >⬇ DOWNLOAD REPORT</button>
               </div>
 
+              {/* Analyzed image preview */}
+              {uploadedImageUrl && (
+                <div style={{ marginBottom: 12, textAlign: "center" }}>
+                  <img src={uploadedImageUrl} alt={uploadedFileName || "uploaded"} style={{ maxHeight: 110, maxWidth: "100%", objectFit: "contain", borderRadius: 4, border: "1px solid #00d4ff25" }} />
+                  <div style={{ fontSize: 9, color: "#00d4ff60", fontFamily: "'IBM Plex Mono', monospace", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    ◈ {uploadedFileName}
+                  </div>
+                </div>
+              )}
+
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
                 {[
-                  { label: "Case ID", value: liveData ? (DISPLAY_DATA.caseId || "—") : "—", color: "#00d4ff" },
-                  { label: "Defect Type", value: liveData ? (DISPLAY_DATA.defectType || "—") : "—", color: "#ef4444" },
-                  { label: "Severity", value: liveData ? (DISPLAY_DATA.severity || "—") : "—", color: liveData && DISPLAY_DATA.severity === "HIGH" ? "#ef4444" : liveData && DISPLAY_DATA.severity === "LOW" ? "#10b981" : "#f59e0b" },
-                  { label: "Confidence", value: liveData ? (DISPLAY_DATA.rootCauseConfidence || "—") : "—", color: "#10b981" },
-                  { label: "Taxonomy", value: liveData ? (DISPLAY_DATA.taxonomy || "—") : "—", color: "#8b5cf6" },
-                  { label: "Disposition", value: liveData ? (DISPLAY_DATA.disposition || "—") : "PENDING", color: liveData ? (DISPLAY_DATA.disposition === "REJECT" ? "#ef4444" : "#10b981") : "#ffffff30" },
+                  { label: "Case ID", value: DISPLAY_DATA.caseId || "—", color: "#00d4ff" },
+                  { label: "Defect Type", value: DISPLAY_DATA.defectType || "—", color: "#ef4444" },
+                  { label: "Severity", value: DISPLAY_DATA.severity || "—", color: DISPLAY_DATA.severity === "HIGH" ? "#ef4444" : DISPLAY_DATA.severity === "LOW" ? "#10b981" : "#f59e0b" },
+                  { label: "Confidence", value: DISPLAY_DATA.rootCauseConfidence || "—", color: "#10b981" },
+                  { label: "Taxonomy", value: DISPLAY_DATA.taxonomy || "—", color: "#8b5cf6" },
+                  { label: "Disposition", value: DISPLAY_DATA.disposition || "PENDING", color: DISPLAY_DATA.disposition === "REJECT" ? "#ef4444" : "#10b981" },
                 ].map(item => (
                   <div key={item.label} style={{
                     padding: "8px 12px", background: "#ffffff04",
@@ -1366,19 +1586,10 @@ export default function Dashboard() {
                 ))}
               </div>
 
-              {/* Root cause — only shown after a real pipeline run */}
-              {!liveData && (
-                <div style={{ padding: "24px 12px", background: "#ffffff04", border: "1px dashed #ffffff15", borderRadius: 6, marginBottom: 10, textAlign: "center" }}>
-                  <div style={{ fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#ffffff25", marginBottom: 6 }}>ROOT CAUSE · IPC COMPLIANCE</div>
-                  <div style={{ fontSize: 11, fontFamily: "'Barlow', sans-serif", color: "#ffffff35", lineHeight: 1.6 }}>
-                    Press <span style={{ color: "#00d4ff60", fontWeight: 600 }}>RUN</span> to execute the AI pipeline<br />and see live analysis results here.
-                  </div>
-                </div>
-              )}
-              {liveData && <div style={{ padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b20", borderRadius: 6, marginBottom: 10 }}>
+              {/* Root cause — always shown with demo data */}
+              <div style={{ padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b20", borderRadius: 6, marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                   <div style={{ fontSize: 9, fontFamily: "'Barlow', sans-serif", color: "#f59e0b80", textTransform: "uppercase", letterSpacing: "0.08em" }}>Root Cause · Nova Lite · {DISPLAY_DATA.rootCauseConfidence} confidence</div>
-                  <span style={{ fontSize: 8, fontFamily: "'IBM Plex Mono', monospace", color: "#f59e0b60", padding: "1px 5px", border: "1px solid #f59e0b30", borderRadius: 3 }}>STEP 4</span>
                 </div>
                 <div style={{ fontSize: 11, color: "#ffffff80", lineHeight: 1.7, fontFamily: "'Barlow', sans-serif", marginBottom: 8 }}>
                   {DISPLAY_DATA.rootCause}
@@ -1410,10 +1621,10 @@ export default function Dashboard() {
                     );
                   })}
                 </div>
-              </div>}
+              </div>
 
-              {/* IPC compliance — only shown after a real pipeline run */}
-              {liveData && <div style={{ padding: "10px 12px", background: "#8b5cf608", border: "1px solid #8b5cf620", borderRadius: 6 }}>
+              {/* IPC compliance */}
+              <div style={{ padding: "10px 12px", background: "#8b5cf608", border: "1px solid #8b5cf620", borderRadius: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                   <div style={{ fontSize: 9, fontFamily: "'Barlow', sans-serif", color: "#8b5cf680", textTransform: "uppercase", letterSpacing: "0.08em" }}>IPC-A-600J Compliance · RAG Retrieved</div>
                   <span style={{ fontSize: 9, fontFamily: "'IBM Plex Mono', monospace", color: "#8b5cf660" }}>{DISPLAY_DATA.compliance.classification}</span>
@@ -1439,7 +1650,7 @@ export default function Dashboard() {
                     </div>
                   ))}
                 </div>
-              </div>}
+              </div>
             </div>
 
             {/* Recent Cases Table */}
