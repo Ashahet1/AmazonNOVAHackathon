@@ -1,32 +1,135 @@
-﻿# Manufacturing Knowledge Graph — PCB Quality Control with Amazon Nova
+﻿# Agentic PCB Defect Inspector — Amazon Nova on AWS Bedrock
 
-> **Agentic AI inspection system** built on **Amazon Bedrock (Amazon Nova Pro + Nova Lite)**
-> and the **Model Context Protocol (MCP)** — demonstrating autonomous tool-calling, guardrails,
-> knowledge graph reasoning, and IPC-A-600J compliance on real industrial PCB data.
+> A **.NET 9** agentic AI system that inspects PCB images, checks IPC compliance, identifies root cause, and autonomously quarantines batches, files work orders, and updates its own knowledge graph — all in ~13 seconds.
+
+🌐 **Live demo:** https://ashahet1.github.io/AmazonNOVAHackathon/  
+📦 **Repo:** https://github.com/Ashahet1/AmazonNOVAHackathon
 
 ---
 
-## What Was Built
+## Pipeline Overview
 
-A **.NET 9 console application** that inspects PCB images through a **7-step MCP agentic
-pipeline** powered entirely by **Amazon Bedrock**. When a defect is confirmed, an autonomous
-agent loop calls real tools — quarantine records, work orders, and knowledge graph updates —
-with no human input required.
+<!-- Add your architecture or pipeline screenshot here.
+     Suggested images already in the repo:
+       datasets/flowchart/Flowchart001.png
+       datasets/flowchart/Flowchart002.png
+       datasets/flowchart/Flowchart003.png
+     Example usage:
+       ![Pipeline diagram](datasets/flowchart/Flowchart001.png)
+-->
+> 📸 _Add your pipeline or architecture screenshot here (e.g. `datasets/flowchart/Flowchart001.png`)._
 
-The system moved completely off Azure. There is no Azure OpenAI, no Azure AI Vision, and no
-Azure SDK dependency. Every AI call goes to **Amazon Nova** via the **Bedrock Converse API**.
 ---
 
-## Architecture
+## How It Works
+
+Each inspection runs a 7-step pipeline automatically:
+
+| Step | What happens | Model |
+|------|-------------|-------|
+| 1 | Analyze PCB image — detect defect type, confidence, tags | Nova Pro (multimodal) |
+| 2 | Normalize to canonical taxonomy, infer likely equipment | Nova 2 Lite |
+| 3 | Query knowledge graph — related defects, IPC sections, co-occurrences | In-memory graph |
+| 4 | Root cause reasoning — contributing factors + 3 prioritized actions | Nova 2 Lite |
+| 5 | IPC-A-600J / IPC-6012E compliance check (RAG) — accept or reject | Nova 2 Lite |
+| P/G | Policy checks + final review gate | Rule engine |
+| 7 | **Agentic loop** — calls real tools autonomously | Nova 2 Lite |
+
+**Step 7 tools:**
+- `quarantine_batch` → appends to `quarantine_log.jsonl`
+- `file_work_order` → creates `WO-*.json` with priority (P1/P2/P3) and assignee
+- `update_knowledge_graph` → adds co-occurrence edges, records severity feedback
+
+---
+
+## Real Output
 
 ```
-+===========================================================================+
-|           PCB IMAGE (input)                                               |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  STEP 1 — analyze_image_with_vision          [Amazon Nova Pro]           |
+⚙️  quarantine_batch    → ✅ BATCH-20260303-0CD549 quarantined (high severity)
+⚙️  update_knowledge_graph → ✅ open → severity increase recorded
+⚙️  file_work_order     → ✅ WO filed (P1, process_engineer): calibrate etching machine
+⚙️  file_work_order     → ✅ WO filed (P2, qa_team): check etching solution
+⚙️  file_work_order     → ✅ WO filed (P3, maintenance): update maintenance schedule
+✅ Agentic loop complete — 5 action(s) taken in ~13s
+```
+
+Nova selected every tool, assigned priorities and assignees, with zero human instruction.
+
+---
+
+## Dataset
+
+**DeepPCB** (open-source, Peking University) — real PCB defect images  
+6 defect classes: `open` · `short` · `mousebite` · `spur` · `pin_hole` · `spurious_copper`  
+50 images → **388 graph nodes, 1308 relationships, ~327 defects**
+
+---
+
+## Quick Start
+
+**Prerequisites:** .NET 9 SDK · AWS account with Bedrock access in `us-east-1` · Nova Pro + Nova 2 Lite enabled in Bedrock Model Access
+
+```bash
+git clone https://github.com/Ashahet1/AmazonNOVAHackathon
+cd AmazonNOVAHackathon
+```
+
+Edit `appsettings.json` with your AWS credentials, then:
+
+```bash
+dotnet run
+# → Select 1 to load cached graph (instant)
+# → Select 1 from main menu to run a full inspection
+```
+
+---
+
+## Stack
+
+| | |
+|---|---|
+| Language | C# / .NET 9 |
+| AI | Amazon Bedrock — Nova Pro + Nova 2 Lite |
+| API | Bedrock Converse API |
+| Dataset | DeepPCB (open-source, Peking University) |
+| Standards | IPC-A-600J · IPC-6012E |
+| Dashboard | React + Vite → GitHub Pages |
+| NuGet | `AWSSDK.BedrockRuntime` only |
+
+---
+
+## Project Structure
+
+```
+Program.cs                 ← Entry point + 6-option console menu
+BedrockNovaClient.cs       ← All Bedrock calls (vision, reasoning, agentic loop)
+AgentTools.cs              ← Tool definitions + dispatcher
+McpOrchestrator.cs         ← 7-step pipeline orchestration
+CaseFile.cs                ← Case model with full trace
+KnowledgeGraph.cs          ← In-memory graph, JSON persistence
+IpcComplianceReference.cs  ← IPC sections used as RAG context
+Guardrails.cs              ← Policy checks
+outputs/
+  cases/                   ← Case_*.json per inspection
+  work_orders/             ← WO-*.json filed by Step 7
+  quarantine_log.jsonl     ← Quarantine events
+dashboard/                 ← React + Vite live dashboard
+```
+
+---
+
+## References
+
+- [Amazon Bedrock](https://aws.amazon.com/bedrock/)
+- [Amazon Nova](https://aws.amazon.com/bedrock/nova/)
+- [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html)
+- [DeepPCB Dataset](https://github.com/tangsanli5201/DeepPCB) — Ding et al., CAAI Transactions 2019
+- IPC-A-600J / IPC-6012E — PCB acceptability and performance standards
+
+---
+
+**Built by Riddhi Shah · Amazon Nova AI Hackathon · March 2026**
+
 |  Image encoded as base64 → Bedrock Converse API (multimodal)             |
 |  Outputs: defect caption, type, confidence, tags, object list             |
 +===========================================================================+
@@ -112,12 +215,12 @@ Azure SDK dependency. Every AI call goes to **Amazon Nova** via the **Bedrock Co
 
 ## Models Used
 
-| Model | Used In | Why |
+| Model | Model ID | Used In |
 |---|---|---|
-| `us.amazon.nova-pro-v1:0` | Step 1 — Vision analysis | Multimodal; handles base64 image input |
-| `us.amazon.nova-lite-v1:0` | Steps 2, 4, 5, 7 — Reasoning + agentic loop | Fast, cost-efficient; supports tool use via Converse API |
+| Amazon Nova Pro | `us.amazon.nova-pro-v1:0` | Step 1 — multimodal vision (base64 image input) |
+| Amazon Nova 2 Lite | `us.amazon.nova-2-lite-v1:0` | Steps 2, 4, 5, 7 — reasoning, compliance, agentic tool loop |
 
-Both accessed via **AWS Bedrock Converse API**. Region: `us-east-1`.
+Both accessed via the **AWS Bedrock Converse API** in region `us-east-1`.
 
 ---
 
@@ -273,43 +376,66 @@ ManufacturingVisionAnalyzer/
 
 ### Prerequisites
 
-- **.NET 9.0 SDK**
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - **AWS account** with Bedrock access in `us-east-1`
-- Amazon Nova Pro and Nova Lite **enabled** in Bedrock Model Access
-- **DeepPCB dataset** extracted to `datasets/PCBData/`
+- Both models **enabled** in [Bedrock Model Access](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess):
+  - `Amazon Nova Pro` (`us.amazon.nova-pro-v1:0`)
+  - `Amazon Nova 2 Lite` (`us.amazon.nova-2-lite-v1:0`)
+- An **IAM user or role** with `bedrock:InvokeModel` permission, and its Access Key ID + Secret
 
-### 1. Configure AWS Credentials
+> 💡 The **DeepPCB dataset** is **not required** for a first run — `knowledge_graph.json`
+> is already committed to the repo (388 nodes, loads instantly).
 
-Edit `appsettings.json`:
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Ashahet1/AmazonNOVAHackathon
+cd AmazonNOVAHackathon
+```
+
+### 2. Create `appsettings.json`
+
+> ⚠️ This file is intentionally **not committed** (it's in `.gitignore`). You must create it.
+
+Create `appsettings.json` in the project root:
 
 ```json
 {
   "AmazonNova": {
-    "AccessKey":     "YOUR-ACCESS-KEY-ID",
-    "SecretKey":     "YOUR-SECRET-ACCESS-KEY",
-    "Region":        "us-east-1",
-    "VisionModelId": "us.amazon.nova-pro-v1:0",
-    "LiteModelId":   "us.amazon.nova-lite-v1:0"
+    "AwsRegion": "us-east-1",
+    "AwsAccessKeyId": "YOUR_ACCESS_KEY_ID",
+    "AwsSecretAccessKey": "YOUR_SECRET_ACCESS_KEY",
+    "NovaVisionModel": "us.amazon.nova-pro-v1:0",
+    "NovaReasoningModel": "us.amazon.nova-2-lite-v1:0",
+    "NovaComplianceModel": "us.amazon.nova-2-lite-v1:0",
+    "NovaAgentModel": "us.amazon.nova-2-lite-v1:0"
   }
 }
 ```
 
-### 2. Build & Run
+> The key names must match exactly as shown above — they are read by `AppConfig.cs`.
+> You can also override any value with environment variables:
+> `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`.
+
+### 3. Run the application
 
 ```bash
-dotnet restore
-dotnet build
 dotnet run
 ```
 
-### 3. First Run — Load the Graph
+At the graph prompt, select **`1`** to load from cache (instant — no dataset needed):
 
-At startup press **Enter** for default dataset path, then choose **1** to load from cache
-(instant). If no cache exists, choose **2** to build from dataset (~1 min for 50 images).
+```
+✅ Found cached knowledge graph!
+  1. Load from cache (instant) ⚡   ← select this
+  2. Rebuild from scratch (10-15 min)
+  3. Exit
+```
 
 ### 4. Run the Full Agentic Pipeline
 
-Select **Option 1** → press Enter for the sample image → all 7 steps run automatically.
+From the main menu select **`1`** → press **Enter** for the default sample image
+(`00041005_test.jpg`) → all 7 steps run automatically, including the agentic tool loop.
 
 ---
 
@@ -333,11 +459,14 @@ Select **Option 1** → press Enter for the sample image → all 7 steps run aut
 
 | Problem | Solution |
 |---|---|
-| **Step 1 fails** | Confirm `VisionModelId = us.amazon.nova-pro-v1:0` and Nova Pro enabled in Bedrock Model Access |
-| **Step 7 skipped** | Step 7 only runs if `final_review_gate` PASSED — check for policy violations in trace |
+| `appsettings.json not found` | Create the file in the project root (see Quick Start Step 2). It is gitignored and must be created manually. |
+| `ValidationException` from Bedrock | Enable **Nova Pro** and **Nova 2 Lite** in [Bedrock Model Access](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess) |
+| `UnauthorizedException` | Verify `AwsAccessKeyId` / `AwsSecretAccessKey` in `appsettings.json`, or attach `AmazonBedrockFullAccess` to your IAM user |
+| **Step 1 fails** | Confirm `NovaVisionModel = us.amazon.nova-pro-v1:0` and Nova Pro is enabled in Bedrock Model Access |
+| **Step 7 skipped** | Step 7 only runs if `final_review_gate` PASSED — check for policy violations in the case trace |
 | **Tool loop error** | Check that `block.ToolUse.Input` is non-null in `InvokeAgentLoopAsync` |
-| **Sample image not found** | Ensure dataset is at `datasets/PCBData/` not nested deeper |
-| **Knowledge graph empty** | Choose option 2 at startup to rebuild from dataset |
+| **Sample image not found** | Ensure dataset is at `datasets/PCBData/` (see Dataset section). The cached graph works without it. |
+| **Knowledge graph empty** | Choose option **2** at startup to rebuild from the DeepPCB dataset |
 
 ---
 
@@ -363,8 +492,8 @@ Educational / hackathon project.
 ---
 
 **Last Updated**: 2026-03-03  
-**Version**: 5.0 — Amazon Nova · 7-step agentic pipeline · 3 autonomous tools · No Azure dependencies  
+**Version**: 5.0 — Amazon Nova · 7-step agentic pipeline · 3 autonomous tools  
 **Status**: Working end-to-end (all 7 steps confirmed live)  
-**Built with**: GitHub Copilot + Amazon Bedrock + Amazon Nova Pro/Lite  
-**Repository**: https://github.com/Ashahet1/AmazonNOVAHackathon  
+**Built with**: GitHub Copilot + Amazon Bedrock + Amazon Nova Pro + Nova 2 Lite  
+**Repository**: https://github.com/Ashahet1/AmazonNOVAHackathon
 
