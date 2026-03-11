@@ -33,63 +33,6 @@ Each inspection runs a 7-step pipeline automatically:
 - `update_knowledge_graph` → adds co-occurrence edges, records severity feedback
 
 ---
-
-## Real Output
-
-```
-⚙️  quarantine_batch    → ✅ BATCH-20260303-0CD549 quarantined (high severity)
-⚙️  update_knowledge_graph → ✅ open → severity increase recorded
-⚙️  file_work_order     → ✅ WO filed (P1, process_engineer): calibrate etching machine
-⚙️  file_work_order     → ✅ WO filed (P2, qa_team): check etching solution
-⚙️  file_work_order     → ✅ WO filed (P3, maintenance): update maintenance schedule
-✅ Agentic loop complete — 5 action(s) taken in ~13s
-```
-
-Nova selected every tool, assigned priorities and assignees, with zero human instruction.
-
----
-
-## Dataset
-
-**DeepPCB** (open-source, Peking University) — real PCB defect images  
-6 defect classes: `open` · `short` · `mousebite` · `spur` · `pin_hole` · `spurious_copper`  
-50 images → **388 graph nodes, 1308 relationships, ~327 defects**
-
----
-
-## Quick Start
-
-**Prerequisites:** .NET 9 SDK · AWS account with Bedrock access in `us-east-1` · Nova Pro + Nova 2 Lite enabled in Bedrock Model Access
-
-```bash
-git clone https://github.com/Ashahet1/AmazonNOVAHackathon
-cd AmazonNOVAHackathon
-```
-
-Edit `appsettings.json` with your AWS credentials, then:
-
-```bash
-dotnet run
-# → Select 1 to load cached graph (instant)
-# → Select 1 from main menu to run a full inspection
-```
-
----
-
-## Stack
-
-| | |
-|---|---|
-| Language | C# / .NET 9 |
-| AI | Amazon Bedrock — Nova Pro + Nova 2 Lite |
-| API | Bedrock Converse API |
-| Dataset | DeepPCB (open-source, Peking University) |
-| Standards | IPC-A-600J · IPC-6012E |
-| Dashboard | React + Vite → GitHub Pages |
-| NuGet | `AWSSDK.BedrockRuntime` only |
-
----
-
 ## Project Structure
 
 ```
@@ -107,23 +50,6 @@ outputs/
   quarantine_log.jsonl     ← Quarantine events
 dashboard/                 ← React + Vite live dashboard
 ```
-
----
-
-## References
-
-- [Amazon Bedrock](https://aws.amazon.com/bedrock/)
-- [Amazon Nova](https://aws.amazon.com/bedrock/nova/)
-- [Bedrock Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html)
-- [DeepPCB Dataset](https://github.com/tangsanli5201/DeepPCB) — Ding et al., CAAI Transactions 2019
-- IPC-A-600J / IPC-6012E — PCB acceptability and performance standards
-
----
-
-**Built by Riddhi Shah · Amazon Nova AI Hackathon · March 2026**
-
----
-
 ## Models Used
 
 | Model | Model ID | Used In |
@@ -134,6 +60,16 @@ dashboard/                 ← React + Vite live dashboard
 Both accessed via the **AWS Bedrock Converse API** in region `us-east-1`.
 
 ---
+## Real Output
+
+```
+⚙️  quarantine_batch    → ✅ BATCH-20260303-0CD549 quarantined (high severity)
+⚙️  update_knowledge_graph → ✅ open → severity increase recorded
+⚙️  file_work_order     → ✅ WO filed (P1, process_engineer): calibrate etching machine
+⚙️  file_work_order     → ✅ WO filed (P2, qa_team): check etching solution
+⚙️  file_work_order     → ✅ WO filed (P3, maintenance): update maintenance schedule
+✅ Agentic loop complete — 5 action(s) taken in ~13s
+```
 
 ## Agentic Loop — Real Run Output
 
@@ -224,62 +160,6 @@ Each group: `<id>/` (test images) + `<id>_not/` (annotations, format: `x1 y1 x2 
 **Defect classes:** `0` open · `1` short · `2` mousebite · `3` spur · `4` pin_hole · `5` spurious_copper
 
 Loading 50 images → **388 nodes, 1308 relationships, ~327 defects**
-
----
-
-## Project Structure
-
-```
-ManufacturingVisionAnalyzer/
-├── ReadMe.md
-├── appsettings.json                    ← AWS credentials (AmazonNova section only)
-├── ManufacturingVisionAnalyzer.csproj  ← .NET 9, AWSSDK.BedrockRuntime only
-│
-├── Program.cs                          ← Entry point + 6-option menu
-├── AppConfig.cs                        ← Config reader (appsettings + env vars)
-├── BedrockNovaClient.cs                ← All Bedrock calls:
-│                                          InvokeAsync (text)
-│                                          InvokeWithImageAsync (vision, Nova Pro)
-│                                          InvokeAgentLoopAsync (tool-calling loop)
-├── AgentTools.cs                       ← 3 tool definitions + ExecuteAsync dispatcher
-│                                          quarantine_batch
-│                                          update_knowledge_graph
-│                                          file_work_order
-├── McpOrchestrator.cs                  ← 7-step MCP pipeline + RunAgenticActionLoop (Step 7)
-├── CaseFile.cs                         ← Case model: Vision, Defect, Graph, RootCause,
-│                                          Compliance, AgentActions, Trace
-├── KnowledgeGraph.cs                   ← Graph (388 nodes), query API, JSON persistence
-├── DeepPCBProcessor.cs                 ← DeepPCB dataset parser
-├── EvaluationRunner.cs                 ← Evaluation metrics suite
-├── Guardrails.cs                       ← Content policy, confidence threshold, human review
-├── IpcComplianceReference.cs           ← IPC-A-600J / IPC-6012E sections (RAG source)
-├── ChartGenerator.cs                   ← Console bar/pie/heatmap charts
-│
-├── outputs/
-│   ├── cases/                          ← Case_*.txt + Case_*.json per inspection
-│   ├── work_orders/                    ← WO-*.json filed by Step 7
-│   └── quarantine_log.jsonl            ← One JSON line per quarantine event
-│
-├── datasets/PCBData/                   ← DeepPCB dataset
-└── knowledge_graph.json                ← Cached graph (auto-updated by Step 7)
-```
-
-**Deleted (not in project):** `AzureVisionAnalyzer.cs`, `OpenAIVisionAnalyzer.cs`,
-`GraphBuilder.cs`, `FlowchartFolderProcessor.cs`
-
----
-
-## Source File Reference
-
-| File | Role |
-|---|---|
-| **BedrockNovaClient.cs** | All Bedrock calls. `InvokeAgentLoopAsync` runs the tool-calling loop with Converse API `ToolConfig` |
-| **AgentTools.cs** | `GetToolDefinitions()` returns JSON schemas for all 3 tools. `ExecuteAsync` dispatches by tool name and records to `CaseFile.AgentActions` |
-| **McpOrchestrator.cs** | Orchestrates all 7 steps. `RunAgenticActionLoop` builds context, calls `InvokeAgentLoopAsync`, logs results |
-| **CaseFile.cs** | `AgentActions = List<AgentAction>` — each entry has ToolName, Input, Result, ExecutedAt |
-| **KnowledgeGraph.cs** | `AddRelationship`, `GetNodeById`, `SaveToFile` — updated live by Step 7 |
-| **IpcComplianceReference.cs** | Hardcoded IPC sections used as RAG context in Step 5 compliance check |
-| **Guardrails.cs** | Policy checks that run between Step 5 and Step 7 |
 
 ---
 
