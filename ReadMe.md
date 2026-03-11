@@ -33,6 +33,37 @@ Each inspection runs a 7-step pipeline automatically:
 - `update_knowledge_graph` → adds co-occurrence edges, records severity feedback
 
 ---
+
+## Why Sequential? — Architecture Decision
+
+The pipeline uses a **Deterministic Sequential Pipeline + Terminal Agentic Loop** pattern, split into two distinct phases:
+
+**Phase 1 — Steps 1–6: Ordered, orchestrator-driven**
+
+Each step has a hard data dependency on the previous one:
+
+| Dependency | Reason |
+|---|---|
+| Step 1 must run before Step 2 | Cannot normalize a defect you have not yet seen |
+| Step 2 must run before Step 3 | Cannot query the graph without a canonical defect ID |
+| Step 3 must run before Step 4 | Cannot reason root cause without graph context |
+| Step 4 must run before Step 5 | Cannot check compliance without knowing the root cause |
+| Step 5 must run before P/G | The gate needs the compliance verdict to decide whether to proceed |
+
+Random or parallel execution would break this causal chain — for example, filing work orders before knowing what is wrong, or checking compliance before identifying the defect type. The `CaseFile` object accumulates context at every step so that by the time Step 7 runs, Nova has the complete picture to make reliable autonomous decisions.
+
+**Phase 2 — Step 7: Nova-driven, agentic**
+
+Only here does the model have autonomy. Nova receives the full `CaseFile` context and freely decides which tools to call, in what order, and how many times — using the Bedrock Converse API `ToolConfig`. The three tools (`quarantine_batch`, `file_work_order`, `update_knowledge_graph`) are the true agentic tools; Steps 1–6 are orchestrator-called pipeline steps, not agent tools.
+
+**Why this is the right approach for this project**
+
+- **Auditability** — every step is logged with a timestamp in `CaseFile.Trace`. A parallel or random approach would make the inspection trace non-deterministic and harder to audit against IPC standards.
+- **Safety gate** — the P/G policy check sits between compliance (Step 5) and action (Step 7). Sequential ordering guarantees the gate is never bypassed.
+- **Cost efficiency** — Nova Pro (multimodal, higher cost) runs exactly once for the image. All text reasoning uses Nova 2 Lite. A parallel design would make this cost boundary harder to enforce.
+- **Simplicity for a hackathon demo** — the sequential flow maps directly to how a human quality engineer thinks: see → classify → research → analyse → check rules → decide → act. This makes the demo easy to follow step by step.
+
+---
 ## Project Structure
 
 ```
