@@ -6,13 +6,13 @@ const FONTS = `
 
 const PIPELINE_STEPS = [
   { id: 1, label: "analyze_image_with_vision", model: "Nova Pro", icon: "👁", color: "#00d4ff" },
-  { id: 2, label: "normalize_defect_with_ai", model: "Nova Lite", icon: "⚙", color: "#00d4ff" },
+  { id: 2, label: "normalize_defect_with_ai", model: "Nova 2 Lite", icon: "⚙", color: "#00d4ff" },
   { id: 3, label: "query_knowledge_graph", model: "In-Memory", icon: "🔗", color: "#00d4ff" },
-  { id: 4, label: "root_cause_enriched", model: "Nova Lite", icon: "🔍", color: "#00d4ff" },
-  { id: 5, label: "compliance_with_rag", model: "Nova Lite", icon: "📋", color: "#00d4ff" },
+  { id: 4, label: "root_cause_enriched", model: "Nova 2 Lite", icon: "🔍", color: "#00d4ff" },
+  { id: 5, label: "compliance_with_rag", model: "Nova 2 Lite", icon: "📋", color: "#00d4ff" },
   { id: "P", label: "policy_checks", model: "Rule Engine", icon: "🛡", color: "#f59e0b" },
   { id: "G", label: "final_review_gate", model: "Rule Engine", icon: "🚦", color: "#f59e0b" },
-  { id: 7, label: "agentic_action_loop", model: "Nova Lite", icon: "🤖", color: "#10b981" },
+  { id: 7, label: "agentic_action_loop", model: "Nova 2 Lite", icon: "🤖", color: "#10b981" },
 ];
 
 const AGENT_ACTIONS = [
@@ -46,7 +46,7 @@ const MENU_OPTIONS = [
   { id: 1, icon: "🏭", label: "Inspect single PCB image", sub: "MCP pipeline · Nova Pro", accent: "#00d4ff" },
   { id: 2, icon: "🔁", label: "Batch inspect", sub: "N images per defect category", accent: "#8b5cf6" },
   { id: 3, icon: "📊", label: "Defect statistics", sub: "Full dashboard", accent: "#f59e0b" },
-  { id: 4, icon: "🤖", label: "AI insights", sub: "Knowledge graph · Nova Lite", accent: "#10b981" },
+  { id: 4, icon: "🤖", label: "AI insights", sub: "Knowledge graph · Nova 2 Lite", accent: "#10b981" },
   { id: 5, icon: "📂", label: "View / export case", sub: "Last case report", accent: "#00d4ff" },
   { id: 6, icon: "❌", label: "Exit", sub: "End session", accent: "#ef4444" },
 ];
@@ -908,7 +908,7 @@ export default function Dashboard() {
               AGENTIC DEFECT INSPECTOR
             </h1>
             <div style={{ fontSize: 11, color: "#ffffff40", fontFamily: "'IBM Plex Mono', monospace", marginTop: 2 }}>
-              Amazon Nova Pro + Nova Lite · AWS Bedrock Converse API · 7-step MCP pipeline
+              Amazon Nova Pro + Nova 2 Lite · AWS Bedrock Converse API · 7-step MCP pipeline
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -1331,7 +1331,7 @@ export default function Dashboard() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <div style={{ flex: 1, padding: "8px 14px", background: "#10b98108", border: "1px solid #10b98120", borderRadius: 8, fontSize: 10, fontFamily: "'IBM Plex Mono', monospace", color: "#10b98180" }}>
-                Amazon Nova Lite
+                Amazon Nova 2 Lite
                 {insightsMeta
                   ? <span style={{ marginLeft: 8 }}>
                       {insightsMeta.analyzing
@@ -1367,7 +1367,7 @@ export default function Dashboard() {
             )}
             {insightsLoading && (
               <div style={{ padding: "40px 20px", textAlign: "center", fontSize: 11, fontFamily: "'IBM Plex Mono', monospace", color: "#f59e0b80" }}>
-                ⏳ Calling Amazon Nova Lite...
+                ⏳ Calling Amazon Nova 2 Lite...
               </div>
             )}
             {insightsError && (
@@ -1589,7 +1589,7 @@ export default function Dashboard() {
               {/* Root cause — always shown with demo data */}
               <div style={{ padding: "10px 12px", background: "#f59e0b08", border: "1px solid #f59e0b20", borderRadius: 6, marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
-                  <div style={{ fontSize: 9, fontFamily: "'Barlow', sans-serif", color: "#f59e0b80", textTransform: "uppercase", letterSpacing: "0.08em" }}>Root Cause · Nova Lite · {DISPLAY_DATA.rootCauseConfidence} confidence</div>
+                  <div style={{ fontSize: 9, fontFamily: "'Barlow', sans-serif", color: "#f59e0b80", textTransform: "uppercase", letterSpacing: "0.08em" }}>Root Cause · Nova 2 Lite · {DISPLAY_DATA.rootCauseConfidence} confidence</div>
                 </div>
                 <div style={{ fontSize: 11, color: "#ffffff80", lineHeight: 1.7, fontFamily: "'Barlow', sans-serif", marginBottom: 8 }}>
                   {DISPLAY_DATA.rootCause}
