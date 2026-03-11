@@ -9,15 +9,7 @@
 
 ## Pipeline Overview
 
-<!-- Add your architecture or pipeline screenshot here.
-     Suggested images already in the repo:
-       datasets/flowchart/Flowchart001.png
-       datasets/flowchart/Flowchart002.png
-       datasets/flowchart/Flowchart003.png
-     Example usage:
-       ![Pipeline diagram](datasets/flowchart/Flowchart001.png)
--->
-> 📸 _Add your pipeline or architecture screenshot here (e.g. `datasets/flowchart/Flowchart001.png`)._
+![Pipeline diagram](datasets/flowchart/Flowchart001.png)
 
 ---
 
@@ -129,87 +121,6 @@ dashboard/                 ← React + Vite live dashboard
 ---
 
 **Built by Riddhi Shah · Amazon Nova AI Hackathon · March 2026**
-
-|  Image encoded as base64 → Bedrock Converse API (multimodal)             |
-|  Outputs: defect caption, type, confidence, tags, object list             |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  STEP 2 — normalize_defect_with_ai           [Amazon Nova Lite]          |
-|  Maps raw vision output to canonical defect taxonomy                      |
-|  Outputs: DefectType, Severity, Taxonomy ID, InspectionMethods,          |
-|           AI-inferred equipment (e.g. Etching machine)                   |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  STEP 3 — query_knowledge_graph              [In-Memory Graph]           |
-|  Queries 388-node / 1308-edge knowledge graph for:                       |
-|  * Related historical defects                                             |
-|  * Equipment nodes linked to this defect type                             |
-|  * IPC-A-600J / IPC-6012E standard references                            |
-|  * Co-occurring defect patterns                                           |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  STEP 4 — root_cause_enriched                [Amazon Nova Lite]          |
-|  Deep reasoning over defect + graph context                               |
-|  Outputs: root cause, confidence %, contributing factors, 3 actions      |
-|           (immediate / short-term / long-term) with IPC traceability     |
-|  Validated: JSON schema + context ID citation check                      |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  STEP 5 — compliance_with_rag                [Amazon Nova Lite]          |
-|  RAG: fetches relevant IPC sections for this defect type                 |
-|  Runs compliance checklist against IPC-A-600J / IPC-6012E               |
-|  Outputs: disposition (accept/reject), checklist items, coverage score   |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  [P] — policy_checks                         [Rule Engine]               |
-|  Content policy: unsafe content, PII, confidence threshold               |
-|  Flags or escalates to human review if triggered                         |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  [G] — final_review_gate                     [Rule Engine]               |
-|  All steps must pass before Step 7 fires                                 |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  STEP 7 — agentic_action_loop                [Amazon Nova Lite]          |
-|  Nova reasons over the full case and CALLS TOOLS autonomously:           |
-|                                                                           |
-|  Tool 1: quarantine_batch                                                 |
-|    Writes record to outputs/quarantine_log.jsonl                          |
-|                                                                           |
-|  Tool 2: update_knowledge_graph                                           |
-|    Adds co-occurrence edges, records severity feedback                    |
-|    Saves updated graph to knowledge_graph.json                           |
-|                                                                           |
-|  Tool 3: file_work_order                                                  |
-|    Creates WO-*.json in outputs/work_orders/ (one per action)            |
-|    P1 / P2 / P3 priority assigned by Nova, per-assignee                  |
-|                                                                           |
-|  Loop: Nova observes tool results, calls more tools if needed            |
-|  Exits on end_turn (max 5 iterations)                                    |
-+===========================================================================+
-                 |
-                 v
-+===========================================================================+
-|  CASE FILE EXPORT                                                         |
-|  Saved to outputs/cases/Case_*.txt + Case_*.json                         |
-|  Vision · Defect · Graph context · Root cause · Compliance               |
-|  AgentActions (ToolName, Input, Result, ExecutedAt) · full trace         |
-+===========================================================================+
-```
 
 ---
 
