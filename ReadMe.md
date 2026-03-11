@@ -9,7 +9,7 @@
 
 ## Pipeline Overview
 
-![Pipeline diagram](datasets/flowchart/Flowchart001.png)
+![Architecture diagram](Images/Architecture.png)
 
 ---
 
