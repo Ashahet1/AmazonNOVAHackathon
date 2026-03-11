@@ -177,7 +177,7 @@ final review gate passes — no extra menu selection needed.
 
 ## Dataset
 
-**DeepPCB** — Real PCB defect dataset from Peking University
+**[DeepPCB](https://github.com/tangsanli5201/DeepPCB/tree/master/PCBData)** — Real PCB defect dataset from Peking University
 
 ```
 datasets/PCBData/
