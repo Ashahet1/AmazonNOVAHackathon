@@ -11,6 +11,7 @@ local.settings.json
 **/usersecrets/
 **/*.user
 **/*.suo
+.vs
 
 # ----------------------------
 # Azure keys / endpoints files (if you create them)

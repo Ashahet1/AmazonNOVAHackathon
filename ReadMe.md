@@ -165,6 +165,10 @@ Loading 50 images → **388 nodes, 1308 relationships, ~327 defects**
 
 ## Quick Start
 
+> 🌐 **Just want to see it in action?** Try the **[live App](https://ashahet1.github.io/AmazonNOVAHackathon/)** — no setup required.
+
+To run it locally, follow the steps below.
+
 ### Prerequisites
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
