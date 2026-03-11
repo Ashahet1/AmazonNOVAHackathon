@@ -1,4 +1,4 @@
-﻿# Agentic PCB Defect Inspector — Amazon Nova on AWS Bedrock
+﻿# Manufacturing Vision Analyzer — Amazon Nova on AWS Bedrock
 
 > A **.NET 9** agentic AI system that inspects PCB images, checks IPC compliance, identifies root cause, and autonomously quarantines batches, files work orders, and updates its own knowledge graph — all in ~13 seconds.
 
